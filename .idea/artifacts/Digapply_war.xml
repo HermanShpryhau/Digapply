@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Digapply:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Digapply</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="digapply-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Digapply:war exploded" />
+    </root>
+  </artifact>
+</component>
