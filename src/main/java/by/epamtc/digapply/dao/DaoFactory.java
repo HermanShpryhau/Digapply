@@ -11,7 +11,7 @@ public class DaoFactory {
 
     private DaoFactory() {}
 
-    private static DaoFactory getInstance() {
+    public static DaoFactory getInstance() {
         return Holder.INSTANCE;
     }
 
