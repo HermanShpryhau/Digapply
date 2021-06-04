@@ -1,6 +1,6 @@
 package by.epamtc.digapply.entity;
 
-public class User {
+public class User implements Identifiable {
     private int userId;
     private String email;
     private String password;
@@ -57,6 +57,11 @@ public class User {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public int getId() {
+        return userId;
     }
 
     @Override
