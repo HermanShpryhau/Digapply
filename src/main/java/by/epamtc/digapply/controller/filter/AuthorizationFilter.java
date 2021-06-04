@@ -31,11 +31,14 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         Role role = Role.GUEST;
+        session.setAttribute("role", role.name());
         if (user != null) {
             if (user.getRoleId() == 1) {
                 role = Role.ADMIN;
+                session.setAttribute("role", role.name());
             } else if (user.getRoleId() == 2) {
                 role = Role.USER;
+                session.setAttribute("role", role.name());
             }
         }
 
