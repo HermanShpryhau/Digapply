@@ -1,8 +1,11 @@
 package by.epamtc.digapply.dao.mysql;
 
+import by.epamtc.digapply.connection.ConnectionPool;
+import by.epamtc.digapply.connection.ConnectionPoolException;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.UserDao;
 import by.epamtc.digapply.entity.User;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SqlUserDaoTest {
     UserDao userDao;
+
+    @BeforeAll
+    static void setUpConnectionPool() throws ConnectionPoolException {
+        ConnectionPool.getInstance().init();
+    }
 
     @BeforeEach
     void setUp() {

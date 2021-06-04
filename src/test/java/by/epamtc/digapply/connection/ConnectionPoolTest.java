@@ -1,5 +1,6 @@
 package by.epamtc.digapply.connection;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -7,6 +8,11 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConnectionPoolTest {
+    @BeforeAll
+    static void setUpConnectionPool() throws ConnectionPoolException {
+        ConnectionPool.getInstance().init();
+    }
+
     @Test
     void getInstanceSingleThreadTest() {
         ConnectionPool pool1 = ConnectionPool.getInstance();
