@@ -23,30 +23,9 @@ public class ConnectionPool {
         static final ConnectionPool INSTANCE = new ConnectionPool();
     }
 
-    private ConnectionPool() {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
-            Properties dbProperties = new Properties();
-            dbProperties.load(input);
-            String dbUrl = dbProperties.getProperty("db.url");
-            String dbUser = dbProperties.getProperty("db.user");
-            String dbPassword = dbProperties.getProperty("db.password");
-            Class.forName(dbProperties.getProperty("db.jdbc-driver"));
-            pool = new ArrayBlockingQueue<>(POOL_SIZE);
-            usedConnections = new ArrayBlockingQueue<>(POOL_SIZE);
-            for (int i = 0; i < POOL_SIZE; i++) {
-                Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                pool.add(connection);
-            }
-        } catch (IOException e) {
-            LOGGER.error("Unable to load DB properties!", e);
-        } catch (SQLException e) {
-            LOGGER.error("Unable to connect to DB!", e);
-        } catch (ClassNotFoundException e) {
-            LOGGER.error("MySQL JDBC driver not found!", e);
-        }
-    }
+    private ConnectionPool() {}
 
-    public void init() {
+    public void init() throws ConnectionPoolException {
         try (InputStream input = ConnectionPool.class.getResourceAsStream("db.properties")) {
             Properties dbProperties = new Properties();
             dbProperties.load(input);
@@ -62,10 +41,13 @@ public class ConnectionPool {
             }
         } catch (IOException e) {
             LOGGER.error("Unable to load DB properties!", e);
+            throw new ConnectionPoolException("Unable to load DB properties!", e);
         } catch (SQLException e) {
             LOGGER.error("Unable to connect to DB!", e);
+            throw new ConnectionPoolException("Unable to connect to DB!", e);
         } catch (ClassNotFoundException e) {
             LOGGER.error("MySQL JDBC driver not found!", e);
+            throw new ConnectionPoolException("MySQL JDBC driver not found!", e);
         }
     }
 
