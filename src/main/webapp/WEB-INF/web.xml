@@ -11,4 +11,13 @@
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>auth</filter-name>
+        <filter-class>by.epamtc.digapply.controller.filter.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>auth</filter-name>
+        <servlet-name>controller</servlet-name>
+    </filter-mapping>
 </web-app>
