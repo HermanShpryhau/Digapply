@@ -26,7 +26,7 @@ public class ConnectionPool {
     private ConnectionPool() {}
 
     public void init() throws ConnectionPoolException {
-        try (InputStream input = ConnectionPool.class.getResourceAsStream("db.properties")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             Properties dbProperties = new Properties();
             dbProperties.load(input);
             String dbUrl = dbProperties.getProperty("db.url");
