@@ -1,4 +1,4 @@
-package by.epamtc.digapply.controller.command;
+package by.epamtc.digapply.command;
 
 import by.epamtc.digapply.service.ServiceException;
 

@@ -1,4 +1,4 @@
-package by.epamtc.digapply.controller.command;
+package by.epamtc.digapply.command;
 
 public class CommandResult {
     private final String page;

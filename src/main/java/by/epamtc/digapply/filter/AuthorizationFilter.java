@@ -1,4 +1,4 @@
-package by.epamtc.digapply.controller.filter;
+package by.epamtc.digapply.filter;
 
 import by.epamtc.digapply.entity.Role;
 import by.epamtc.digapply.entity.User;

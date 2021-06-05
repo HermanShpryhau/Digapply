@@ -1,9 +1,9 @@
-package by.epamtc.digapply.controller.command.factory;
+package by.epamtc.digapply.command.factory;
 
-import by.epamtc.digapply.controller.command.Command;
-import by.epamtc.digapply.controller.command.LoginCommand;
-import by.epamtc.digapply.controller.command.LogoutCommand;
-import by.epamtc.digapply.controller.command.ShowPageCommand;
+import by.epamtc.digapply.command.Command;
+import by.epamtc.digapply.command.LoginCommand;
+import by.epamtc.digapply.command.LogoutCommand;
+import by.epamtc.digapply.command.ShowPageCommand;
 
 public class CommandFactory {
     private static final String LOGIN = "login";

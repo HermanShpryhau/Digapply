@@ -14,7 +14,7 @@
 
     <filter>
         <filter-name>auth</filter-name>
-        <filter-class>by.epamtc.digapply.controller.filter.AuthorizationFilter</filter-class>
+        <filter-class>by.epamtc.digapply.filter.AuthorizationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>auth</filter-name>

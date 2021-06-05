@@ -1,8 +1,8 @@
 package by.epamtc.digapply.controller;
 
-import by.epamtc.digapply.controller.command.Command;
-import by.epamtc.digapply.controller.command.CommandResult;
-import by.epamtc.digapply.controller.command.factory.CommandFactory;
+import by.epamtc.digapply.command.Command;
+import by.epamtc.digapply.command.CommandResult;
+import by.epamtc.digapply.command.factory.CommandFactory;
 import by.epamtc.digapply.connection.ConnectionPool;
 import by.epamtc.digapply.connection.ConnectionPoolException;
 import by.epamtc.digapply.service.ServiceException;
