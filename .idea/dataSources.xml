@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="jwd-final@localhost" uuid="fae1a4b5-5a6e-42f9-8e9f-04cc4840d13b">
+    <data-source source="LOCAL" name="digapply-db@localhost" uuid="c7a3e529-3aac-4f6d-87a3-3ae5acbb0cf7">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/jwd-final</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/digapply-db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

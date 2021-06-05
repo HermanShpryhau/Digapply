@@ -6,7 +6,7 @@ public class User implements Identifiable {
     private String password;
     private String name;
     private String surname;
-    private int roleId;
+    private long roleId;
 
     public User() {
     }
@@ -51,11 +51,11 @@ public class User implements Identifiable {
         this.surname = surname;
     }
 
-    public int getRoleId() {
+    public long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(long roleId) {
         this.roleId = roleId;
     }
 
@@ -86,7 +86,7 @@ public class User implements Identifiable {
         result = 31 * result + password.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + surname.hashCode();
-        result = 31 * result + roleId;
+        result = 31 * result + (int) (roleId ^ (roleId >>> 32));
         return result;
     }
 

@@ -40,7 +40,7 @@ public class SqlUserDao implements UserDao {
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
             statement.setString(4, user.getSurname());
-            statement.setInt(5, user.getRoleId());
+            statement.setLong(5, user.getRoleId());
             statement.executeUpdate();
             statement.close();
         } catch (ConnectionPoolException e) {
@@ -157,7 +157,7 @@ public class SqlUserDao implements UserDao {
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
             statement.setString(4, user.getSurname());
-            statement.setInt(5, user.getRoleId());
+            statement.setLong(5, user.getRoleId());
             statement.setInt(6, userId);
             statement.executeUpdate();
             statement.close();
@@ -184,7 +184,7 @@ public class SqlUserDao implements UserDao {
             String query = "DELETE FROM Users " +
                     "WHERE user_id=?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, user.getUserId());
+            statement.setLong(1, user.getUserId());
             statement.executeUpdate();
             statement.close();
         } catch (ConnectionPoolException e) {
