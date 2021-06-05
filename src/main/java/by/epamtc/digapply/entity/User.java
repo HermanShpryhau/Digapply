@@ -1,7 +1,7 @@
 package by.epamtc.digapply.entity;
 
 public class User implements Identifiable {
-    private int userId;
+    private long userId;
     private String email;
     private String password;
     private String name;
@@ -11,11 +11,11 @@ public class User implements Identifiable {
     public User() {
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -60,7 +60,7 @@ public class User implements Identifiable {
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return userId;
     }
 
@@ -81,7 +81,7 @@ public class User implements Identifiable {
 
     @Override
     public int hashCode() {
-        int result = userId;
+        int result = (int) (userId ^ (userId >>> 32));
         result = 31 * result + email.hashCode();
         result = 31 * result + password.hashCode();
         result = 31 * result + name.hashCode();
