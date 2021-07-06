@@ -4,6 +4,7 @@ import by.epamtc.digapply.connection.ConnectionPool;
 import by.epamtc.digapply.connection.ConnectionPoolException;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.UserDao;
+import by.epamtc.digapply.dao.impl.UserDaoImpl;
 import by.epamtc.digapply.entity.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ class SqlUserDaoTest {
 
     @BeforeEach
     void setUp() {
-        userDao = new SqlUserDao();
+        userDao = new UserDaoImpl();
     }
 
     @Test

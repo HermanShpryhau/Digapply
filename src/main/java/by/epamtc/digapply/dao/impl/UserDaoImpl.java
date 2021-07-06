@@ -1,4 +1,4 @@
-package by.epamtc.digapply.dao.mysql;
+package by.epamtc.digapply.dao.impl;
 
 import by.epamtc.digapply.connection.ConnectionPool;
 import by.epamtc.digapply.connection.ConnectionPoolException;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SqlUserDao implements UserDao {
-    private static final Logger LOGGER = LogManager.getLogger(SqlUserDao.class);
+public class UserDaoImpl implements UserDao {
+    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
     private static final ConnectionPool POOL = ConnectionPool.getInstance();
     private static final RowMapper<User> mapper = new UserRowMapper();
 
@@ -27,7 +27,7 @@ public class SqlUserDao implements UserDao {
     private static final String UPDATE_USER_QUERY = "UPDATE Users SET email=?, password=?, name=?, surname=?, role_id=? WHERE user_id=?";
     private static final String DELETE_USER_QUERY = "DELETE FROM Users WHERE user_id=?";
 
-    public SqlUserDao() {
+    public UserDaoImpl() {
     }
 
     @Override
