@@ -10,10 +10,7 @@ import by.epamtc.digapply.mapper.UserRowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,34 +20,56 @@ public class SqlUserDao implements UserDao {
     private static final ConnectionPool POOL = ConnectionPool.getInstance();
     private static final RowMapper<User> mapper = new UserRowMapper();
 
-    public SqlUserDao() {}
+    private static final String ADD_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, ?)";
+    private static final String GET_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=?";
+    private static final String GET_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=?";
+    private static final String GET_ALL_USERS_QUERY = "SELECT * FROM Users";
+    private static final String UPDATE_USER_QUERY = "UPDATE Users SET email=?, password=?, name=?, surname=?, role_id=? WHERE user_id=?";
+    private static final String DELETE_USER_QUERY = "DELETE FROM Users WHERE user_id=?";
+
+    public SqlUserDao() {
+    }
 
     @Override
-    public void addUser(User user)  throws DaoException {
-        if (user == null) {
-            throw new DaoException("user must not be null.");
-        }
+    public void addUser(User user) throws DaoException {
+        checkUserParameter(user);
 
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = POOL.getConnection();
-            String query = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(ADD_USER_QUERY);
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
             statement.setString(4, user.getSurname());
             statement.setLong(5, user.getRoleId());
             statement.executeUpdate();
-            statement.close();
+            connection.commit();
         } catch (ConnectionPoolException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                throw new DaoException("Error while rolling back transaction commit.", sqlException);
+            }
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                throw new DaoException("Error while rolling back transaction commit.", sqlException);
+            }
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            POOL.releaseConnection(connection);
+            try {
+                POOL.releaseConnection(connection, statement);
+            } catch (ConnectionPoolException e) {
+                LOGGER.error("Unable to release connection.", e);
+                throw new DaoException("Unable to release connection.", e);
+            }
         }
     }
 
@@ -59,17 +78,18 @@ public class SqlUserDao implements UserDao {
         User user = null;
 
         Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = POOL.getConnection();
-            String query = "SELECT * FROM Users WHERE user_id=?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(GET_USER_BY_ID_QUERY);
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 user = mapper.map(resultSet);
             }
-            statement.close();
         } catch (ConnectionPoolException e) {
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
@@ -77,7 +97,12 @@ public class SqlUserDao implements UserDao {
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            POOL.releaseConnection(connection);
+            try {
+                POOL.releaseConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
+                LOGGER.error("Unable to release connection.", e);
+                throw new DaoException("Unable to release connection.", e);
+            }
         }
 
         return Optional.ofNullable(user);
@@ -88,17 +113,17 @@ public class SqlUserDao implements UserDao {
         User user = null;
 
         Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = POOL.getConnection();
-            String query = "SELECT * FROM Users WHERE email=?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(GET_USER_BY_EMAIL_QUERY);
             statement.setString(1, email);
-            ResultSet resultSet = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 user = mapper.map(resultSet);
             }
-            statement.close();
         } catch (ConnectionPoolException e) {
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
@@ -106,7 +131,12 @@ public class SqlUserDao implements UserDao {
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            POOL.releaseConnection(connection);
+            try {
+                POOL.releaseConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
+                LOGGER.error("Unable to release connection.", e);
+                throw new DaoException("Unable to release connection.", e);
+            }
         }
 
         return Optional.ofNullable(user);
@@ -117,16 +147,16 @@ public class SqlUserDao implements UserDao {
         List<User> users = new ArrayList<>();
 
         Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         try {
             connection = POOL.getConnection();
-            String query = "SELECT * FROM Users";
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
+            statement = connection.prepareStatement(GET_ALL_USERS_QUERY);
+            resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 users.add(mapper.map(resultSet));
             }
-            statement.close();
         } catch (ConnectionPoolException e) {
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
@@ -134,7 +164,12 @@ public class SqlUserDao implements UserDao {
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            POOL.releaseConnection(connection);
+            try {
+                POOL.releaseConnection(connection, statement, resultSet);
+            } catch (ConnectionPoolException e) {
+                LOGGER.error("Unable to release connection.", e);
+                throw new DaoException("Unable to release connection.", e);
+            }
         }
 
         return users;
@@ -142,17 +177,13 @@ public class SqlUserDao implements UserDao {
 
     @Override
     public void updateUser(int userId, User user) throws DaoException {
-        if (user == null) {
-            throw new DaoException("user must not be null.");
-        }
+        checkUserParameter(user);
 
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = POOL.getConnection();
-            String query = "UPDATE Users " +
-                    "SET email=?, password=?, name=?, surname=?, role_id=? " +
-                    "WHERE user_id=?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(UPDATE_USER_QUERY);
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getName());
@@ -160,7 +191,6 @@ public class SqlUserDao implements UserDao {
             statement.setLong(5, user.getRoleId());
             statement.setInt(6, userId);
             statement.executeUpdate();
-            statement.close();
         } catch (ConnectionPoolException e) {
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
@@ -168,25 +198,26 @@ public class SqlUserDao implements UserDao {
             LOGGER.error("Invalid SQL statement.", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            POOL.releaseConnection(connection);
+            try {
+                POOL.releaseConnection(connection, statement);
+            } catch (ConnectionPoolException e) {
+                LOGGER.error("Unable to release connection.", e);
+                throw new DaoException("Unable to release connection.", e);
+            }
         }
     }
 
     @Override
     public void deleteUser(User user) throws DaoException {
-        if (user == null) {
-            throw new DaoException("user must not be null.");
-        }
+        checkUserParameter(user);
 
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = POOL.getConnection();
-            String query = "DELETE FROM Users " +
-                    "WHERE user_id=?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(DELETE_USER_QUERY);
             statement.setLong(1, user.getUserId());
             statement.executeUpdate();
-            statement.close();
         } catch (ConnectionPoolException e) {
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
@@ -194,7 +225,18 @@ public class SqlUserDao implements UserDao {
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            POOL.releaseConnection(connection);
+            try {
+                POOL.releaseConnection(connection, statement);
+            } catch (ConnectionPoolException e) {
+                LOGGER.error("Unable to release connection.", e);
+                throw new DaoException("Unable to release connection.", e);
+            }
+        }
+    }
+
+    private void checkUserParameter(User user) throws DaoException {
+        if (user == null) {
+            throw new DaoException("user must not be null.");
         }
     }
 }
