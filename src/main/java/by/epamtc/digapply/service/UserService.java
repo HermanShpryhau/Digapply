@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> login(String email, String password) throws ServiceException;
+    User login(String email, String password) throws ServiceException;
 
 }
