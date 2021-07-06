@@ -1,6 +1,8 @@
 package by.epamtc.digapply.entity;
 
-public class User implements Identifiable {
+import java.io.Serializable;
+
+public class User implements Serializable, Identifiable {
     private long userId;
     private String email;
     private String password;
