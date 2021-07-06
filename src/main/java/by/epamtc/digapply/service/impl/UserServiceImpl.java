@@ -24,10 +24,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = Optional.empty();
         try {
             Optional<User> userFromDB = retrieveUserByEmail(email);
-            if (userFromDB.isPresent()) {
-                if (isPasswordValid(userFromDB.get(), password)) {
-                    user = userFromDB;
-                }
+            if (userFromDB.isPresent() && isPasswordValid(userFromDB.get(), password)) {
+                user = userFromDB;
             }
         } catch (DaoException e) {
             LOGGER.error("Unable to retrieve user from DB.", e);
