@@ -2,26 +2,22 @@ package by.epamtc.digapply.command;
 
 public class CommandResult {
     private final String page;
-    private final boolean isRedirect;
+    private final CommandResultType type;
 
-    private CommandResult(String page, boolean redirect) {
+    public CommandResult(String page, CommandResultType resultType) {
         this.page = page;
-        isRedirect = redirect;
+        type = resultType;
     }
 
-    public static CommandResult redirect(String page) {
-        return new CommandResult(page, true);
+    public boolean isRedirect() {
+        return type == CommandResultType.REDIRECT;
     }
 
-    public static CommandResult forward(String page) {
-        return new CommandResult(page, false);
+    public boolean isForward() {
+        return type == CommandResultType.FORWARD;
     }
 
     public String getPage() {
         return page;
-    }
-
-    public boolean isRedirect() {
-        return isRedirect;
     }
 }

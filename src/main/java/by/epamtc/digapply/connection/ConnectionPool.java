@@ -5,9 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -70,14 +68,50 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) throws ConnectionPoolException {
+        returnConnection(connection);
+    }
+
+    public void releaseConnection(Connection connection, Statement statement) throws ConnectionPoolException {
+        returnConnection(connection);
+        closeStatement(statement);
+    }
+
+    public void releaseConnection(Connection connection, Statement statement, ResultSet rs) throws ConnectionPoolException {
+        returnConnection(connection);
+        closeStatement(statement);
+        closeResultSet(rs);
+    }
+
+    private void returnConnection(Connection connection) throws ConnectionPoolException {
         if (connection != null) {
             usedConnections.remove(connection);
             try {
                 pool.put(connection);
             } catch (InterruptedException e) {
                 LOGGER.error("Unable to release connection to data source.", e);
-
                 throw new ConnectionPoolException("Unable to release connection to data source.", e);
+            }
+        }
+    }
+
+    private void closeStatement(Statement statement) throws ConnectionPoolException {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                LOGGER.error("Unable to close statement", e);
+                throw new ConnectionPoolException("Unable to close statement", e);
+            }
+        }
+    }
+
+    private void closeResultSet(ResultSet rs) throws ConnectionPoolException {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                LOGGER.error("Unable to close result set.", e);
+                throw new ConnectionPoolException("Unable to close result set.", e);
             }
         }
     }
