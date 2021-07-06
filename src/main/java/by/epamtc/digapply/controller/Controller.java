@@ -44,7 +44,7 @@ public class Controller extends HttpServlet {
         if (commandName == null || "".equals(commandName)) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-        Command command = CommandFactory.getInstance().create(commandName);
+        Command command = CommandFactory.getInstance().getCommand(commandName);
         CommandResult commandResult = null;
         try {
             commandResult = command.execute(request, response);
