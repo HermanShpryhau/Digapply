@@ -13,26 +13,31 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
+    private static final int POOL_SIZE = 10;
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+    private static final String DB_URL_PROP = "db.url";
+    private static final String DB_USER_PROP = "db.user";
+    private static final String DB_PASSWORD_PROP = "db.password";
+    private static final String DB_DRIVER_PROP = "db.jdbc-driver";
+
     private BlockingQueue<Connection> pool;
     private BlockingQueue<Connection> usedConnections;
 
-    private final static int POOL_SIZE = 10;
-    private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-
-    private static class Holder {
-        static final ConnectionPool INSTANCE = new ConnectionPool();
+    private ConnectionPool() {
     }
 
-    private ConnectionPool() {}
+    public static ConnectionPool getInstance() {
+        return Holder.INSTANCE;
+    }
 
     public void init() throws ConnectionPoolException {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             Properties dbProperties = new Properties();
             dbProperties.load(input);
-            String dbUrl = dbProperties.getProperty("db.url");
-            String dbUser = dbProperties.getProperty("db.user");
-            String dbPassword = dbProperties.getProperty("db.password");
-            Class.forName(dbProperties.getProperty("db.jdbc-driver"));
+            String dbUrl = dbProperties.getProperty(DB_URL_PROP);
+            String dbUser = dbProperties.getProperty(DB_USER_PROP);
+            String dbPassword = dbProperties.getProperty(DB_PASSWORD_PROP);
+            Class.forName(dbProperties.getProperty(DB_DRIVER_PROP));
             pool = new ArrayBlockingQueue<>(POOL_SIZE);
             usedConnections = new ArrayBlockingQueue<>(POOL_SIZE);
             for (int i = 0; i < POOL_SIZE; i++) {
@@ -49,17 +54,14 @@ public class ConnectionPool {
             LOGGER.error("MySQL JDBC driver not found!", e);
             throw new ConnectionPoolException("MySQL JDBC driver not found!", e);
         }
-    }
-
-    public static ConnectionPool getInstance() {
-        return Holder.INSTANCE;
+        LOGGER.info("Connection pool initialized.");
     }
 
     public Connection getConnection() throws ConnectionPoolException {
         Connection connection = null;
         try {
             connection = pool.take();
-            usedConnections.add(connection);
+            usedConnections.put(connection);
         } catch (InterruptedException e) {
             LOGGER.error("Unable to connect to data source.", e);
             throw new ConnectionPoolException("Unable to connect to data source.", e);
@@ -67,10 +69,16 @@ public class ConnectionPool {
         return connection;
     }
 
-    public void releaseConnection(Connection connection) {
+    public void releaseConnection(Connection connection) throws ConnectionPoolException {
         if (connection != null) {
             usedConnections.remove(connection);
-            pool.offer(connection);
+            try {
+                pool.put(connection);
+            } catch (InterruptedException e) {
+                LOGGER.error("Unable to release connection to data source.", e);
+
+                throw new ConnectionPoolException("Unable to release connection to data source.", e);
+            }
         }
     }
 
@@ -86,5 +94,10 @@ public class ConnectionPool {
             LOGGER.error("Unable to close all connections.", e);
             throw new ConnectionPoolException("Unable to close all connections.", e);
         }
+        LOGGER.info("Connection pool disposed.");
+    }
+
+    private static class Holder {
+        static final ConnectionPool INSTANCE = new ConnectionPool();
     }
 }
