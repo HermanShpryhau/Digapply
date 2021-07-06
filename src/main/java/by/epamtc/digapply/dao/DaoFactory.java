@@ -3,7 +3,7 @@ package by.epamtc.digapply.dao;
 import by.epamtc.digapply.dao.mysql.SqlUserDao;
 
 public class DaoFactory {
-    private final UserDao USER_DAO = new SqlUserDao();
+    private final UserDao userDao = new SqlUserDao();
 
     private static class Holder {
         static final DaoFactory INSTANCE = new DaoFactory();
@@ -16,6 +16,6 @@ public class DaoFactory {
     }
 
     public UserDao getUserDao() {
-        return USER_DAO;
+        return userDao;
     }
 }
