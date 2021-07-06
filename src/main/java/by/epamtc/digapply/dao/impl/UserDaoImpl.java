@@ -86,16 +86,12 @@ public class UserDaoImpl implements UserDao {
                 user = mapper.map(resultSet);
             }
         } catch (ConnectionPoolException e) {
-            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
-            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            resetAutoCommit(connection);
-
             try {
                 POOL.releaseConnection(connection, statement, resultSet);
             } catch (ConnectionPoolException e) {
@@ -124,16 +120,12 @@ public class UserDaoImpl implements UserDao {
                 user = mapper.map(resultSet);
             }
         } catch (ConnectionPoolException e) {
-            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
-            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            resetAutoCommit(connection);
-
             try {
                 POOL.releaseConnection(connection, statement, resultSet);
             } catch (ConnectionPoolException e) {
@@ -161,16 +153,12 @@ public class UserDaoImpl implements UserDao {
                 users.add(mapper.map(resultSet));
             }
         } catch (ConnectionPoolException e) {
-            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
-            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
-            resetAutoCommit(connection);
-
             try {
                 POOL.releaseConnection(connection, statement, resultSet);
             } catch (ConnectionPoolException e) {
