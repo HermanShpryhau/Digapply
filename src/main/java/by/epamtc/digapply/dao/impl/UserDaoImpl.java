@@ -10,10 +10,12 @@ import by.epamtc.digapply.mapper.UserRowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
@@ -48,22 +50,16 @@ public class UserDaoImpl implements UserDao {
             statement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException sqlException) {
-                throw new DaoException("Error while rolling back transaction commit.", sqlException);
-            }
+            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException sqlException) {
-                throw new DaoException("Error while rolling back transaction commit.", sqlException);
-            }
+            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
+            resetAutoCommit(connection);
+
             try {
                 POOL.releaseConnection(connection, statement);
             } catch (ConnectionPoolException e) {
@@ -82,7 +78,6 @@ public class UserDaoImpl implements UserDao {
         ResultSet resultSet = null;
         try {
             connection = POOL.getConnection();
-            connection.setAutoCommit(false);
             statement = connection.prepareStatement(GET_USER_BY_ID_QUERY);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -91,12 +86,16 @@ public class UserDaoImpl implements UserDao {
                 user = mapper.map(resultSet);
             }
         } catch (ConnectionPoolException e) {
+            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
+            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
+            resetAutoCommit(connection);
+
             try {
                 POOL.releaseConnection(connection, statement, resultSet);
             } catch (ConnectionPoolException e) {
@@ -125,12 +124,16 @@ public class UserDaoImpl implements UserDao {
                 user = mapper.map(resultSet);
             }
         } catch (ConnectionPoolException e) {
+            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
+            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
+            resetAutoCommit(connection);
+
             try {
                 POOL.releaseConnection(connection, statement, resultSet);
             } catch (ConnectionPoolException e) {
@@ -158,12 +161,16 @@ public class UserDaoImpl implements UserDao {
                 users.add(mapper.map(resultSet));
             }
         } catch (ConnectionPoolException e) {
+            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
+            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
+            resetAutoCommit(connection);
+
             try {
                 POOL.releaseConnection(connection, statement, resultSet);
             } catch (ConnectionPoolException e) {
@@ -183,6 +190,7 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = POOL.getConnection();
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(UPDATE_USER_QUERY);
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getPassword());
@@ -191,13 +199,17 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(5, user.getRoleId());
             statement.setInt(6, userId);
             statement.executeUpdate();
+            connection.commit();
         } catch (ConnectionPoolException e) {
+            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
+            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement.", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
+            resetAutoCommit(connection);
             try {
                 POOL.releaseConnection(connection, statement);
             } catch (ConnectionPoolException e) {
@@ -215,16 +227,21 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = POOL.getConnection();
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(DELETE_USER_QUERY);
             statement.setLong(1, user.getUserId());
             statement.executeUpdate();
+            connection.commit();
         } catch (ConnectionPoolException e) {
+            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
+            attemptRollback(connection);
             LOGGER.error("Invalid SQL statement", e);
             throw new DaoException("Invalid SQL statement", e);
         } finally {
+            resetAutoCommit(connection);
             try {
                 POOL.releaseConnection(connection, statement);
             } catch (ConnectionPoolException e) {
@@ -234,9 +251,29 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    private void resetAutoCommit(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                LOGGER.error("Unable to reset auto commit for transaction.", e);
+            }
+        }
+    }
+
     private void checkUserParameter(User user) throws DaoException {
         if (user == null) {
             throw new DaoException("user must not be null.");
+        }
+    }
+
+    private void attemptRollback(Connection connection) throws DaoException {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                throw new DaoException("Error while rolling back transaction commit.", sqlException);
+            }
         }
     }
 }
