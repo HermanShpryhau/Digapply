@@ -28,37 +28,37 @@ class UserServiceImplTest {
 
     @Test
     void loginExistingUserTest() throws ServiceException {
-        Optional<User> user = userService.login("kirk@mail.com", "jameskirk");
-        assertEquals("kirk@mail.com", user.get().getEmail());
+        User user = userService.login("kirk@mail.com", "jameskirk");
+        assertEquals("kirk@mail.com", user.getEmail());
     }
 
     @Test
     void loginExistingUserWithWrongPasswordTest() throws ServiceException {
-        Optional<User> user = userService.login("kirk@mail.com", "123");
-        assertFalse(user.isPresent());
+        User user = userService.login("kirk@mail.com", "123");
+        assertNull(user);
     }
 
     @Test
     void loginNonExistingUserTest() throws ServiceException {
-        Optional<User> user = userService.login("123@mail.com", "123");
-        assertFalse(user.isPresent());
+        User user = userService.login("123@mail.com", "123");
+        assertNull(user);
     }
 
     @Test
     void loginWithNullEmailTest() throws ServiceException {
-        Optional<User> user = userService.login(null, "123");
-        assertFalse(user.isPresent());
+        User user = userService.login(null, "123");
+        assertNull(user);
     }
 
     @Test
     void loginWithNullPasswordTest() throws ServiceException {
-        Optional<User> user = userService.login("123@mail.com", null);
-        assertFalse(user.isPresent());
+        User user = userService.login("123@mail.com", null);
+        assertNull(user);
     }
 
     @Test
     void loginWithNullParamsTest() throws ServiceException {
-        Optional<User> user = userService.login(null, null);
-        assertFalse(user.isPresent());
+        User user = userService.login(null, null);
+        assertNull(user);
     }
 }
