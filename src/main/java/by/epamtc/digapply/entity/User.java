@@ -67,6 +67,7 @@ public class User implements Identifiable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (o == null) return false;
         if (!(o.getClass().equals(getClass()))) return false;
 
         User other = (User) o;
