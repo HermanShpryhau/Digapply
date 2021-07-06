@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface UserDao {
     void addUser(User user) throws DaoException;
 
-    Optional<User> getUserById(int id) throws DaoException;
+    User getUserById(int id) throws DaoException;
 
-    Optional<User> getUserByEmail(String email) throws DaoException;
+    User getUserByEmail(String email) throws DaoException;
 
     List<User> getAllUsers() throws DaoException;
 

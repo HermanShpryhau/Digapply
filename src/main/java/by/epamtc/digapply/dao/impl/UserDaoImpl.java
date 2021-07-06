@@ -74,7 +74,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> getUserById(int id) throws DaoException {
+    public User getUserById(int id) throws DaoException {
         User user = null;
 
         Connection connection = null;
@@ -105,11 +105,11 @@ public class UserDaoImpl implements UserDao {
             }
         }
 
-        return Optional.ofNullable(user);
+        return user;
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) throws DaoException {
+    public User getUserByEmail(String email) throws DaoException {
         User user = null;
 
         Connection connection = null;
@@ -139,7 +139,7 @@ public class UserDaoImpl implements UserDao {
             }
         }
 
-        return Optional.ofNullable(user);
+        return user;
     }
 
     @Override
