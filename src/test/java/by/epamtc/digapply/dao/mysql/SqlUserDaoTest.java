@@ -36,10 +36,12 @@ class SqlUserDaoTest {
         user.setName("Herman");
         user.setSurname("Shpryhau");
         user.setRoleId(2);
-        Optional<User> fromDB = userDao.getUserById(33);
-        user.setUserId(fromDB.orElse(user).getUserId());
+        User fromDB = userDao.getUserById(33);
+        if (fromDB != null) {
+            user.setUserId(fromDB.getUserId());
+        }
 
-        assertEquals(user, fromDB.orElse(null));
+        assertEquals(user, fromDB);
     }
 
     @Test
@@ -50,9 +52,11 @@ class SqlUserDaoTest {
         user.setName("Herman");
         user.setSurname("Shpryhau");
         user.setRoleId(2);
-        Optional<User> fromDB = userDao.getUserByEmail("germanshp8877@gmail.com");
-        user.setUserId(fromDB.orElse(user).getUserId());
+        User fromDB = userDao.getUserByEmail("germanshp8877@gmail.com");
+        if (fromDB != null) {
+            user.setUserId(fromDB.getUserId());
+        }
 
-        assertEquals(user, fromDB.orElse(null));
+        assertEquals(user, fromDB);
     }
 }
