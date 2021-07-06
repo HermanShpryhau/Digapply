@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Controller extends HttpServlet {
-    private final static Logger LOGGER = LogManager.getLogger(Controller.class);
+    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     @Override
     public void init() throws ServletException {
@@ -55,7 +55,7 @@ public class Controller extends HttpServlet {
         String page = commandResult.getPage();
         if (commandResult.isRedirect()) {
             response.sendRedirect(page);
-        } else {
+        } else if (commandResult.isForward()) {
             request.getRequestDispatcher(page).forward(request, response);
         }
     }
