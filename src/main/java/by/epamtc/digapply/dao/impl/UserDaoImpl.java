@@ -50,7 +50,6 @@ public class UserDaoImpl implements UserDao {
             statement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException e) {
-            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
@@ -189,7 +188,6 @@ public class UserDaoImpl implements UserDao {
             statement.executeUpdate();
             connection.commit();
         } catch (ConnectionPoolException e) {
-            attemptRollback(connection);
             LOGGER.error("Unable to retrieve DB connection", e);
             throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
