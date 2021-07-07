@@ -1,6 +1,7 @@
 package by.epamtc.digapply.command.factory;
 
 import by.epamtc.digapply.command.Command;
+import by.epamtc.digapply.command.LoginCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,9 @@ public class CommandFactory {
         static final CommandFactory INSTANCE = new CommandFactory();
     }
 
-    private CommandFactory() {}
+    private CommandFactory() {
+        commands.put("login", new LoginCommand());
+    }
 
     public static CommandFactory getInstance() {
         return Holder.INSTANCE;
