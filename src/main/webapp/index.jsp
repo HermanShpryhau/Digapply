@@ -7,11 +7,6 @@
     <title>Digapply | Index</title>
 </head>
 <body>
-    <c:if test="${sessionScope.user == null}">
-        <jsp:forward page="WEB-INF/jsp/login.jsp" />
-    </c:if>
-    <c:if test="${sessionScope.user != null}">
-        <jstl:redirect url="/controller?command=show-page&page=WEB-INF/jsp/home.jsp" />
-    </c:if>
+    <jstl:redirect url="/controller?command=show-page&page=WEB-INF/jsp/home.jsp" />
 </body>
 </html>

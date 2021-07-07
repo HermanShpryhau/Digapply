@@ -1,8 +1,6 @@
 
 @
 logs/digaply.log,d/6/d66b3c524728d212ef681fa5165b66b23b3fe592
-O
-src/main/webapp/WEB-INF/web.xml,2/e/2e22b6edd746fa3dc40ad7276c87c8d87d72a392
 e
 5src/main/java/by/epamtc/digapply/command/Command.java,e/8/e86a7ffb577175470f5bd82d4e6f458aec48f7bf
 q
@@ -35,5 +33,3 @@ i
 ,.idea/inspectionProfiles/Project_Default.xml,4/9/496a238a6afa168dbaf6efd37bb459331589579c
 i
 9src/main/java/by/epamtc/digapply/entity/Identifiable.java,7/4/74232b5a129340bba6c4965dddc05da2a82e39ce
-a
-1src/main/java/by/epamtc/digapply/entity/Role.java,8/6/86c3c76ec5db4f11fb84034cc2a7e17d2b5a37b6
