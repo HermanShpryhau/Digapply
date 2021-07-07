@@ -19,7 +19,11 @@ public class LoginCommand implements Command {
         HttpSession session = request.getSession();
 
         String email = request.getParameter(Parameters.EMAIL_PARAMETER);
+        if (email == null || request.getParameter((Parameters.PASSWORD_PARAMETER)) == null) {
+            return new CommandResult(Pages.ERROR_PAGE, CommandResultType.FORWARD);
+        }
         char[] password = request.getParameter(Parameters.PASSWORD_PARAMETER).toCharArray();
+
 
         UserService userService = ServiceFactory.getInstance().getUserService();
         User user = userService.login(email, String.valueOf(password));

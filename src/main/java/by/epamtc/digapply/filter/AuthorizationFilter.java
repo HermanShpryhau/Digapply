@@ -45,7 +45,7 @@ public class AuthorizationFilter implements Filter {
 
         String command = request.getParameter("command");
         if (!authorizedCommands.get(roleId).contains(command)) {
-            request.getRequestDispatcher(Pages.ERROR_PAGE).forward(request, response);
+            request.getRequestDispatcher(Pages.LOGIN_PAGE).forward(request, response);
             return;
         }
 

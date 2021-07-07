@@ -1,6 +1,4 @@
 
-@
-logs/digaply.log,d/6/d66b3c524728d212ef681fa5165b66b23b3fe592
 e
 5src/main/java/by/epamtc/digapply/command/Command.java,e/8/e86a7ffb577175470f5bd82d4e6f458aec48f7bf
 q
@@ -39,8 +37,6 @@ U
 %src/main/webapp/WEB-INF/jsp/error.jsp,9/3/93e1d4466e49437af2d8da96e6325de845033510
 i
 9src/main/java/by/epamtc/digapply/resource/Attributes.java,6/7/67e203a9f67c35ef7b64bebdc9482ff6cfc0cf5e
-V
-&src/main/webapp/WEB-INF/jsp/logout.jsp,2/0/2064492ce0c0c3956fc7df30ac78efada0da6f93
 t
 Dsrc/main/java/by/epamtc/digapply/command/factory/CommandFactory.java,5/d/5deb11653ccb69169680dd1b2cac554c3f13ec02
 g
