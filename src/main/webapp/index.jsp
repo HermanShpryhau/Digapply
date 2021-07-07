@@ -7,6 +7,8 @@
     <title>Digapply | Index</title>
 </head>
 <body>
+<%--    <jsp:forward page="WEB-INF/jsp/home.jsp"></jsp:forward>--%>
+
     <jstl:redirect url="/controller?command=show-page&page=WEB-INF/jsp/home.jsp" />
 </body>
 </html>

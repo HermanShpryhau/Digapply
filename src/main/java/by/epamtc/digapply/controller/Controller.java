@@ -54,7 +54,7 @@ public class Controller extends HttpServlet {
         }
         String page = commandResult.getPage();
         if (commandResult.isRedirect()) {
-            response.sendRedirect(page);
+            response.sendRedirect(request.getContextPath() + page);
         } else if (commandResult.isForward()) {
             request.getRequestDispatcher(page).forward(request, response);
         }
