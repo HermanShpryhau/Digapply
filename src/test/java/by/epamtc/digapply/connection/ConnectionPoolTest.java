@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConnectionPoolTest {
     @BeforeAll
     static void setUpConnectionPool() throws ConnectionPoolException {
-        ConnectionPool.getInstance().init();
+        ConnectionPool.getInstance().initialize();
     }
 
     @Test
@@ -35,6 +35,6 @@ class ConnectionPoolTest {
 
     @Test
     void getConnectionTest() throws ConnectionPoolException, SQLException {
-        assertTrue(ConnectionPool.getInstance().getConnection().isValid(10));
+        assertTrue(ConnectionPool.getInstance().takeConnection().isValid(10));
     }
 }

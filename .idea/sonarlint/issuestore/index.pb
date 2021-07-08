@@ -9,8 +9,6 @@ o
 ?src/main/java/by/epamtc/digapply/command/CommandResultType.java,f/8/f817e54961dc52c12f7d89daea99f3a91e435ef2
 k
 ;src/main/java/by/epamtc/digapply/command/CommandResult.java,d/5/d5d8dc46ca74fc472854c70c6e8d70d00a73e26a
-v
-Fsrc/test/java/by/epamtc/digapply/service/impl/UserServiceImplTest.java,8/3/83cb0846c340ed9796f26b87ab7df3cfa48109f4
 i
 9src/main/java/by/epamtc/digapply/service/UserService.java,6/f/6f280bbfcc680911604c6ba8b51d28b38c94d5ea
 \

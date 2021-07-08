@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
@@ -18,7 +16,7 @@ class UserServiceImplTest {
 
     @BeforeAll
     static void setUpConnectionPool() throws ConnectionPoolException {
-        ConnectionPool.getInstance().init();
+        ConnectionPool.getInstance().initialize();
     }
 
     @BeforeEach

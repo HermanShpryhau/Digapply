@@ -22,7 +22,7 @@ public class Controller extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            ConnectionPool.getInstance().init();
+            ConnectionPool.getInstance().initialize();
         } catch (ConnectionPoolException e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +45,7 @@ public class Controller extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
         Command command = CommandFactory.getInstance().getCommand(commandName);
-        CommandResult commandResult = null;
+        CommandResult commandResult;
         try {
             commandResult = command.execute(request, response);
         } catch (ServiceException e) {

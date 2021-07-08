@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
@@ -26,38 +25,16 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     @Override
     public List<T> findAll() throws DaoException {
-        List<T> result = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = ConnectionPool.getInstance().getConnection();
-            String query = SELECT_ALL_QUERY + tableName;
-            JdbcOperator<T> jdbcOperator = new JdbcOperator<>(connection, mapper);
-            result = jdbcOperator.executeQuery(query);
-        } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to retrieve DB connection", e);
-            throw new DaoException("Unable to retrieve DB connection", e);
-        } finally {
-            attemptConnectionRelease(connection);
-        }
-        return result;
+        String query = SELECT_ALL_QUERY + tableName;
+        JdbcOperator<T> jdbcOperator = new JdbcOperator<>(mapper);
+        return jdbcOperator.executeQuery(query);
     }
 
     @Override
     public List<T> findAllOnPage(long page, long count) throws DaoException {
         long startIndex = page * count;
-        List<T> result = new ArrayList<>();
-        Connection connection = null;
-        try {
-            connection = ConnectionPool.getInstance().getConnection();
-            JdbcOperator<T> jdbcOperator = new JdbcOperator<>(connection, mapper);
-            result = jdbcOperator.executeQuery(SELECT_ALL_ON_PAGE_QUERY, tableName, startIndex, count);
-        } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to retrieve DB connection", e);
-            throw new DaoException("Unable to retrieve DB connection", e);
-        } finally {
-            attemptConnectionRelease(connection);
-        }
-        return result;
+        JdbcOperator<T> jdbcOperator = new JdbcOperator<>(mapper);
+        return jdbcOperator.executeQuery(SELECT_ALL_ON_PAGE_QUERY, tableName, startIndex, count);
     }
 
     @Override
@@ -75,7 +52,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         }
     }
 
-    protected void throwExceptionIfNull(T entity) throws DaoException{
+    protected void throwExceptionIfNull(T entity) throws DaoException {
         if (entity == null) {
             LOGGER.error("Entity parameter must not be null");
             throw new DaoException("Entity parameter must not be null");

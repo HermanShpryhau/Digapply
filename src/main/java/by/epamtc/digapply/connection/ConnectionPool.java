@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -22,8 +20,8 @@ public class ConnectionPool {
     private static final String DB_PASSWORD_PROP = "db.password";
     private static final String DB_DRIVER_PROP = "db.jdbc-driver";
 
-    private BlockingQueue<Connection> pool;
-    private BlockingQueue<Connection> usedConnections;
+    private BlockingQueue<ProxyConnection> pool;
+    private BlockingQueue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
     }
@@ -32,7 +30,7 @@ public class ConnectionPool {
         return Holder.INSTANCE;
     }
 
-    public void init() throws ConnectionPoolException {
+    public void initialize() throws ConnectionPoolException {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             Properties dbProperties = new Properties();
             dbProperties.load(input);
@@ -44,7 +42,7 @@ public class ConnectionPool {
             usedConnections = new ArrayBlockingQueue<>(POOL_SIZE);
             for (int i = 0; i < POOL_SIZE; i++) {
                 Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                pool.add(connection);
+                pool.add(new ProxyConnection(connection));
             }
         } catch (IOException e) {
             LOGGER.error("Unable to load DB properties!", e);
@@ -59,8 +57,8 @@ public class ConnectionPool {
         LOGGER.info("Connection pool initialized.");
     }
 
-    public Connection getConnection() throws ConnectionPoolException {
-        Connection connection = null;
+    public Connection takeConnection() throws ConnectionPoolException {
+        ProxyConnection connection;
         try {
             connection = pool.take();
             usedConnections.put(connection);
@@ -73,25 +71,10 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) throws ConnectionPoolException {
-        returnConnection(connection);
-    }
-
-    public void releaseConnection(Connection connection, Statement statement) throws ConnectionPoolException {
-        returnConnection(connection);
-        closeStatement(statement);
-    }
-
-    public void releaseConnection(Connection connection, Statement statement, ResultSet rs) throws ConnectionPoolException {
-        returnConnection(connection);
-        closeStatement(statement);
-        closeResultSet(rs);
-    }
-
-    private void returnConnection(Connection connection) throws ConnectionPoolException {
         if (connection != null) {
             usedConnections.remove(connection);
             try {
-                pool.put(connection);
+                pool.put((ProxyConnection) connection);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 LOGGER.error("Unable to release connection to data source.", e);
@@ -100,35 +83,13 @@ public class ConnectionPool {
         }
     }
 
-    private void closeStatement(Statement statement) throws ConnectionPoolException {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                LOGGER.error("Unable to close statement", e);
-                throw new ConnectionPoolException("Unable to close statement", e);
-            }
-        }
-    }
-
-    private void closeResultSet(ResultSet rs) throws ConnectionPoolException {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                LOGGER.error("Unable to close result set.", e);
-                throw new ConnectionPoolException("Unable to close result set.", e);
-            }
-        }
-    }
-
     public void dispose() throws ConnectionPoolException {
         try {
-            for (Connection connection : pool) {
-                connection.close();
+            for (ProxyConnection connection : pool) {
+                connection.reallyClose();
             }
-            for (Connection connection : usedConnections) {
-                connection.close();
+            for (ProxyConnection connection : usedConnections) {
+                connection.reallyClose();
             }
         } catch (SQLException e) {
             LOGGER.error("Unable to close all connections.", e);
