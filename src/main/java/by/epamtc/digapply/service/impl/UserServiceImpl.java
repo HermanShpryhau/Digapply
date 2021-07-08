@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     private User retrieveUserByEmail(String email) throws DaoException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
-        return userDao.getUserByEmail(email);
+        return userDao.findByEmail(email);
     }
 
     private boolean isPasswordValid(User user, String password) {
