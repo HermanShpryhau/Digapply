@@ -24,7 +24,6 @@ public class LoginCommand implements Command {
         }
         char[] password = request.getParameter(Parameters.PASSWORD_PARAMETER).toCharArray();
 
-
         UserService userService = ServiceFactory.getInstance().getUserService();
         User user = userService.login(email, String.valueOf(password));
         Arrays.fill(password, ' ');
