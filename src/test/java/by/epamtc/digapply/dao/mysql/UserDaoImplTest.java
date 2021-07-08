@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SqlUserDaoTest {
+class UserDaoImplTest {
     UserDao userDao;
 
     @BeforeAll
@@ -28,7 +28,7 @@ class SqlUserDaoTest {
     }
 
     @Test
-    void getUserByIdTest() throws DaoException {
+    void findUserByIdTest() throws DaoException {
         User user = new User();
         user.setUserId(33);
         user.setEmail("germanshp8877@gmail.com");
@@ -36,7 +36,7 @@ class SqlUserDaoTest {
         user.setName("Herman");
         user.setSurname("Shpryhau");
         user.setRoleId(2);
-        User fromDB = userDao.getUserById(33);
+        User fromDB = userDao.findById(33);
         if (fromDB != null) {
             user.setUserId(fromDB.getUserId());
         }
@@ -45,14 +45,14 @@ class SqlUserDaoTest {
     }
 
     @Test
-    void getUserByEmailTest() throws DaoException {
+    void findUserByEmailTest() throws DaoException {
         User user = new User();
         user.setEmail("germanshp8877@gmail.com");
         user.setPassword("03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4");
         user.setName("Herman");
         user.setSurname("Shpryhau");
         user.setRoleId(2);
-        User fromDB = userDao.getUserByEmail("germanshp8877@gmail.com");
+        User fromDB = userDao.findByEmail("germanshp8877@gmail.com");
         if (fromDB != null) {
             user.setUserId(fromDB.getUserId());
         }
