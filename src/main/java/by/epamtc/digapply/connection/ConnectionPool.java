@@ -5,7 +5,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -61,6 +65,7 @@ public class ConnectionPool {
             connection = pool.take();
             usedConnections.put(connection);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             LOGGER.error("Unable to connect to data source.", e);
             throw new ConnectionPoolException("Unable to connect to data source.", e);
         }
@@ -88,6 +93,7 @@ public class ConnectionPool {
             try {
                 pool.put(connection);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 LOGGER.error("Unable to release connection to data source.", e);
                 throw new ConnectionPoolException("Unable to release connection to data source.", e);
             }
