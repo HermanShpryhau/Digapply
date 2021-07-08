@@ -49,7 +49,6 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            String query = SELECT_ALL_QUERY + tableName;
             JdbcOperator<T> jdbcOperator = new JdbcOperator<>(connection, mapper);
             result = jdbcOperator.executeQuery(SELECT_ALL_ON_PAGE_QUERY, tableName, startIndex, count);
         } catch (ConnectionPoolException e) {
