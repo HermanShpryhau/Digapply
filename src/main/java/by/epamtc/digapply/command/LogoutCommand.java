@@ -1,6 +1,6 @@
 package by.epamtc.digapply.command;
 
-import by.epamtc.digapply.resource.Pages;
+import by.epamtc.digapply.resource.Page;
 import by.epamtc.digapply.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +12,6 @@ public class LogoutCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         session.invalidate();
-        return new CommandResult(Pages.HOME_PAGE_REDIRECT, CommandResultType.REDIRECT);
+        return new CommandResult(Page.HOME_PAGE_REDIRECT, CommandResultType.REDIRECT);
     }
 }

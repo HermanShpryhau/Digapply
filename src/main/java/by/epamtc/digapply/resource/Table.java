@@ -1,7 +1,7 @@
 package by.epamtc.digapply.resource;
 
-public class Tables {
+public class Table {
     public static final String USER_TABLE = "Users";
 
-    private Tables() {}
+    private Table() {}
 }

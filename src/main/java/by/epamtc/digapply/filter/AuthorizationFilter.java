@@ -1,9 +1,9 @@
 package by.epamtc.digapply.filter;
 
 import by.epamtc.digapply.entity.Role;
-import by.epamtc.digapply.resource.Attributes;
-import by.epamtc.digapply.resource.Commands;
-import by.epamtc.digapply.resource.Pages;
+import by.epamtc.digapply.resource.SessionAttribute;
+import by.epamtc.digapply.resource.CommandName;
+import by.epamtc.digapply.resource.Page;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,14 +38,14 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
-        Long roleId = (Long) session.getAttribute(Attributes.ROLE_ATTRIBUTE);
+        Long roleId = (Long) session.getAttribute(SessionAttribute.ROLE_ATTRIBUTE);
         if (roleId == null) {
             roleId = 3L;
         }
 
         String command = request.getParameter("command");
         if (!authorizedCommands.get(roleId).contains(command)) {
-            request.getRequestDispatcher(Pages.LOGIN_PAGE).forward(request, response);
+            request.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
             return;
         }
 
@@ -58,8 +58,8 @@ public class AuthorizationFilter implements Filter {
     }
 
     private void initCommands() {
-        authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(Commands.LOGOUT_COMMAND, Commands.SHOW_PAGE_COMMAND));
-        authorizedCommands.put(Role.USER.getId(), Arrays.asList(Commands.LOGOUT_COMMAND, Commands.SHOW_PAGE_COMMAND));
-        authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(Commands.LOGIN_COMMAND, Commands.SHOW_PAGE_COMMAND));
+        authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(CommandName.LOGOUT_COMMAND, CommandName.SHOW_PAGE_COMMAND));
+        authorizedCommands.put(Role.USER.getId(), Arrays.asList(CommandName.LOGOUT_COMMAND, CommandName.SHOW_PAGE_COMMAND));
+        authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(CommandName.LOGIN_COMMAND, CommandName.SHOW_PAGE_COMMAND));
     }
 }

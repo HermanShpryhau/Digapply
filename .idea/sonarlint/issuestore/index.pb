@@ -21,13 +21,5 @@ h
 8src/main/java/by/epamtc/digapply/entity/Application.java,4/7/47f565953ad74aeb1272164f281d5261f27ca73b
 a
 1src/main/java/by/epamtc/digapply/entity/User.java,4/b/4b66f1301a10bf07ae357d13f6e768f0b004fb21
-i
-9src/main/java/by/epamtc/digapply/resource/Parameters.java,5/f/5fbfdf4f8847f575d25ec9759d823bcbdbeca87a
 U
 %src/main/webapp/WEB-INF/jsp/error.jsp,9/3/93e1d4466e49437af2d8da96e6325de845033510
-i
-9src/main/java/by/epamtc/digapply/resource/Attributes.java,6/7/67e203a9f67c35ef7b64bebdc9482ff6cfc0cf5e
-t
-Dsrc/main/java/by/epamtc/digapply/command/factory/CommandFactory.java,5/d/5deb11653ccb69169680dd1b2cac554c3f13ec02
-g
-7src/main/java/by/epamtc/digapply/resource/Commands.java,5/9/595843d60520da8a69178b5686d744ce6fc230cf

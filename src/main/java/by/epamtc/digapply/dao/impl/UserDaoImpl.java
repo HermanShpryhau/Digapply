@@ -8,7 +8,7 @@ import by.epamtc.digapply.dao.JdbcOperator;
 import by.epamtc.digapply.dao.UserDao;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.mapper.factory.RowMapperFactory;
-import by.epamtc.digapply.resource.Tables;
+import by.epamtc.digapply.resource.Table;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String DELETE_USER_QUERY = "DELETE FROM Users WHERE user_id=?";
 
     public UserDaoImpl() {
-        super(RowMapperFactory.getInstance().getUserRowMapper(), Tables.USER_TABLE);
+        super(RowMapperFactory.getInstance().getUserRowMapper(), Table.USER_TABLE);
     }
 
     @Override
