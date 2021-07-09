@@ -14,20 +14,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcOperator<T extends Identifiable> {
+public class JdbcOperator<T extends Identifiable> implements AutoCloseable {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final RowMapper<T> mapper;
+    private Connection connection;
 
-    public JdbcOperator(RowMapper<T> mapper) {
+    public JdbcOperator(RowMapper<T> mapper) throws DaoException {
         this.mapper = mapper;
+        try {
+            this.connection = ConnectionPool.getInstance().takeConnection();
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Unable to retrieve DB connection", e);
+            throw new DaoException("Unable to retrieve DB connection", e);
+        }
     }
 
     public List<T> executeQuery(String query, Object... parameters) throws DaoException {
+        checkConnection();
+
         List<T> result = new ArrayList<>();
 
-        try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(parameters);
             parameterSetter.setValues(statement);
 
@@ -36,9 +44,6 @@ public class JdbcOperator<T extends Identifiable> {
                 T entity = mapper.map(resultSet);
                 result.add(entity);
             }
-        } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to retrieve DB connection", e);
-            throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
             LOGGER.error("Unable to execute query.", e);
             throw new DaoException("Unable to execute query.", e);
@@ -55,40 +60,25 @@ public class JdbcOperator<T extends Identifiable> {
     }
 
     public void executeUpdate(String query, Object... parameters) throws DaoException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = ConnectionPool.getInstance().takeConnection();
-            statement = connection.prepareStatement(query);
+        checkConnection();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)){
             PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(parameters);
             parameterSetter.setValues(statement);
-
-            startTransaction(connection);
             statement.executeUpdate();
-            endTransaction(connection);
-        } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to retrieve DB connection", e);
-            throw new DaoException("Unable to retrieve DB connection", e);
         } catch (SQLException e) {
-            attemptRollback(connection);
             LOGGER.error("Unable to execute query.", e);
             throw new DaoException("Unable to execute query.", e);
-        } finally {
-            try {
-                if (statement != null){
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                LOGGER.error("Unable to close statement and release connection.", e);
-                throw new DaoException("Unable to close statement and release connection.", e);
-            }
         }
     }
 
-    private void startTransaction(Connection connection) throws DaoException {
+    private void checkConnection() throws DaoException{
+        if (connection == null) {
+            throw new DaoException("You cannot use JdbcOperator after closing it.");
+        }
+    }
+
+    public void startTransaction() throws DaoException {
         if (connection != null) {
             try {
                 connection.setAutoCommit(false);
@@ -99,7 +89,7 @@ public class JdbcOperator<T extends Identifiable> {
         }
     }
 
-    private void endTransaction(Connection connection) throws DaoException {
+    public void endTransaction() throws DaoException {
         if (connection != null) {
             try {
                 connection.commit();
@@ -111,7 +101,7 @@ public class JdbcOperator<T extends Identifiable> {
         }
     }
 
-    private void attemptRollback(Connection connection) throws DaoException {
+    public void attemptRollback() throws DaoException {
         if (connection != null) {
             try {
                 connection.rollback();
@@ -120,5 +110,11 @@ public class JdbcOperator<T extends Identifiable> {
                 throw new DaoException("Unable tp rollback transaction commit.", e);
             }
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.connection.close();
+        this.connection = null;
     }
 }
