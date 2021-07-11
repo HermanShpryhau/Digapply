@@ -5,13 +5,10 @@ import by.epamtc.digapply.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-public class LogoutCommand implements Command {
+public class ProfileCommand implements Command{
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        return new CommandResult(Page.HOME_PAGE_REDIRECT, RoutingType.REDIRECT);
+        return new CommandResult(Page.PROFILE_PAGE, RoutingType.FORWARD);
     }
 }

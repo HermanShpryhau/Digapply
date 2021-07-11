@@ -23,7 +23,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public void add(User user) throws DaoException {
+    public void save(User user) throws DaoException {
         throwExceptionIfNull(user);
 
         try (JdbcOperator<User> jdbcOperator = new JdbcOperator<>(mapper)) {

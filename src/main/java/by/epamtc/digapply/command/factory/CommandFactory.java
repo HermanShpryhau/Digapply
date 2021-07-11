@@ -1,10 +1,6 @@
 package by.epamtc.digapply.command.factory;
 
-import by.epamtc.digapply.command.Command;
-import by.epamtc.digapply.command.LoginCommand;
-import by.epamtc.digapply.command.LogoutCommand;
-import by.epamtc.digapply.command.ShowPageCommand;
-import by.epamtc.digapply.resource.CommandName;
+import by.epamtc.digapply.command.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +16,8 @@ public class CommandFactory {
         commands.put(CommandName.LOGIN_COMMAND, new LoginCommand());
         commands.put(CommandName.LOGOUT_COMMAND, new LogoutCommand());
         commands.put(CommandName.SHOW_PAGE_COMMAND, new ShowPageCommand());
+        commands.put(CommandName.SIGNUP_COMMAND, new SignUpCommand());
+        commands.put(CommandName.PROFILE_COMMAND, new ProfileCommand());
     }
 
     public static CommandFactory getInstance() {

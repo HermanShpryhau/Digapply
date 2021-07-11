@@ -70,7 +70,7 @@
                                                     <button type="submit" class="btn btn-primary">Sign In</button>
                                                 </form>
                                                 <hr class="dropdown-divider">
-                                                <p class="text-muted">Don't have an account? <a href="#">Sign Up</a></p>
+                                                <p class="text-muted">Don't have an account? <a href="/controller?command=show-page&page=WEB-INF/jsp/signup.jsp">Sign Up</a></p>
                                             </div>
 
                                         </div>
@@ -84,7 +84,7 @@
                                         ${sessionScope.username}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/controller?command=profile">Profile</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

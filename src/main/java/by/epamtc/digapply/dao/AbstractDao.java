@@ -14,6 +14,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private static final String SELECT_ALL_ON_PAGE_QUERY = "SELECT * FROM ? LIMIT ?, ?";
 
     protected final RowMapper<T> mapper;
+    protected JdbcOperator<T> jdbcOperator;
     private final String tableName;
 
     protected AbstractDao(RowMapper<T> mapper, String tableName) {

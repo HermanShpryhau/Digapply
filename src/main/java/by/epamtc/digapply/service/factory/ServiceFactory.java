@@ -6,7 +6,7 @@ import by.epamtc.digapply.service.impl.UserServiceImpl;
 public class ServiceFactory {
     private final UserService userService = new UserServiceImpl();
 
-    private static class Holder{
+    private static class Holder {
         static final ServiceFactory INSTANCE = new ServiceFactory();
     }
 

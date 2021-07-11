@@ -1,5 +1,5 @@
 package by.epamtc.digapply.command;
 
-public enum CommandResultType {
+public enum RoutingType {
     FORWARD, REDIRECT
 }

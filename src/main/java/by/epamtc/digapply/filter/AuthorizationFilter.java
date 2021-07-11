@@ -2,10 +2,8 @@ package by.epamtc.digapply.filter;
 
 import by.epamtc.digapply.entity.Role;
 import by.epamtc.digapply.resource.SessionAttribute;
-import by.epamtc.digapply.resource.CommandName;
+import by.epamtc.digapply.command.CommandName;
 import by.epamtc.digapply.resource.Page;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
@@ -23,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AuthorizationFilter implements Filter {
-    private static final Logger LOGGER = LogManager.getLogger(AuthorizationFilter.class);
-
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
 
     @Override
@@ -58,8 +54,20 @@ public class AuthorizationFilter implements Filter {
     }
 
     private void initCommands() {
-        authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(CommandName.LOGOUT_COMMAND, CommandName.SHOW_PAGE_COMMAND));
-        authorizedCommands.put(Role.USER.getId(), Arrays.asList(CommandName.LOGOUT_COMMAND, CommandName.SHOW_PAGE_COMMAND));
-        authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(CommandName.LOGIN_COMMAND, CommandName.SHOW_PAGE_COMMAND));
+        authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(
+                CommandName.LOGOUT_COMMAND,
+                CommandName.PROFILE_COMMAND,
+                CommandName.SHOW_PAGE_COMMAND
+        ));
+        authorizedCommands.put(Role.USER.getId(), Arrays.asList(
+                CommandName.LOGOUT_COMMAND,
+                CommandName.PROFILE_COMMAND,
+                CommandName.SHOW_PAGE_COMMAND
+        ));
+        authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(
+                CommandName.LOGIN_COMMAND,
+                CommandName.SIGNUP_COMMAND,
+                CommandName.SHOW_PAGE_COMMAND
+        ));
     }
 }
