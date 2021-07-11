@@ -34,13 +34,14 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
-        Long roleId = (Long) session.getAttribute(SessionAttribute.ROLE_ATTRIBUTE);
+        Long roleId = (Long) session.getAttribute(SessionAttribute.ROLE);
         if (roleId == null) {
             roleId = 3L;
         }
 
         String command = request.getParameter("command");
         if (!authorizedCommands.get(roleId).contains(command)) {
+            session.setAttribute(SessionAttribute.PREVIOUS_COMMAND, command);
             request.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
             return;
         }

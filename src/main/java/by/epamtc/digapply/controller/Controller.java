@@ -6,6 +6,7 @@ import by.epamtc.digapply.command.factory.CommandFactory;
 import by.epamtc.digapply.connection.ConnectionPool;
 import by.epamtc.digapply.connection.ConnectionPoolException;
 import by.epamtc.digapply.resource.Page;
+import by.epamtc.digapply.resource.RequestParameter;
 import by.epamtc.digapply.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,10 +21,10 @@ public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
     private static void processCommand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String commandName = request.getParameter("command");
+        String commandName = request.getParameter(RequestParameter.COMMAND);
         request.setCharacterEncoding("UTF-8");
         if (commandName == null || "".equals(commandName)) {
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher(Page.PROFILE_PAGE).forward(request, response);
         }
 
         Command command = CommandFactory.getInstance().getCommand(commandName);
