@@ -7,6 +7,11 @@
         <param-name>imagePath</param-name>
         <param-value>WEB-INF/assets</param-value>
     </context-param>
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>labels</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>controller</servlet-name>
         <servlet-class>by.epamtc.digapply.controller.Controller</servlet-class>

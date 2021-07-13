@@ -10,6 +10,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:bundle basename="labels"/>
+
 <header>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container">
@@ -24,58 +27,41 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <fmt:message key="header.home"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Faculties</a>
+                        <a class="nav-link active" href="#">
+                            <fmt:message key="header.faculties"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Apply Now</a>
+                        <a class="nav-link active" href="#">
+                            <fmt:message key="header.apply-now"/>
+                        </a>
                     </li>
                 </ul>
 
                 <div class="d-flex">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 p-2">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">EN</a>
+                            <a class="nav-link <fmt:message key="header.en-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=en">
+                                EN
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">RU</a>
+                            <a class="nav-link <fmt:message key="header.ru-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=ru">
+                                RU
+                            </a>
                         </li>
                         <c:choose>
                             <c:when test="${sessionScope.username == null}">
                                 <li class="nav-item">
-                                    <a type="button" class="btn btn-outline-light ml-5 me-2" data-bs-toggle="modal"
-                                       data-bs-target="#sign-in-modal" class="nav-link active" aria-current="page">Sign
-                                        In</a>
+                                    <a type="button" href="/controller?command=show-sign-in" class="btn btn-outline-light ml-5 me-2"  class="nav-link active" aria-current="page">
+                                        <fmt:message key="header.sign-in"/>
+                                    </a>
                                 </li>
-                                <div class="modal fade" id="sign-in-modal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/controller?command=login" method="post">
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                                        <input name="email" type="email" class="form-control" id="exampleInputEmail1"
-                                                               aria-describedby="emailHelp" placeholder="Email">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="passwordInput" class="form-label">Password</label>
-                                                        <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Sign In</button>
-                                                </form>
-                                                <hr class="dropdown-divider">
-                                                <p class="text-muted">Don't have an account? <a href="/controller?command=show-page&page=WEB-INF/jsp/signup.jsp">Sign Up</a></p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
                             </c:when>
                             <c:when test="${sessionScope.username != null}">
                                 <div class="dropdown">
@@ -84,11 +70,15 @@
                                         ${sessionScope.username}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item" href="/controller?command=profile">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/controller?command=profile">
+                                            <fmt:message key="header.profile"/>
+                                        </a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="/controller?command=logout">Sign Out</a></li>
+                                        <li><a class="dropdown-item" href="/controller?command=logout">
+                                            <fmt:message key="header.sign-out"/>
+                                        </a></li>
                                     </ul>
                                 </div>
                             </c:when>

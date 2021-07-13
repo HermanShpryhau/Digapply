@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
@@ -19,6 +21,12 @@
         <div class="col"></div>
         <div class="col-6">
             <h1 class="mt-5 fw-bold">Sign In</h1>
+
+            <c:if test="${sessionScope.login_error != null}">
+                <div class="alert alert-danger fade show" role="alert">
+                    <strong>Error!</strong> You have entered invalid email or password.
+                </div>
+            </c:if>
 
             <form action="/controller?command=login" method="post">
                 <div class="mb-3">

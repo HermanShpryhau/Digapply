@@ -6,6 +6,7 @@ public class CommandName {
     public static final String SHOW_PAGE_COMMAND = "show-page";
     public static final String SIGNUP_COMMAND = "signup";
     public static final String PROFILE_COMMAND = "profile";
+    public static final String SHOW_SIGN_IN_COMMAND = "show-sign-in";
 
     private CommandName() {}
 }

@@ -23,7 +23,8 @@ public class LoginCommand implements Command {
 
         String email = request.getParameter(RequestParameter.EMAIL);
         if (email == null || request.getParameter((RequestParameter.PASSWORD)) == null) {
-            return new CommandResult(Page.ERROR_PAGE, RoutingType.FORWARD);
+            session.setAttribute(SessionAttribute.LOGIN_ERROR, true);
+            return new CommandResult(Page.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
@@ -34,6 +35,9 @@ public class LoginCommand implements Command {
             String username = user.getName() + " " + user.getSurname();
             session.setAttribute(SessionAttribute.USERNAME, username);
             session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
+        } else {
+            session.setAttribute(SessionAttribute.LOGIN_ERROR, true);
+            return new CommandResult(Page.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
 
         CommandResult commandResult;

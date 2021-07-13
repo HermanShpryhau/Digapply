@@ -8,7 +8,7 @@ public class Page {
     public static final String ERROR_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/error.jsp";
 
     public static final String LOGIN_PAGE = "WEB-INF/jsp/login.jsp";
-    public static final String LOGIN_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/login.jsp";
+    public static final String LOGIN_PAGE_REDIRECT = "/controller?command=show-sign-in";
 
     public static final String SIGNUP_PAGE = "WEB-INF/jsp/signup.jsp";
     public static final String SIGNUP_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/signup.jsp";

@@ -67,6 +67,7 @@ public class AuthorizationFilter implements Filter {
         ));
         authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,
+                CommandName.SHOW_SIGN_IN_COMMAND,
                 CommandName.SIGNUP_COMMAND,
                 CommandName.SHOW_PAGE_COMMAND
         ));
