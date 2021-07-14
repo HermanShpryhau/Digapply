@@ -1,10 +1,7 @@
 package by.epamtc.digapply.filter;
 
-import by.epamtc.digapply.resource.RequestAttribute;
 import by.epamtc.digapply.resource.RequestParameter;
 import by.epamtc.digapply.resource.SessionAttribute;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -16,8 +13,6 @@ import java.util.Optional;
 
 @WebFilter(filterName = "locale-filter", urlPatterns = "/*")
 public class LocaleFilter implements Filter {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
@@ -26,7 +21,6 @@ public class LocaleFilter implements Filter {
         if (sessionLocale.isPresent()) {
             request.getSession().setAttribute(SessionAttribute.LOCALE, sessionLocale.get());
             String requestString = buildRequestString(request);
-            LOGGER.debug( request.getSession().getAttribute(SessionAttribute.LOCALE));
             response.sendRedirect(requestString);
             return;
         }
