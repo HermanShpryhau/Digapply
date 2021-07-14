@@ -7,6 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:bundle basename="labels"/>
 
 <html>
 <head>
@@ -20,28 +25,28 @@
     <div class="row justify-content-center">
         <div class="col"></div>
         <div class="col-6">
-            <h1 class="mt-5 fw-bold">Sign In</h1>
+            <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-in"/> </h1>
 
             <c:if test="${sessionScope.login_error != null}">
                 <div class="alert alert-danger fade show" role="alert">
-                    <strong>Error!</strong> You have entered invalid email or password.
+                    <fmt:message key="form.sign-in-error"/>
                 </div>
             </c:if>
 
             <form action="/controller?command=login" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <label for="exampleInputEmail1" class="form-label"><fmt:message key="form.email-address"/></label>
                     <input name="email" type="email" class="form-control" id="exampleInputEmail1"
-                           aria-describedby="emailHelp" placeholder="Email">
+                           aria-describedby="emailHelp" placeholder="<fmt:message key="form.email-placeholder"/>">
                 </div>
                 <div class="mb-3">
-                    <label for="passwordInput" class="form-label">Password</label>
-                    <input name="password" type="password" class="form-control" id="passwordInput" placeholder="Password">
+                    <label for="passwordInput" class="form-label"><fmt:message key="form.password"/></label>
+                    <input name="password" type="password" class="form-control" id="passwordInput" placeholder="<fmt:message key="form.password"/>">
                 </div>
-                <button type="submit" class="btn btn-primary">Sign In</button>
+                <button type="submit" class="btn btn-primary"><fmt:message key="form.sign-in-btn"/></button>
             </form>
             <hr class="dropdown-divider">
-            <p class="text-muted">Don't have an account? <a href="#">Sign Up</a></p>
+            <p class="text-muted"><fmt:message key="form.no-account"/><a href="/controller?command=show-page&page=WEB-INF/jsp/signup.jsp"><fmt:message key="form.sign-up-btn"/></a></p>
         </div>
         <div class="col"></div>
     </div>

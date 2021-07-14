@@ -58,18 +58,21 @@ public class AuthorizationFilter implements Filter {
         authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
-                CommandName.SHOW_PAGE_COMMAND
+                CommandName.SHOW_PAGE_COMMAND,
+                CommandName.HOME_COMMAND
         ));
         authorizedCommands.put(Role.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
-                CommandName.SHOW_PAGE_COMMAND
+                CommandName.SHOW_PAGE_COMMAND,
+                CommandName.HOME_COMMAND
         ));
         authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,
                 CommandName.SHOW_SIGN_IN_COMMAND,
                 CommandName.SIGNUP_COMMAND,
-                CommandName.SHOW_PAGE_COMMAND
+                CommandName.SHOW_PAGE_COMMAND,
+                CommandName.HOME_COMMAND
         ));
     }
 }

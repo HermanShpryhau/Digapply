@@ -16,7 +16,7 @@
 <header>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/controller?command=home">
                 <img src="assets/logo.png" alt="" width="30" height="26">
                 Star Fleet Academy
             </a>
@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
+                        <a class="nav-link active" aria-current="page" href="/controller?command=home">
                             <fmt:message key="header.home"/>
                         </a>
                     </li>

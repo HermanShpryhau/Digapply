@@ -1,4 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:bundle basename="labels"/>
 <%--
   Created by IntelliJ IDEA.
   User: hermanshpryhau
@@ -23,42 +28,44 @@
     <div class="row justify-content-center">
         <div class="col"></div>
         <div class="col-6">
-            <h1 class="mt-5 fw-bold">Sign Up Form</h1>
+            <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-up"/></h1>
+
             <c:if test="${requestScope.error != null}">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error!</strong> You have entered invalid data.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="alert alert-danger fade show" role="alert">
+                    <fmt:message key="form.sign-up-error"/>
                 </div>
             </c:if>
 
             <form action="/controller?command=signup" method="post">
-                <div class="row mt-5 mb-4">
+                <div class="row mb-4">
                     <div class="col">
-                        <label for="first-name" class="form-lable">First Name</label>
+                        <label for="first-name" class="form-lable"><fmt:message key="form.firs-name"/></label>
                         <input type="text" id="first-name" name="first-name" class="form-control"
-                               placeholder="First name" aria-label="First name" required maxlength="45"
+                               placeholder="<fmt:message key="form.firs-name"/>" required maxlength="45"
                                pattern="\b[A-Z].*?\b">
                     </div>
                     <div class="col">
-                        <label for="last-name" class="form-lable">Last Name</label>
+                        <label for="last-name" class="form-lable"><fmt:message key="form.last-name"/></label>
                         <input type="text" id="last-name" name="last-name" class="form-control"
-                               placeholder="Last name" aria-label="Last name" required maxlength="45"
+                               placeholder="<fmt:message key="form.last-name"/>" required maxlength="45"
                                pattern="\b[A-Z].*?\b">
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" required>
+                    <label for="email" class="form-label"><fmt:message key="form.email-address"/></label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="<fmt:message key="form.email-placeholder"/>" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required
+                    <label for="password" class="form-label"><fmt:message key="form.password"/></label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="<fmt:message key="form.password"/>" required
                            minlength="8">
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Sign Up</button>
+                    <button class="btn btn-primary" type="submit"><fmt:message key="form.sign-up-btn"/></button>
                 </div>
             </form>
+            <hr class="dropdown-divider">
+            <p class="text-muted"><fmt:message key="form.have-account"/><a href="/controller?command=show-sign-in"><fmt:message key="form.sign-in-btn"/></a></p>
         </div>
         <div class="col"></div>
     </div>

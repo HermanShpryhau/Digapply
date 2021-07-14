@@ -19,6 +19,7 @@ public class CommandFactory {
         commands.put(CommandName.SIGNUP_COMMAND, new SignUpCommand());
         commands.put(CommandName.PROFILE_COMMAND, new ProfileCommand());
         commands.put(CommandName.SHOW_SIGN_IN_COMMAND, new ShowSignInFormCommand());
+        commands.put(CommandName.HOME_COMMAND, new HomeCommand());
     }
 
     public static CommandFactory getInstance() {
