@@ -10,7 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
 <fmt:bundle basename="labels"/>
 <!DOCTYPE html>
 <html>
@@ -27,8 +27,9 @@
     <section id="promo">
         <div class="row mt-5">
             <div class="col-sm my-auto">
-                <h1 class="display-5 fw-bold"><fmt:message key="home.promo"/> </h1>
-                <p class="fs-5 fs-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque molestiae voluptatibus in
+                <h1 class="display-5 fw-bold"><fmt:message key="home.promo"/></h1>
+                <p class="fs-5 fs-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque molestiae
+                    voluptatibus in
                     nesciunt harum voluptas incidunt qui, necessitatibus porro doloremque consequuntur quae adipisci
                     excepturi saepe unde veniam asperiores similique maiores? Lorem, ipsum dolor sit amet
                     consectetur adipisicing elit. Nostrum amet eligendi illo consectetur saepe et expedita, cum
@@ -42,33 +43,18 @@
         </div>
     </section>
 
-    <div class="container mt-5 px-4 py-5" id="featured-3">
-        <h2 class="pb-2 border-bottom fw-bold"><fmt:message key="home.best-faculties"/> </h2>
+    <div class="container mt-5 " id="featured-3">
+        <h2 class="pb-2 border-bottom fw-bold"><fmt:message key="home.best-faculties"/></h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-            <div class="feature col">
-                <h2>Star Fleet Officer College</h2>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another
-                    sentence and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    <fmt:message key="home.read-more"/>
-                </a>
-            </div>
-            <div class="feature col">
-                <h2>Star Fleet Medical College</h2>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another
-                    sentence and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    <fmt:message key="home.read-more"/>
-                </a>
-            </div>
-            <div class="feature col">
-                <h2>Star Fleet Science College</h2>
-                <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another
-                    sentence and probably just keep going until we run out of words.</p>
-                <a href="#" class="icon-link">
-                    <fmt:message key="home.read-more"/>
-                </a>
-            </div>
+            <c:forEach var="faculty" items="${requestScope.best_faculties}">
+                <div class="feature col">
+                    <h2>${faculty.facultyName}</h2>
+                    <p class="text-truncate">${faculty.facultyDescription}</p>
+                    <a href="#" class="icon-link">
+                        <fmt:message key="home.read-more"/>
+                    </a>
+                </div>
+            </c:forEach>
         </div>
     </div>
 
@@ -79,7 +65,8 @@
             <p class="mb-4 fs-3 fs-normal"><fmt:message key="home.dont-miss-text"/></p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                 <a href="#">
-                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3"><fmt:message key="home.apply-now"/></button>
+                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3"><fmt:message
+                            key="home.apply-now"/></button>
                 </a>
             </div>
         </div>
