@@ -14,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
     private static final int POOL_SIZE = 10;
-    private static final Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
+    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final String DB_URL_PROP = "db.url";
     private static final String DB_USER_PROP = "db.user";
     private static final String DB_PASSWORD_PROP = "db.password";
@@ -45,16 +45,16 @@ public class ConnectionPool {
                 pool.add(new ProxyConnection(connection));
             }
         } catch (IOException e) {
-            LOGGER.error("Unable to load DB properties!", e);
+            logger.error("Unable to load DB properties!", e);
             throw new ConnectionPoolException("Unable to load DB properties!", e);
         } catch (SQLException e) {
-            LOGGER.error("Unable to connect to DB!", e);
+            logger.error("Unable to connect to DB!", e);
             throw new ConnectionPoolException("Unable to connect to DB!", e);
         } catch (ClassNotFoundException e) {
-            LOGGER.error("MySQL JDBC driver not found!", e);
+            logger.error("MySQL JDBC driver not found!", e);
             throw new ConnectionPoolException("MySQL JDBC driver not found!", e);
         }
-        LOGGER.info("Connection pool initialized.");
+        logger.info("Connection pool initialized.");
     }
 
     public Connection takeConnection() throws ConnectionPoolException {
@@ -64,7 +64,7 @@ public class ConnectionPool {
             usedConnections.put(connection);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            LOGGER.error("Unable to connect to data source.", e);
+            logger.error("Unable to connect to data source.", e);
             throw new ConnectionPoolException("Unable to connect to data source.", e);
         }
         return connection;
@@ -77,7 +77,7 @@ public class ConnectionPool {
                 pool.put((ProxyConnection) connection);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                LOGGER.error("Unable to release connection to data source.", e);
+                logger.error("Unable to release connection to data source.", e);
                 throw new ConnectionPoolException("Unable to release connection to data source.", e);
             }
         }
@@ -92,10 +92,10 @@ public class ConnectionPool {
                 connection.reallyClose();
             }
         } catch (SQLException e) {
-            LOGGER.error("Unable to close all connections.", e);
+            logger.error("Unable to close all connections.", e);
             throw new ConnectionPoolException("Unable to close all connections.", e);
         }
-        LOGGER.info("Connection pool disposed.");
+        logger.info("Connection pool disposed.");
     }
 
     private static class Holder {

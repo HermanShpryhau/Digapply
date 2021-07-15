@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_QUERY = "SELECT * FROM ";
     private static final String SELECT_ALL_ON_PAGE_QUERY = "SELECT * FROM ? LIMIT ?, ?";
 
@@ -42,7 +42,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     protected void throwExceptionIfNull(T entity) throws DaoException {
         if (entity == null) {
-            LOGGER.error("Entity parameter must not be null");
+            logger.error("Entity parameter must not be null");
             throw new DaoException("Entity parameter must not be null");
         }
     }

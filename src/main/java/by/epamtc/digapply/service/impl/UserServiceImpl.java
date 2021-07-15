@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class UserServiceImpl implements UserService {
-    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     @Override
     public User login(String email, String password) throws ServiceException {
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
                 user = userFromDB;
             }
         } catch (DaoException e) {
-            LOGGER.error("Unable to retrieve user from DB.", e);
+            logger.error("Unable to retrieve user from DB.", e);
             throw new ServiceException("Unable to retrieve user from DB.", e);
         }
 
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.save(user);
         } catch (DaoException e) {
-            LOGGER.error("Unable to save new user to Data Source.", e);
+            logger.error("Unable to save new user to Data Source.", e);
             throw new ServiceException("Unable to save new user to Data Source.", e);
         }
         return true;

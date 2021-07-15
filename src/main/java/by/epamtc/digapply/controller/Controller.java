@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Controller extends HttpServlet {
-    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     private static void processCommand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String commandName = request.getParameter(RequestParameter.COMMAND);
@@ -32,7 +32,7 @@ public class Controller extends HttpServlet {
         try {
             commandResult = command.execute(request, response);
         } catch (ServiceException e) {
-            LOGGER.error("Unable to execute command.", e);
+            logger.error("Unable to execute command.", e);
             throw new ServletException("Unable to execute command.", e);
         }
 
@@ -45,7 +45,7 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + page);
                 break;
             default:
-                LOGGER.error("Unknown routing type!");
+                logger.error("Unknown routing type!");
                 response.sendRedirect(Page.ERROR_PAGE);
         }
     }

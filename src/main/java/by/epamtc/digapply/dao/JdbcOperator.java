@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcOperator<T extends Identifiable> {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private final RowMapper<T> mapper;
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -37,10 +37,10 @@ public class JdbcOperator<T extends Identifiable> {
                 result.add(entity);
             }
         } catch (SQLException e) {
-            LOGGER.error("Unable to execute query.", e);
+            logger.error("Unable to execute query.", e);
             throw new DaoException("Unable to execute query.", e);
         } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to retrieve connection.", e);
+            logger.error("Unable to retrieve connection.", e);
             throw new DaoException("Unable to retrieve connection.", e);
         }
         return result;
@@ -60,10 +60,10 @@ public class JdbcOperator<T extends Identifiable> {
             parameterSetter.setValues(statement);
             statement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Unable to execute query.", e);
+            logger.error("Unable to execute query.", e);
             throw new DaoException("Unable to execute query.", e);
         } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to retrieve connection.", e);
+            logger.error("Unable to retrieve connection.", e);
             throw new DaoException("Unable to retrieve connection.", e);
         }
     }

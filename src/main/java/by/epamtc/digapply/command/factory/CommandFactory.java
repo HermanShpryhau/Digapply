@@ -8,10 +8,6 @@ import java.util.Map;
 public class CommandFactory {
     private static Map<String, Command> commands = new HashMap<>();
 
-    private static class Holder {
-        static final CommandFactory INSTANCE = new CommandFactory();
-    }
-
     private CommandFactory() {
         commands.put(CommandName.LOGIN_COMMAND, new LoginCommand());
         commands.put(CommandName.LOGOUT_COMMAND, new LogoutCommand());
@@ -28,5 +24,9 @@ public class CommandFactory {
 
     public Command getCommand(String name) {
         return commands.get(name);
+    }
+
+    private static class Holder {
+        static final CommandFactory INSTANCE = new CommandFactory();
     }
 }

@@ -7,11 +7,8 @@ public class DaoFactory {
     private final UserDao userDao = new UserDaoImpl();
     private final FacultyDao facultyDao = new FacultyDaoImpl();
 
-    private static class Holder {
-        static final DaoFactory INSTANCE = new DaoFactory();
+    private DaoFactory() {
     }
-
-    private DaoFactory() {}
 
     public static DaoFactory getInstance() {
         return Holder.INSTANCE;
@@ -23,5 +20,9 @@ public class DaoFactory {
 
     public FacultyDao getFacultyDao() {
         return facultyDao;
+    }
+
+    private static class Holder {
+        static final DaoFactory INSTANCE = new DaoFactory();
     }
 }

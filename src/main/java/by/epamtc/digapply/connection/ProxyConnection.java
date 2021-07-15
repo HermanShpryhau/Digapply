@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
 
     private Connection connection;
 
@@ -23,7 +23,7 @@ public class ProxyConnection implements Connection {
         try {
             pool.releaseConnection(this);
         } catch (ConnectionPoolException e) {
-            LOGGER.error("Unable to release connection.", e);
+            logger.error("Unable to release connection.", e);
         }
     }
 

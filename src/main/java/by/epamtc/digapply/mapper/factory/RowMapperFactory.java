@@ -12,10 +12,6 @@ public class RowMapperFactory {
     private final RowMapper<User> userRowMapper = new UserRowMapper();
     private final RowMapper<Faculty> facultyRowMapper = new FacultyRowMapper();
 
-    private static class Holder {
-        private static final RowMapperFactory INSTANCE = new RowMapperFactory();
-    }
-
     public static RowMapperFactory getInstance() {
         return Holder.INSTANCE;
     }
@@ -26,5 +22,9 @@ public class RowMapperFactory {
 
     public RowMapper<Faculty> getFacultyRowMapper() {
         return facultyRowMapper;
+    }
+
+    private static class Holder {
+        private static final RowMapperFactory INSTANCE = new RowMapperFactory();
     }
 }
