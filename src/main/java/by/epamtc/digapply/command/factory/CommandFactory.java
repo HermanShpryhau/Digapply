@@ -16,6 +16,7 @@ public class CommandFactory {
         commands.put(CommandName.PROFILE_COMMAND, new ProfileCommand());
         commands.put(CommandName.SHOW_SIGN_IN_COMMAND, new ShowSignInFormCommand());
         commands.put(CommandName.HOME_COMMAND, new HomeCommand());
+        commands.put(CommandName.LIST_FACULTIES_COMMAND, new ListFacultiesCommand());
     }
 
     public static CommandFactory getInstance() {

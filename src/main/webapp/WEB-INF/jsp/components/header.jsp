@@ -32,7 +32,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href="/controller?command=list-faculties">
                             <fmt:message key="header.faculties"/>
                         </a>
                     </li>
@@ -44,17 +44,19 @@
                 </ul>
 
                 <div class="d-flex">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 p-2">
-                        <li class="nav-item">
-                            <a class="nav-link <fmt:message key="header.en-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=en">
-                                EN
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link <fmt:message key="header.ru-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=ru">
-                                RU
-                            </a>
-                        </li>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul class=" navbar-nav me-3">
+                            <li class="nav-item">
+                                <a class="nav-link <fmt:message key="header.en-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=en">
+                                    EN
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <fmt:message key="header.ru-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=ru">
+                                    RU
+                                </a>
+                            </li>
+                        </ul>
                         <c:choose>
                             <c:when test="${sessionScope.username == null}">
                                 <li class="nav-item">

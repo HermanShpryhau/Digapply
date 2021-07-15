@@ -24,11 +24,14 @@
 <div class="container">
     <h1 class="mt-5 mb-3">Our Faculties</h1>
     <c:forEach var="faculty" items="${faculties}">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">${faculty.facultyName}</h5>
                 <p class="card-text">${faculty.facultyDescription}</p>
                 <a href="#" class="card-link">Read more</a>
+                <c:if test="${sessionScope.role == 1}">
+                    <br/><a href="" class="btn btn-outline-primary btn-sm">Edit</a>
+                </c:if>
             </div>
         </div>
     </c:forEach>

@@ -44,8 +44,8 @@
     </section>
 
     <div class="container mt-5 " id="featured-3">
-        <h2 class="pb-2 border-bottom fw-bold"><fmt:message key="home.best-faculties"/></h2>
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <h2 class="border-bottom fw-bold"><fmt:message key="home.best-faculties"/></h2>
+        <div class="row g-4 mt-1 row-cols-1 row-cols-lg-3">
             <c:forEach var="faculty" items="${requestScope.best_faculties}">
                 <div class="feature col">
                     <h2>${faculty.facultyName}</h2>
