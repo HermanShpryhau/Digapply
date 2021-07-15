@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandFactory {
-    private static Map<String, Command> commands = new HashMap<>();
+    private static final Map<String, Command> commands = new HashMap<>();
 
     private CommandFactory() {
         commands.put(CommandName.LOGIN_COMMAND, new LoginCommand());
