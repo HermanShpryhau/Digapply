@@ -29,4 +29,13 @@
         <filter-name>auth</filter-name>
         <servlet-name>controller</servlet-name>
     </filter-mapping>
+
+    <filter>
+        <filter-name>locale-filter</filter-name>
+        <filter-class>by.epamtc.digapply.filter.LocaleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>locale-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
