@@ -1,7 +1,6 @@
 package by.epamtc.digapply.mapper;
 
 import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.resource.Column;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -3,6 +3,7 @@ package by.epamtc.digapply.entity;
 public class Faculty implements Identifiable{
     private long facultyId;
     private String facultyName;
+    private String facultyShortDescription;
     private String facultyDescription;
     private int places;
 
@@ -27,6 +28,14 @@ public class Faculty implements Identifiable{
 
     public void setFacultyName(String facultyName) {
         this.facultyName = facultyName;
+    }
+
+    public String getFacultyShortDescription() {
+        return facultyShortDescription;
+    }
+
+    public void setFacultyShortDescription(String facultyShortDescription) {
+        this.facultyShortDescription = facultyShortDescription;
     }
 
     public String getFacultyDescription() {

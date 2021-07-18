@@ -16,7 +16,7 @@
 <header>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/controller?command=home">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/controller?command=home">
                 <img src="assets/logo.png" alt="" width="30" height="26">
                 Star Fleet Academy
             </a>
@@ -27,12 +27,12 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/controller?command=home">
+                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/controller?command=home">
                             <fmt:message key="header.home"/>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/controller?command=list-faculties">
+                        <a class="nav-link active" href="${pageContext.request.contextPath}/controller?command=list-faculties">
                             <fmt:message key="header.faculties"/>
                         </a>
                     </li>
@@ -60,7 +60,7 @@
                         <c:choose>
                             <c:when test="${sessionScope.username == null}">
                                 <li class="nav-item">
-                                    <a type="button" href="/controller?command=show-sign-in" class="btn btn-outline-light ml-5 me-2"  class="nav-link active" aria-current="page">
+                                    <a type="button" href="${pageContext.request.contextPath}/controller?command=show-sign-in" class="btn btn-outline-light ml-5 me-2"  class="nav-link active" aria-current="page">
                                         <fmt:message key="header.sign-in"/>
                                     </a>
                                 </li>
@@ -72,13 +72,13 @@
                                         ${sessionScope.username}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item" href="/controller?command=profile">
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=profile">
                                             <fmt:message key="header.profile"/>
                                         </a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="/controller?command=logout">
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=logout">
                                             <fmt:message key="header.sign-out"/>
                                         </a></li>
                                     </ul>

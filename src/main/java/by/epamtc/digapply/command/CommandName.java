@@ -9,6 +9,7 @@ public class CommandName {
     public static final String SHOW_SIGN_IN_COMMAND = "show-sign-in";
     public static final String HOME_COMMAND = "home";
     public static final String LIST_FACULTIES_COMMAND = "list-faculties";
+    public static final String SHOW_FACULTY_COMMAND = "show-faculty";
 
     private CommandName() {}
 }

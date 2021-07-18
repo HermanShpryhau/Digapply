@@ -32,8 +32,8 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findAll();
         } catch (DaoException e) {
-            logger.error("Unable to retrieve best faculties.", e);
-            throw new ServiceException("Unable to retrieve best faculties.", e);
+            logger.error("Unable to retrieve faculties.", e);
+            throw new ServiceException("Unable to retrieve faculties.", e);
         }
     }
 
@@ -42,8 +42,18 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findAllOnPage(page, count);
         } catch (DaoException e) {
-            logger.error("Unable to retrieve best faculties.", e);
-            throw new ServiceException("Unable to retrieve best faculties.", e);
+            logger.error("Unable to retrieve faculties by page.", e);
+            throw new ServiceException("Unable to retrieve faculties by page.", e);
+        }
+    }
+
+    @Override
+    public Faculty retrieveFacultyById(long id) throws ServiceException {
+        try {
+            return facultyDao.findById(id);
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve faculty by ID.", e);
+            throw new ServiceException("Unable to retrieve faculty by ID.", e);
         }
     }
 }

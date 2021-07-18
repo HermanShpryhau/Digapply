@@ -11,4 +11,6 @@ public interface FacultyService {
     List<Faculty> retrieveAllFaculties() throws ServiceException;
 
     List<Faculty> retrieveFacultiesByPage(long page, long count) throws ServiceException;
+
+    Faculty retrieveFacultyById(long id) throws ServiceException;
 }

@@ -19,5 +19,7 @@ public class Page {
     public static final String FACULTIES_PAGE = "WEB-INF/jsp/faculties.jsp";
     public static final String FACULTIES_PAGE_REDIRECT = "/controller?command=list-faculties";
 
+    public static final String FACULTY_DETAIL_PAGE = "WEB-INF/jsp/faculty-detail.jsp";
+
     private Page() {}
 }

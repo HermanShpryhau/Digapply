@@ -1,4 +1,4 @@
-package by.epamtc.digapply.resource;
+package by.epamtc.digapply.mapper;
 
 public class Column {
     public static final String USER_ID = "user_id";
@@ -10,6 +10,7 @@ public class Column {
 
     public static final String FACULTY_ID = "faculty_id";
     public static final String FACULTY_NAME = "faculty_name";
+    public static final String FACULTY_SHORT_DESCRIPTION = "faculty_short_description";
     public static final String FACULTY_DESCRIPTION = "faculty_description";
     public static final String FACULTY_PLACES = "places";
 

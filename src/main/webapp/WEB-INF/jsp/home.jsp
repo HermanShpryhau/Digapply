@@ -29,9 +29,8 @@
             <div class="col-sm my-auto">
                 <h1 class="display-5 fw-bold"><fmt:message key="home.promo"/></h1>
                 <p class="fs-5 fs-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque molestiae
-                    voluptatibus in
-                    nesciunt harum voluptas incidunt qui, necessitatibus porro doloremque consequuntur quae adipisci
-                    excepturi saepe unde veniam asperiores similique maiores? Lorem, ipsum dolor sit amet
+                    voluptatibus in nesciunt harum voluptas incidunt qui, necessitatibus porro doloremque consequuntur
+                    quae adipisci excepturi saepe unde veniam asperiores similique maiores? Lorem, ipsum dolor sit amet
                     consectetur adipisicing elit. Nostrum amet eligendi illo consectetur saepe et expedita, cum
                     dignissimos, dolorum commodi fugit quisquam. Iure, maiores velit ipsum dicta placeat molestiae
                     aliquam!</p>
@@ -49,7 +48,7 @@
             <c:forEach var="faculty" items="${requestScope.best_faculties}">
                 <div class="feature col">
                     <h2>${faculty.facultyName}</h2>
-                    <p class="text-truncate">${faculty.facultyDescription}</p>
+                    <p>${faculty.facultyShortDescription}</p>
                     <a href="#" class="icon-link">
                         <fmt:message key="home.read-more"/>
                     </a>
