@@ -27,6 +27,7 @@
     <script>
         document.getElementById('description').innerHTML = marked("${faculty.facultyDescription}");
     </script>
+
     <a href="position-absolute top-50 start-50 translate-middle btn btn-primary btn-lg mt-5">
         <fmt:message key="home.apply-now"/>
     </a>

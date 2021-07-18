@@ -49,7 +49,7 @@
                 <div class="feature col">
                     <h2>${faculty.facultyName}</h2>
                     <p>${faculty.facultyShortDescription}</p>
-                    <a href="#" class="icon-link">
+                    <a href="${pageContext.request.contextPath}/controller?command=show-faculty&id=${faculty.facultyId}" class="icon-link">
                         <fmt:message key="home.read-more"/>
                     </a>
                 </div>

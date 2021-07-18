@@ -17,17 +17,17 @@
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <h1 class="mt-5 mb-3">Our Faculties</h1>
+    <h1 class="mt-5 mb-3"><fmt:message key="faculty.our-faculties"/></h1>
     <c:forEach var="faculty" items="${faculties}">
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">${faculty.facultyName}</h5>
                 <p class="card-text">${faculty.facultyShortDescription}</p>
                 <a href="${pageContext.request.contextPath}/controller?command=show-faculty&id=${faculty.facultyId}" class="card-link">
-                    Read more
+                    <fmt:message key="faculty.read-more"/>
                 </a>
                 <c:if test="${sessionScope.role == 1}">
-                    <br/><a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+                    <br/><a href="#" class="btn btn-outline-primary btn-sm"><fmt:message key="faculty.edit"/></a>
                 </c:if>
             </div>
         </div>
