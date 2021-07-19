@@ -38,4 +38,13 @@
         <filter-name>locale-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>no-cache-filter</filter-name>
+        <filter-class>by.epamtc.digapply.filter.NoCacheFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>no-cache-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
