@@ -1,9 +1,6 @@
 package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
-import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.DaoFactory;
-import by.epamtc.digapply.dao.SubjectDao;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.FacultyService;
@@ -36,17 +33,13 @@ public class ShowFacultyCommand implements Command {
                 Faculty faculty = facultyService.retrieveFacultyById(facultyId);
                 if (faculty != null) {
                     request.setAttribute(RequestAttribute.FACULTY, faculty);
-                    SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
-                    List<Subject> subjects = subjectDao.findSubjectsByFaculty(facultyId);
+                    List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(faculty);
                     request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
                 } else {
                     return new CommandResult(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
                 }
             } catch (ServiceException e) {
                 logger.error("Unable to retrieve faculty", e);
-                return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
-            } catch (DaoException e) {
-                logger.error("Unable to retrieve subjects for faculty.", e);
                 return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
             }
         }

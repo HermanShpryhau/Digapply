@@ -3,7 +3,9 @@ package by.epamtc.digapply.service.impl;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.dao.FacultyDao;
+import by.epamtc.digapply.dao.SubjectDao;
 import by.epamtc.digapply.entity.Faculty;
+import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +18,7 @@ public class FacultyServiceImpl implements FacultyService {
     private static final int BEST_FACULTIES_COUNT = 3;
 
     private final FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
+    private final SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
 
     @Override
     public List<Faculty> retrieveBestFaculties() throws ServiceException {
@@ -54,6 +57,26 @@ public class FacultyServiceImpl implements FacultyService {
         } catch (DaoException e) {
             logger.error("Unable to retrieve faculty by ID.", e);
             throw new ServiceException("Unable to retrieve faculty by ID.", e);
+        }
+    }
+
+    @Override
+    public List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException {
+        try {
+            return subjectDao.findSubjectsByFaculty(faculty.getId());
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve subjects by faculty id", e);
+            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
+        }
+    }
+
+    @Override
+    public List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException {
+        try {
+            return subjectDao.findSubjectsByFaculty(facultyId);
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve subjects by faculty id", e);
+            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
         }
     }
 }
