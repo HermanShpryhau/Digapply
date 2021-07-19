@@ -1,11 +1,13 @@
 package by.epamtc.digapply.service;
 
 import by.epamtc.digapply.service.impl.FacultyServiceImpl;
+import by.epamtc.digapply.service.impl.SubjectServiceImpl;
 import by.epamtc.digapply.service.impl.UserServiceImpl;
 
 public class ServiceFactory {
     private final UserService userService = new UserServiceImpl();
     private final FacultyService facultyService = new FacultyServiceImpl();
+    private final SubjectService subjectService = new SubjectServiceImpl();
 
     private ServiceFactory() {
     }
@@ -20,6 +22,10 @@ public class ServiceFactory {
 
     public FacultyService getFacultyService() {
         return facultyService;
+    }
+
+    public SubjectService getSubjectService() {
+        return subjectService;
     }
 
     private static class Holder {
