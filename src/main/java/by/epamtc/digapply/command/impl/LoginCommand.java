@@ -1,9 +1,7 @@
-package by.epamtc.digapply.command;
+package by.epamtc.digapply.command.impl;
 
+import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.resource.SessionAttribute;
-import by.epamtc.digapply.resource.Page;
-import by.epamtc.digapply.resource.RequestParameter;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.factory.ServiceFactory;
@@ -24,7 +22,7 @@ public class LoginCommand implements Command {
         String email = request.getParameter(RequestParameter.EMAIL);
         if (email == null || request.getParameter((RequestParameter.PASSWORD)) == null) {
             session.setAttribute(SessionAttribute.LOGIN_ERROR, true);
-            return new CommandResult(Page.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new CommandResult(PagePath.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
@@ -37,7 +35,7 @@ public class LoginCommand implements Command {
             session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
         } else {
             session.setAttribute(SessionAttribute.LOGIN_ERROR, true);
-            return new CommandResult(Page.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new CommandResult(PagePath.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
 
         CommandResult commandResult;
@@ -46,7 +44,7 @@ public class LoginCommand implements Command {
             commandResult = new CommandResult(CONTROLLER_COMMAND + previousCommand.get(), RoutingType.REDIRECT);
             session.removeAttribute(SessionAttribute.PREVIOUS_COMMAND);
         } else {
-            commandResult = new CommandResult(Page.HOME_PAGE_REDIRECT, RoutingType.REDIRECT);
+            commandResult = new CommandResult(PagePath.HOME_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
         return commandResult;
     }

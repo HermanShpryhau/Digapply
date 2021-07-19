@@ -1,7 +1,6 @@
-package by.epamtc.digapply.command;
+package by.epamtc.digapply.command.impl;
 
-import by.epamtc.digapply.resource.Page;
-import by.epamtc.digapply.resource.RequestParameter;
+import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,7 @@ public class ShowPageCommand implements Command {
         if (page != null) {
             return new CommandResult(page, RoutingType.FORWARD);
         } else {
-            return new CommandResult(Page.ERROR_PAGE, RoutingType.FORWARD);
+            return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
     }
 }

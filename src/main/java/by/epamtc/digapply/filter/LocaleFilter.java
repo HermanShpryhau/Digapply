@@ -1,7 +1,7 @@
 package by.epamtc.digapply.filter;
 
-import by.epamtc.digapply.resource.RequestParameter;
-import by.epamtc.digapply.resource.SessionAttribute;
+import by.epamtc.digapply.command.RequestParameter;
+import by.epamtc.digapply.command.SessionAttribute;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

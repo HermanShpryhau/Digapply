@@ -1,8 +1,6 @@
-package by.epamtc.digapply.command;
+package by.epamtc.digapply.command.impl;
 
-import by.epamtc.digapply.resource.Page;
-import by.epamtc.digapply.resource.RequestAttribute;
-import by.epamtc.digapply.resource.RequestParameter;
+import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.factory.ServiceFactory;
@@ -28,10 +26,10 @@ public class SignUpCommand implements Command {
                 password.orElse(null)
         );
         if (isRegistered) {
-            return new CommandResult(Page.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new CommandResult(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } else {
             request.setAttribute(RequestAttribute.ERROR_ATTRIBUTE, "");
-            return new CommandResult(Page.SIGNUP_PAGE, RoutingType.FORWARD);
+            return new CommandResult(PagePath.SIGNUP_PAGE, RoutingType.FORWARD);
         }
     }
 }

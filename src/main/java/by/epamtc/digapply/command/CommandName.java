@@ -1,6 +1,7 @@
 package by.epamtc.digapply.command;
 
 public class CommandName {
+    public static final String DEFAULT_COMMAND = "default";
     public static final String LOGIN_COMMAND = "login";
     public static final String LOGOUT_COMMAND = "logout";
     public static final String SHOW_PAGE_COMMAND = "show-page";
@@ -10,6 +11,7 @@ public class CommandName {
     public static final String HOME_COMMAND = "home";
     public static final String LIST_FACULTIES_COMMAND = "list-faculties";
     public static final String SHOW_FACULTY_COMMAND = "show-faculty";
+    public static final String EDIT_FACULTY_COMMAND = "edit-faculty";
 
     private CommandName() {}
 }

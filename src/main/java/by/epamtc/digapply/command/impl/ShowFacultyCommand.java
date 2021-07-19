@@ -1,13 +1,11 @@
-package by.epamtc.digapply.command;
+package by.epamtc.digapply.command.impl;
 
+import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.dao.SubjectDao;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
-import by.epamtc.digapply.resource.Page;
-import by.epamtc.digapply.resource.RequestAttribute;
-import by.epamtc.digapply.resource.RequestParameter;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.factory.ServiceFactory;
@@ -43,7 +41,7 @@ public class ShowFacultyCommand implements Command {
                     request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
                 } else {
                     // TODO Set error parameter
-                    return new CommandResult(Page.ERROR_PAGE, RoutingType.FORWARD);
+                    return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
                 }
             } catch (ServiceException e) {
                 throw new ServiceException("Unable to retrieve faculty", e);
@@ -53,6 +51,6 @@ public class ShowFacultyCommand implements Command {
             }
         }
 
-        return new CommandResult(Page.FACULTY_DETAIL_PAGE, RoutingType.FORWARD);
+        return new CommandResult(PagePath.FACULTY_DETAIL_PAGE, RoutingType.FORWARD);
     }
 }

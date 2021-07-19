@@ -1,14 +1,17 @@
 package by.epamtc.digapply.command.factory;
 
 import by.epamtc.digapply.command.*;
+import by.epamtc.digapply.command.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CommandFactory {
     private static final Map<String, Command> commands = new HashMap<>();
 
     private CommandFactory() {
+        commands.put(CommandName.DEFAULT_COMMAND, new DefaultCommand());
         commands.put(CommandName.LOGIN_COMMAND, new LoginCommand());
         commands.put(CommandName.LOGOUT_COMMAND, new LogoutCommand());
         commands.put(CommandName.SHOW_PAGE_COMMAND, new ShowPageCommand());
@@ -18,6 +21,7 @@ public class CommandFactory {
         commands.put(CommandName.HOME_COMMAND, new HomeCommand());
         commands.put(CommandName.LIST_FACULTIES_COMMAND, new ListFacultiesCommand());
         commands.put(CommandName.SHOW_FACULTY_COMMAND, new ShowFacultyCommand());
+        commands.put(CommandName.EDIT_FACULTY_COMMAND, new EditFacultyCommand());
     }
 
     public static CommandFactory getInstance() {
@@ -25,7 +29,7 @@ public class CommandFactory {
     }
 
     public Command getCommand(String name) {
-        return commands.get(name);
+        return Optional.ofNullable(commands.get(name)).orElse(commands.get(CommandName.DEFAULT_COMMAND));
     }
 
     private static class Holder {

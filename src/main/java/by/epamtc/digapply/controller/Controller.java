@@ -5,8 +5,8 @@ import by.epamtc.digapply.command.CommandResult;
 import by.epamtc.digapply.command.factory.CommandFactory;
 import by.epamtc.digapply.connection.ConnectionPool;
 import by.epamtc.digapply.connection.ConnectionPoolException;
-import by.epamtc.digapply.resource.Page;
-import by.epamtc.digapply.resource.RequestParameter;
+import by.epamtc.digapply.command.PagePath;
+import by.epamtc.digapply.command.RequestParameter;
 import by.epamtc.digapply.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +24,7 @@ public class Controller extends HttpServlet {
         String commandName = request.getParameter(RequestParameter.COMMAND);
         request.setCharacterEncoding("UTF-8");
         if (commandName == null || "".equals(commandName)) {
-            request.getRequestDispatcher(Page.PROFILE_PAGE).forward(request, response);
+            request.getRequestDispatcher(PagePath.PROFILE_PAGE).forward(request, response);
         }
 
         Command command = CommandFactory.getInstance().getCommand(commandName);
@@ -46,7 +46,7 @@ public class Controller extends HttpServlet {
                 break;
             default:
                 logger.error("Unknown routing type!");
-                response.sendRedirect(Page.ERROR_PAGE);
+                response.sendRedirect(PagePath.ERROR_PAGE);
         }
     }
 

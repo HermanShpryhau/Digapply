@@ -1,4 +1,4 @@
-package by.epamtc.digapply.resource;
+package by.epamtc.digapply.command;
 
 public class RequestParameter {
     public static final String COMMAND = "command";

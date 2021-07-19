@@ -1,4 +1,4 @@
-package by.epamtc.digapply.resource;
+package by.epamtc.digapply.command;
 
 public class RequestAttribute {
     public static final String ERROR_ATTRIBUTE = "error";

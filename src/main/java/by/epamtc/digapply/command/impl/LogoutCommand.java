@@ -1,7 +1,6 @@
-package by.epamtc.digapply.command;
+package by.epamtc.digapply.command.impl;
 
-import by.epamtc.digapply.resource.Page;
-import by.epamtc.digapply.resource.SessionAttribute;
+import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,6 @@ public class LogoutCommand implements Command {
         session.removeAttribute(SessionAttribute.USERNAME);
         session.removeAttribute(SessionAttribute.ROLE);
         session.invalidate();
-        return new CommandResult(Page.HOME_PAGE_REDIRECT, RoutingType.REDIRECT);
+        return new CommandResult(PagePath.HOME_PAGE_REDIRECT, RoutingType.REDIRECT);
     }
 }

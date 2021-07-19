@@ -1,9 +1,9 @@
 package by.epamtc.digapply.filter;
 
 import by.epamtc.digapply.entity.Role;
-import by.epamtc.digapply.resource.SessionAttribute;
+import by.epamtc.digapply.command.SessionAttribute;
 import by.epamtc.digapply.command.CommandName;
-import by.epamtc.digapply.resource.Page;
+import by.epamtc.digapply.command.PagePath;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
@@ -42,7 +42,7 @@ public class AuthorizationFilter implements Filter {
         String command = request.getParameter("command");
         if (!authorizedCommands.get(roleId).contains(command)) {
             session.setAttribute(SessionAttribute.PREVIOUS_COMMAND, command);
-            request.getRequestDispatcher(Page.LOGIN_PAGE).forward(request, response);
+            request.getRequestDispatcher(PagePath.LOGIN_PAGE).forward(request, response);
             return;
         }
 

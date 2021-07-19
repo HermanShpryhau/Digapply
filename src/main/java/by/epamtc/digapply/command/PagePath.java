@@ -1,6 +1,8 @@
-package by.epamtc.digapply.resource;
+package by.epamtc.digapply.command;
 
-public class Page {
+public class PagePath {
+    public static final String ERROR_404_PAGE = "WEB-INF/jsp/error-404.jsp";
+
     public static final String HOME_PAGE = "WEB-INF/jsp/home.jsp";
     public static final String HOME_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/home.jsp";
 
@@ -21,5 +23,5 @@ public class Page {
 
     public static final String FACULTY_DETAIL_PAGE = "WEB-INF/jsp/faculty-detail.jsp";
 
-    private Page() {}
+    private PagePath() {}
 }
