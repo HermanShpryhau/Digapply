@@ -3,7 +3,7 @@ package by.epamtc.digapply.dao;
 import by.epamtc.digapply.connection.ConnectionPool;
 import by.epamtc.digapply.connection.ConnectionPoolException;
 import by.epamtc.digapply.entity.Identifiable;
-import by.epamtc.digapply.mapper.RowMapper;
+import by.epamtc.digapply.dao.mapper.RowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,12 +1,12 @@
-package by.epamtc.digapply.mapper.factory;
+package by.epamtc.digapply.dao.mapper.factory;
 
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.mapper.FacultyRowMapper;
-import by.epamtc.digapply.mapper.RowMapper;
-import by.epamtc.digapply.mapper.SubjectRowMapper;
-import by.epamtc.digapply.mapper.UserRowMapper;
+import by.epamtc.digapply.dao.mapper.FacultyRowMapper;
+import by.epamtc.digapply.dao.mapper.RowMapper;
+import by.epamtc.digapply.dao.mapper.SubjectRowMapper;
+import by.epamtc.digapply.dao.mapper.UserRowMapper;
 
 public class RowMapperFactory {
     private final RowMapper<User> userRowMapper = new UserRowMapper();

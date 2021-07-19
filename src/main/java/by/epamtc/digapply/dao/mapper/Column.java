@@ -1,4 +1,4 @@
-package by.epamtc.digapply.mapper;
+package by.epamtc.digapply.dao.mapper;
 
 public class Column {
     public static final String USER_ID = "user_id";

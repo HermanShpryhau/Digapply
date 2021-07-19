@@ -6,6 +6,7 @@ public class RequestAttribute {
     public static final String FACULTIES = "faculties";
     public static final String FACULTY = "faculty";
     public static final String FACULTY_SUBJECTS = "faculty_subjects";
+    public static final String ALL_SUBJECTS = "all-subjects";
 
     private RequestAttribute() {}
 }

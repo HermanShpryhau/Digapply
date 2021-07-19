@@ -1,4 +1,4 @@
-package by.epamtc.digapply.mapper;
+package by.epamtc.digapply.dao.mapper;
 
 import by.epamtc.digapply.entity.Subject;
 
