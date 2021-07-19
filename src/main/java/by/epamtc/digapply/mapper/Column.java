@@ -14,5 +14,8 @@ public class Column {
     public static final String FACULTY_DESCRIPTION = "faculty_description";
     public static final String FACULTY_PLACES = "places";
 
+    public static final String SUBJECT_ID = "subject_id";
+    public static final String SUBJECT_NAME = "subject_name";
+
     private Column() {}
 }
