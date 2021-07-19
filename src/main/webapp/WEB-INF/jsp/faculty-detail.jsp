@@ -28,7 +28,14 @@
         document.getElementById('description').innerHTML = marked("${faculty.facultyDescription}");
     </script>
 
-    <a href="position-absolute top-50 start-50 translate-middle btn btn-primary btn-lg mt-5">
+    <h3 class="mt-3"><fmt:message key="faculty.required-subjects"/></h3>
+    <ul>
+        <c:forEach var="subject" items="${requestScope.faculty_subjects}">
+            <li>${subject.subjectName}</li>
+        </c:forEach>
+    </ul>
+
+    <a class="btn btn-primary btn-lg mt-3" href="#">
         <fmt:message key="home.apply-now"/>
     </a>
 
