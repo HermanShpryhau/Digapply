@@ -2,12 +2,11 @@ package by.epamtc.digapply.command;
 
 public class PagePath {
     public static final String ERROR_404_PAGE = "WEB-INF/jsp/error-404.jsp";
+    public static final String ERROR_500_PAGE = "WEB-INF/jsp/error-500.jsp";
+    public static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
 
     public static final String HOME_PAGE = "WEB-INF/jsp/home.jsp";
     public static final String HOME_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/home.jsp";
-
-    public static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
-    public static final String ERROR_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/error.jsp";
 
     public static final String LOGIN_PAGE = "WEB-INF/jsp/login.jsp";
     public static final String LOGIN_PAGE_REDIRECT = "/controller?command=show-sign-in";

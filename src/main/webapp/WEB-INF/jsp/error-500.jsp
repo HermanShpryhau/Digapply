@@ -9,13 +9,13 @@
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>Page Not Found | Digapply</title>
+    <title>Error | Digapply</title>
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <h1 class="text-center align-middle fs-1">Sorry, but we couldn't find that page</h1>
+    <h1 class="text-center align-middle fs-1">Something went wrong on our side. Try again later.</h1>
 </div>
 <jsp:include page="components/footer.jsp"/>
 

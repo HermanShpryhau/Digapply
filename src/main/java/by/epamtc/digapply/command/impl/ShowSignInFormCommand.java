@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ShowSignInFormCommand implements Command {
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(SessionAttribute.LOGIN_ERROR);
         response.addHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

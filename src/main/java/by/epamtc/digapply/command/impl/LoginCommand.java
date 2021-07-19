@@ -5,6 +5,8 @@ import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.factory.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,10 +15,11 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
     private static final String CONTROLLER_COMMAND = "/controller?command=";
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
 
         String email = request.getParameter(RequestParameter.EMAIL);
@@ -27,7 +30,13 @@ public class LoginCommand implements Command {
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
         UserService userService = ServiceFactory.getInstance().getUserService();
-        User user = userService.login(email, String.valueOf(password));
+        User user = null;
+        try {
+            user = userService.login(email, String.valueOf(password));
+        } catch (ServiceException e) {
+            logger.error("Unable to test user sign in data.", e);
+            return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+        }
         Arrays.fill(password, ' ');
         if (user != null) {
             String username = user.getName() + " " + user.getSurname();

@@ -21,7 +21,7 @@ public class ShowFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
 
         if (facultyIdString.isPresent()) {
@@ -29,7 +29,7 @@ public class ShowFacultyCommand implements Command {
             try {
                 facultyId = Long.parseLong(facultyIdString.get());
             } catch (NumberFormatException e) {
-                throw new ServiceException("Wrong ID format.", e);
+                return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
             }
             FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
             try {
@@ -40,14 +40,14 @@ public class ShowFacultyCommand implements Command {
                     List<Subject> subjects = subjectDao.findSubjectsByFaculty(facultyId);
                     request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
                 } else {
-                    // TODO Set error parameter
-                    return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                    return new CommandResult(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
                 }
             } catch (ServiceException e) {
-                throw new ServiceException("Unable to retrieve faculty", e);
+                logger.error("Unable to retrieve faculty", e);
+                return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
             } catch (DaoException e) {
                 logger.error("Unable to retrieve subjects for faculty.", e);
-                throw new ServiceException("Unable to retrieve subjects for faculty.", e);
+                return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
             }
         }
 

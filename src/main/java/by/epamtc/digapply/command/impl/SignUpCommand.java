@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class SignUpCommand implements Command {
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> firstName = Optional.ofNullable(request.getParameter(RequestParameter.FIRST_NAME));
         Optional<String> lastName = Optional.ofNullable(request.getParameter(RequestParameter.LAST_NAME));
         Optional<String> email = Optional.ofNullable(request.getParameter(RequestParameter.EMAIL));
@@ -19,12 +19,17 @@ public class SignUpCommand implements Command {
 
         // TODO Ask where to validate form data.
         UserService userService = ServiceFactory.getInstance().getUserService();
-        boolean isRegistered = userService.register(
-                firstName.orElse(null),
-                lastName.orElse(null),
-                email.orElse(null),
-                password.orElse(null)
-        );
+        boolean isRegistered = false;
+        try {
+            isRegistered = userService.register(
+                    firstName.orElse(null),
+                    lastName.orElse(null),
+                    email.orElse(null),
+                    password.orElse(null)
+            );
+        } catch (ServiceException e) {
+            return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+        }
         if (isRegistered) {
             return new CommandResult(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } else {
