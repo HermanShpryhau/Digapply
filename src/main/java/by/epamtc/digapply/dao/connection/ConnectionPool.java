@@ -1,4 +1,4 @@
-package by.epamtc.digapply.connection;
+package by.epamtc.digapply.dao.connection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,7 +1,7 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.connection.ConnectionPool;
-import by.epamtc.digapply.connection.ConnectionPoolException;
+import by.epamtc.digapply.dao.connection.ConnectionPool;
+import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;

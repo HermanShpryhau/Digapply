@@ -1,4 +1,4 @@
-package by.epamtc.digapply.connection;
+package by.epamtc.digapply.dao.connection;
 
 public class ConnectionPoolException extends Exception {
     public ConnectionPoolException() {

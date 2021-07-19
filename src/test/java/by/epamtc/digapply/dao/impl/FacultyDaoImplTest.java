@@ -1,16 +1,11 @@
 package by.epamtc.digapply.dao.impl;
 
-import by.epamtc.digapply.connection.ConnectionPool;
-import by.epamtc.digapply.connection.ConnectionPoolException;
+import by.epamtc.digapply.dao.connection.ConnectionPool;
+import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.dao.FacultyDao;
 import by.epamtc.digapply.entity.Faculty;
 import org.junit.jupiter.api.*;
-
-import javax.management.MXBean;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 

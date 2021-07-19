@@ -1,4 +1,4 @@
-package by.epamtc.digapply.connection;
+package by.epamtc.digapply.dao.connection;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

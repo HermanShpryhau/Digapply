@@ -1,9 +1,8 @@
 package by.epamtc.digapply.dao.impl;
 
-import by.epamtc.digapply.connection.ConnectionPool;
-import by.epamtc.digapply.connection.ConnectionPoolException;
+import by.epamtc.digapply.dao.connection.ConnectionPool;
+import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.dao.UserDao;
 import by.epamtc.digapply.entity.User;
 import org.junit.jupiter.api.*;
