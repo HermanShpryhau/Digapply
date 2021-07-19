@@ -23,7 +23,7 @@
 
     <filter>
         <filter-name>auth</filter-name>
-        <filter-class>by.epamtc.digapply.filter.AuthorizationFilter</filter-class>
+        <filter-class>by.epamtc.digapply.controller.filter.AuthorizationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>auth</filter-name>
@@ -32,7 +32,7 @@
 
     <filter>
         <filter-name>locale-filter</filter-name>
-        <filter-class>by.epamtc.digapply.filter.LocaleFilter</filter-class>
+        <filter-class>by.epamtc.digapply.controller.filter.LocaleFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>locale-filter</filter-name>
@@ -41,7 +41,7 @@
 
     <filter>
         <filter-name>no-cache-filter</filter-name>
-        <filter-class>by.epamtc.digapply.filter.NoCacheFilter</filter-class>
+        <filter-class>by.epamtc.digapply.controller.filter.NoCacheFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>no-cache-filter</filter-name>

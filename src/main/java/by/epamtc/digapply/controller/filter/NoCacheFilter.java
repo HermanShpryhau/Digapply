@@ -1,4 +1,4 @@
-package by.epamtc.digapply.filter;
+package by.epamtc.digapply.controller.filter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

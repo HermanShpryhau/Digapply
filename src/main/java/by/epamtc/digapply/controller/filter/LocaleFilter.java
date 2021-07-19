@@ -1,4 +1,4 @@
-package by.epamtc.digapply.filter;
+package by.epamtc.digapply.controller.filter;
 
 import by.epamtc.digapply.command.RequestParameter;
 import by.epamtc.digapply.command.SessionAttribute;
