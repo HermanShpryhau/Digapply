@@ -1,7 +1,5 @@
-package by.epamtc.digapply.service.factory;
+package by.epamtc.digapply.service;
 
-import by.epamtc.digapply.service.FacultyService;
-import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.impl.FacultyServiceImpl;
 import by.epamtc.digapply.service.impl.UserServiceImpl;
 

@@ -3,7 +3,7 @@ package by.epamtc.digapply.command.impl;
 import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
-import by.epamtc.digapply.service.factory.ServiceFactory;
+import by.epamtc.digapply.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

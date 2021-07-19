@@ -1,6 +1,5 @@
-package by.epamtc.digapply.command.factory;
+package by.epamtc.digapply.command;
 
-import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.command.impl.*;
 
 import java.util.HashMap;

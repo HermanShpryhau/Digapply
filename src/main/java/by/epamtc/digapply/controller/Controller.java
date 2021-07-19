@@ -2,7 +2,7 @@ package by.epamtc.digapply.controller;
 
 import by.epamtc.digapply.command.Command;
 import by.epamtc.digapply.command.CommandResult;
-import by.epamtc.digapply.command.factory.CommandFactory;
+import by.epamtc.digapply.command.CommandFactory;
 import by.epamtc.digapply.dao.connection.ConnectionPool;
 import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.command.PagePath;
