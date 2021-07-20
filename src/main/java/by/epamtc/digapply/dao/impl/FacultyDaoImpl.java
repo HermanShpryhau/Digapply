@@ -4,7 +4,7 @@ import by.epamtc.digapply.dao.AbstractDao;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.FacultyDao;
 import by.epamtc.digapply.entity.Faculty;
-import by.epamtc.digapply.dao.mapper.factory.RowMapperFactory;
+import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
 
 import java.util.List;

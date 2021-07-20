@@ -4,7 +4,7 @@ import by.epamtc.digapply.dao.AbstractDao;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.UserDao;
 import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.dao.mapper.factory.RowMapperFactory;
+import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String SAVE_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, ?)";
