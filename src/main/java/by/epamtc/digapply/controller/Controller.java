@@ -19,6 +19,26 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(Controller.class);
 
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            ConnectionPool.getInstance().initialize();
+        } catch (ConnectionPoolException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processCommand(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processCommand(req, resp);
+    }
+
     private static void processCommand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String commandName = request.getParameter(RequestParameter.COMMAND);
         request.setCharacterEncoding("UTF-8");
@@ -40,28 +60,8 @@ public class Controller extends HttpServlet {
                 break;
             default:
                 logger.error("Unknown routing type!");
-                response.sendRedirect(PagePath.ERROR_PAGE);
+                request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
         }
-    }
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        try {
-            ConnectionPool.getInstance().initialize();
-        } catch (ConnectionPoolException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processCommand(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processCommand(req, resp);
     }
 
     @Override
