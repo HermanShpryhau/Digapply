@@ -13,7 +13,7 @@
     <jsp:include page="components/head-links.jsp"/>
     <title>Faculties | Digapply</title>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
@@ -27,7 +27,10 @@
                     <fmt:message key="faculty.read-more"/>
                 </a>
                 <c:if test="${sessionScope.role == 1}">
-                    <br/><a href="#" class="btn btn-outline-primary btn-sm"><fmt:message key="faculty.edit"/></a>
+                    <br/>
+                    <a href="${pageContext.request.contextPath}/controller?command=edit-faculty&id=${faculty.facultyId}" class="btn btn-outline-primary btn-sm">
+                        <fmt:message key="faculty.edit"/>
+                    </a>
                 </c:if>
             </div>
         </div>

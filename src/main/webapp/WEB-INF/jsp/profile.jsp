@@ -18,7 +18,7 @@
 
   <title>${sessionScope.username} | Digapply</title>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="components/header.jsp"/>
 <div class="container">
   <h1 class="mt-5 mb-2">${sessionScope.username}</h1>

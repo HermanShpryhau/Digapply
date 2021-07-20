@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hermanshpryhau
-  Date: 7.07.21
-  Time: 11:48
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -18,10 +11,10 @@
     <jsp:include page="components/head-links.jsp"/>
     <title>Sign In | Digapply</title>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="components/header.jsp"/>
 
-<main class="container">
+<div class="container">
     <div class="row justify-content-center">
         <div class="col"></div>
         <div class="col-6">
@@ -50,7 +43,7 @@
         </div>
         <div class="col"></div>
     </div>
-</main>
+</div>
 
 <jsp:include page="components/footer.jsp"/>
 </body>

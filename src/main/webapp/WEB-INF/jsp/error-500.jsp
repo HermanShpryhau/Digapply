@@ -11,7 +11,7 @@
     <jsp:include page="components/head-links.jsp"/>
     <title>Error | Digapply</title>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">

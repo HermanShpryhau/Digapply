@@ -1,17 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
 <fmt:bundle basename="labels"/>
-<%--
-  Created by IntelliJ IDEA.
-  User: hermanshpryhau
-  Date: 7.07.21
-  Time: 17:28
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,14 +13,14 @@
     <title>Sign Up | Digapply</title>
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="components/header.jsp"/>
 
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col"></div>
-        <div class="col-6">
+        <div class="col-sm"></div>
+        <div class="col-sm-6">
             <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-up"/></h1>
 
             <c:if test="${requestScope.error != null}">
@@ -36,21 +29,22 @@
                 </div>
             </c:if>
 
-            <form action="/controller?command=signup" method="post">
-                <div class="row mb-4">
-                    <div class="col">
-                        <label for="first-name" class="form-lable"><fmt:message key="form.firs-name"/></label>
+            <form action="${pageContext.request.contextPath}/controller?command=signup" method="post">
+                <div class="row mb-3">
+                    <div class="col-sm mb-3">
+                        <label for="first-name" class="form-label"><fmt:message key="form.firs-name"/></label>
                         <input type="text" id="first-name" name="first-name" class="form-control"
                                placeholder="<fmt:message key="form.firs-name"/>" required maxlength="45"
                                pattern="\b[A-Z].*?\b">
                     </div>
-                    <div class="col">
-                        <label for="last-name" class="form-lable"><fmt:message key="form.last-name"/></label>
+                    <div class="col-sm">
+                        <label for="last-name" class="form-label"><fmt:message key="form.last-name"/></label>
                         <input type="text" id="last-name" name="last-name" class="form-control"
                                placeholder="<fmt:message key="form.last-name"/>" required maxlength="45"
                                pattern="\b[A-Z].*?\b">
                     </div>
                 </div>
+
                 <div class="mb-3">
                     <label for="email" class="form-label"><fmt:message key="form.email-address"/></label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="<fmt:message key="form.email-placeholder"/>" required>
@@ -65,9 +59,9 @@
                 </div>
             </form>
             <hr class="dropdown-divider">
-            <p class="text-muted"><fmt:message key="form.have-account"/><a href="/controller?command=show-sign-in"><fmt:message key="form.sign-in-btn"/></a></p>
+            <p class="text-muted"><fmt:message key="form.have-account"/><a href="${pageContext.request.contextPath}/controller?command=show-sign-in"><fmt:message key="form.sign-in-btn"/></a></p>
         </div>
-        <div class="col"></div>
+        <div class="col-sm"></div>
     </div>
 </div>
 
