@@ -7,7 +7,6 @@ import by.epamtc.digapply.dao.connection.ConnectionPool;
 import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.command.PagePath;
 import by.epamtc.digapply.command.RequestParameter;
-import by.epamtc.digapply.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,12 +28,7 @@ public class Controller extends HttpServlet {
 
         Command command = CommandFactory.getInstance().getCommand(commandName);
         CommandResult commandResult;
-        try {
-            commandResult = command.execute(request, response);
-        } catch (ServiceException e) {
-            logger.error("Unable to execute command.", e);
-            throw new ServletException("Unable to execute command.", e);
-        }
+        commandResult = command.execute(request, response);
 
         String page = commandResult.getPage();
         switch (commandResult.getRoutingType()) {
