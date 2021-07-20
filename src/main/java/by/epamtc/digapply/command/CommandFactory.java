@@ -20,7 +20,7 @@ public class CommandFactory {
         commands.put(CommandName.HOME_COMMAND, new HomeCommand());
         commands.put(CommandName.LIST_FACULTIES_COMMAND, new ListFacultiesCommand());
         commands.put(CommandName.SHOW_FACULTY_COMMAND, new ShowFacultyCommand());
-        commands.put(CommandName.EDIT_FACULTY_COMMAND, new EditFacultyCommand());
+        commands.put(CommandName.SHOW_FACULTY_FORM_COMMAND, new ShowFacultyFormCommand());
     }
 
     public static CommandFactory getInstance() {

@@ -22,5 +22,7 @@ public class PagePath {
 
     public static final String FACULTY_DETAIL_PAGE = "WEB-INF/jsp/faculty-detail.jsp";
 
+    public static final String FACULTY_FORM_PAGE = "WEB-INF/jsp/faculty-form.jsp";
+
     private PagePath() {}
 }
