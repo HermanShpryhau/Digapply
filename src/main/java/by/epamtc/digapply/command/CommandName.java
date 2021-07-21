@@ -12,6 +12,7 @@ public class CommandName {
     public static final String LIST_FACULTIES_COMMAND = "list-faculties";
     public static final String SHOW_FACULTY_COMMAND = "show-faculty";
     public static final String SHOW_FACULTY_FORM_COMMAND = "edit-faculty";
+    public static final String UPDATE_FACULTY_COMMAND = "update-faculty";
 
     private CommandName() {}
 }

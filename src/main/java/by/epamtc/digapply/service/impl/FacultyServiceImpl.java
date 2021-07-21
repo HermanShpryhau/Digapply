@@ -8,6 +8,8 @@ import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
+import by.epamtc.digapply.validator.EntityValidator;
+import by.epamtc.digapply.validator.EntityValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -78,5 +80,25 @@ public class FacultyServiceImpl implements FacultyService {
             logger.error("Unable to retrieve subjects by faculty id", e);
             throw new ServiceException("Unable to retrieve subjects by faculty id", e);
         }
+    }
+
+    @Override
+    public boolean updateFaculty(Faculty faculty) throws ServiceException {
+        if (isFacultyEntityValid(faculty)) {
+            try {
+                facultyDao.updateEntity(faculty);
+                return true;
+            } catch (DaoException e) {
+                logger.error("Unable to update faculty.", e);
+                throw new ServiceException("Unable to update faculty.", e);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isFacultyEntityValid(Faculty faculty) {
+        EntityValidator<Faculty> facultyEntityValidator = EntityValidatorFactory.getInstance().getFacultyEntityValidator();
+        return facultyEntityValidator.validate(faculty);
     }
 }

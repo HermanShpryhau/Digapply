@@ -21,6 +21,7 @@ public class PagePath {
     public static final String FACULTIES_PAGE_REDIRECT = "/controller?command=list-faculties";
 
     public static final String FACULTY_DETAIL_PAGE = "WEB-INF/jsp/faculty-detail.jsp";
+    public static final String FACULTY_DETAIL_PAGE_REDIRECT = "/controller?command=show-faculty&id=";
 
     public static final String FACULTY_FORM_PAGE = "WEB-INF/jsp/faculty-form.jsp";
 

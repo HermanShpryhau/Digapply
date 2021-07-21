@@ -36,7 +36,8 @@
             </c:when>
         </c:choose>
     </h1>
-    <form action="#" method="post">
+    <form action="${pageContext.request.contextPath}/controller?command=update-faculty" method="post">
+        <input type="hidden" name="id" value="${requestScope.faculty.id}">
         <div class="mb-3 col-md-6">
             <label for="faculty-name" class="form-label">Faculty Name</label>
             <input required type="text" class="form-control" id="faculty-name" name="faculty-name"
@@ -68,7 +69,7 @@
       </textarea>
         </div>
         <c:if test="${requestScope.faculty != null}">
-            <select class="subject-select mb-3" multiple aria-label="multiple select example">
+            <select name="subjects" class="subject-select mb-3" multiple aria-label="multiple select example">
                 <c:forEach items="${requestScope.subjects}" var="subject">
                     <option value="${subject.subjectId}">${subject.subjectName}</option>
                 </c:forEach>

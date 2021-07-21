@@ -21,6 +21,7 @@ public class CommandFactory {
         commands.put(CommandName.LIST_FACULTIES_COMMAND, new ListFacultiesCommand());
         commands.put(CommandName.SHOW_FACULTY_COMMAND, new ShowFacultyCommand());
         commands.put(CommandName.SHOW_FACULTY_FORM_COMMAND, new ShowFacultyFormCommand());
+        commands.put(CommandName.UPDATE_FACULTY_COMMAND, new UpdateFacultyCommand());
     }
 
     public static CommandFactory getInstance() {
