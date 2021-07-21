@@ -57,11 +57,8 @@
         <div class="mb-3">
             <label for="short-faculty-description" class="form-label">Short Faculty Description</label>
             <textarea required class="form-control" id="short-faculty-description" name="short-faculty-description"
-                      rows="10">
-        <c:if test="${requestScope.faculty != null}">
-            ${requestScope.faculty.facultyShortDescription}
-        </c:if>
-      </textarea>
+                      rows="5"><c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyShortDescription}</c:if>
+            </textarea>
         </div>
         <div class="mb-3">
             <label for="faculty-description" class="form-label">Faculty Description (Markdown)</label>

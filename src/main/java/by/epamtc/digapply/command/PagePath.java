@@ -6,7 +6,7 @@ public class PagePath {
     public static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
 
     public static final String HOME_PAGE = "WEB-INF/jsp/home.jsp";
-    public static final String HOME_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/home.jsp";
+    public static final String HOME_PAGE_REDIRECT = "/controller?command=home";
 
     public static final String LOGIN_PAGE = "WEB-INF/jsp/login.jsp";
     public static final String LOGIN_PAGE_REDIRECT = "/controller?command=show-sign-in";
