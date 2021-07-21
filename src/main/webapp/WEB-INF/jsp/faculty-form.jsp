@@ -68,7 +68,7 @@
             <textarea required class="form-control" id="faculty-description" name="faculty-description" rows="25">
       </textarea>
         </div>
-        <c:if test="${requestScope.faculty != null}">
+        <c:if test="${requestScope.faculty == null}">
             <select name="subjects" class="subject-select mb-3" multiple aria-label="multiple select example">
                 <c:forEach items="${requestScope.subjects}" var="subject">
                     <option value="${subject.subjectId}">${subject.subjectName}</option>
