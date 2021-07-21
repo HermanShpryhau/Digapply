@@ -7,8 +7,8 @@ import by.epamtc.digapply.entity.Role;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
-import by.epamtc.digapply.validator.UserDataValidator;
-import by.epamtc.digapply.validator.DataValidatorFactory;
+import by.epamtc.digapply.validator.EntityValidator;
+import by.epamtc.digapply.validator.EntityValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String email, String password) throws ServiceException {
-        if (!validateSignInData(email, password)) {
+        if (email == null || password == null) {
             return null;
         }
 
@@ -36,11 +36,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    private boolean validateSignInData(String email, String password) {
-        UserDataValidator validator = DataValidatorFactory.getInstance().getUserDataValidator();
-        return validator.validatePassword(password) && validator.validateEmail(email);
-    }
-
     private User retrieveUserByEmail(String email) throws DaoException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
         return userDao.findByEmail(email);
@@ -52,32 +47,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean register(String firstName, String lastName, String email, String password) throws ServiceException {
-        if (!validateSignUpData(firstName, lastName, email, password)) {
+        User user = buildUser(firstName, lastName, email, password);
+        if (isUserEntityValid(user)) {
+            UserDao userDao = DaoFactory.getInstance().getUserDao();
+            try {
+                userDao.save(user);
+            } catch (DaoException e) {
+                logger.error("Unable to save new user to Data Source.", e);
+                throw new ServiceException("Unable to save new user to Data Source.", e);
+            }
+            return true;
+        } else {
             return false;
         }
+    }
 
+    private User buildUser(String firstName, String lastName, String email, String password) {
         User user = new User();
         user.setName(firstName);
         user.setSurname(lastName);
         user.setEmail(email);
         user.setPassword(DigestUtils.sha256Hex(password));
         user.setRoleId(Role.USER.getId());
-
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
-        try {
-            userDao.save(user);
-        } catch (DaoException e) {
-            logger.error("Unable to save new user to Data Source.", e);
-            throw new ServiceException("Unable to save new user to Data Source.", e);
-        }
-        return true;
+        return user;
     }
 
-    private boolean validateSignUpData(String firstName, String lastName, String email, String password) {
-        UserDataValidator validator = DataValidatorFactory.getInstance().getUserDataValidator();
-        return validator.validateName(firstName) &&
-                validator.validateName(lastName) &&
-                validator.validatePassword(password) &&
-                validator.validateEmail(email);
+    private boolean isUserEntityValid(User user) {
+        EntityValidator<User> userEntityValidator = EntityValidatorFactory.getInstance().getUserDataValidator();
+        return userEntityValidator.validate(user);
     }
 }
