@@ -64,8 +64,8 @@ public class ConnectionPool {
             usedConnections.put(connection);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            logger.error("Unable to connect to data source.", e);
-            throw new ConnectionPoolException("Unable to connect to data source.", e);
+            logger.error("Unable to retrieve connection to data source.", e);
+            throw new ConnectionPoolException("Unable to retrieve connection to data source.", e);
         }
         return connection;
     }

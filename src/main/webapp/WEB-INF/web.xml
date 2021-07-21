@@ -20,6 +20,10 @@
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
+    
+    <listener>
+        <listener-class>by.epamtc.digapply.controller.listener.ConnectionPoolManager</listener-class>
+    </listener>
 
     <filter>
         <filter-name>auth</filter-name>

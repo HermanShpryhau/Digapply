@@ -20,16 +20,6 @@ public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(Controller.class);
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        try {
-            ConnectionPool.getInstance().initialize();
-        } catch (ConnectionPoolException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processCommand(req, resp);
     }
@@ -61,16 +51,6 @@ public class Controller extends HttpServlet {
             default:
                 logger.error("Unknown routing type!");
                 request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
-        }
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        try {
-            ConnectionPool.getInstance().dispose();
-        } catch (ConnectionPoolException e) {
-            throw new RuntimeException(e);
         }
     }
 }
