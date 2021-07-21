@@ -11,7 +11,6 @@
 <head>
     <jsp:include page="components/head-links.jsp"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <title>
         <c:choose>
             <c:when test="${requestScope.faculty != null}">
@@ -56,7 +55,8 @@
         </div>
         <div class="mb-3">
             <label for="short-faculty-description" class="form-label">Short Faculty Description</label>
-            <textarea required class="form-control" id="short-faculty-description" name="short-faculty-description" rows="10">
+            <textarea required class="form-control" id="short-faculty-description" name="short-faculty-description"
+                      rows="10">
         <c:if test="${requestScope.faculty != null}">
             ${requestScope.faculty.facultyShortDescription}
         </c:if>
@@ -66,24 +66,24 @@
             <label for="faculty-description" class="form-label">Faculty Description (Markdown)</label>
             <textarea required class="form-control" id="faculty-description" name="faculty-description" rows="25">
       </textarea>
-            <script>
-                let simplemde = new SimpleMDE({element: document.getElementById("faculty-description")});
-                simplemde.value(`<c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyDescription}</c:if>`);
-            </script>
         </div>
-
-        <select class="subject-select mb-3"
-                <c:if test="${requestScope.faculty != null}">disabled</c:if> multiple
-                aria-label="multiple select example">
-            <c:forEach items="${requestScope.subjects}" var="subject">
-                <option value="${subject.subjectId}">${subject.subjectName}</option>
-            </c:forEach>
-        </select>
-        <br/>
+        <c:if test="${requestScope.faculty != null}">
+            <select class="subject-select mb-3" multiple aria-label="multiple select example">
+                <c:forEach items="${requestScope.subjects}" var="subject">
+                    <option value="${subject.subjectId}">${subject.subjectName}</option>
+                </c:forEach>
+            </select>
+            <br/>
+        </c:if>
         <button type="submit" class="btn btn-primary"><fmt:message key="form.submit-button"/></button>
     </form>
 </div>
 
 <jsp:include page="components/footer.jsp"/>
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script>
+    let simplemde = new SimpleMDE({element: document.getElementById("faculty-description")});
+    simplemde.value(`<c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyDescription}</c:if>`);
+</script>
 </body>
 </html>

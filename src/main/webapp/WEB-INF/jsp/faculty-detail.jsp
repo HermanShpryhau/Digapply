@@ -20,13 +20,8 @@
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-
     <h1 class="mt-5 mb-3">${faculty.facultyName}</h1>
     <p id="description"></p>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        document.getElementById('description').innerHTML = marked("${faculty.facultyDescription}");
-    </script>
 
     <h3 class="mt-3"><fmt:message key="faculty.required-subjects"/></h3>
     <ul>
@@ -42,6 +37,9 @@
 </div>
 
 <jsp:include page="components/footer.jsp"/>
-
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    document.getElementById('description').innerHTML = marked(`${faculty.facultyDescription}`);
+</script>
 </body>
 </html>
