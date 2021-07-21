@@ -76,7 +76,14 @@
             </select>
             <br/>
         </c:if>
-        <button type="submit" class="btn btn-primary"><fmt:message key="form.submit-button"/></button>
+        <c:choose>
+            <c:when test="${requestScope.faculty != null}">
+                <button type="submit" class="btn btn-primary"><fmt:message key="form.save-changes-btn"/></button>
+            </c:when>
+            <c:when test="${requestScope.faculty == null}">
+                <button type="submit" class="btn btn-primary"><fmt:message key="form.add-faculty-btn"/></button>
+            </c:when>
+        </c:choose>
     </form>
 </div>
 
