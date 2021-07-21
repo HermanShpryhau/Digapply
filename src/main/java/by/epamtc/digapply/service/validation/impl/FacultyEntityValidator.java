@@ -1,7 +1,7 @@
-package by.epamtc.digapply.validator.impl;
+package by.epamtc.digapply.service.validation.impl;
 
 import by.epamtc.digapply.entity.Faculty;
-import by.epamtc.digapply.validator.EntityValidator;
+import by.epamtc.digapply.service.validation.EntityValidator;
 
 public class FacultyEntityValidator implements EntityValidator<Faculty> {
     @Override

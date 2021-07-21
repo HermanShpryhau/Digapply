@@ -1,9 +1,9 @@
-package by.epamtc.digapply.validator;
+package by.epamtc.digapply.service.validation;
 
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.validator.impl.FacultyEntityValidator;
-import by.epamtc.digapply.validator.impl.UserEntityValidator;
+import by.epamtc.digapply.service.validation.impl.FacultyEntityValidator;
+import by.epamtc.digapply.service.validation.impl.UserEntityValidator;
 
 public class EntityValidatorFactory {
     private final EntityValidator<User> userEntityValidator = new UserEntityValidator();

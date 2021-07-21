@@ -1,4 +1,4 @@
-package by.epamtc.digapply.validator;
+package by.epamtc.digapply.service.validation;
 
 import by.epamtc.digapply.entity.Identifiable;
 
