@@ -17,7 +17,6 @@ public class SignUpCommand implements Command {
         Optional<String> email = Optional.ofNullable(request.getParameter(RequestParameter.EMAIL));
         Optional<String> password = Optional.ofNullable(request.getParameter(RequestParameter.PASSWORD));
 
-        // TODO Ask where to validate form data.
         UserService userService = ServiceFactory.getInstance().getUserService();
         boolean isRegistered = false;
         try {
