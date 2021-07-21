@@ -32,40 +32,45 @@
                 ${requestScope.faculty.facultyName}
             </c:when>
             <c:when test="${requestScope.faculty == null}">
-                New Faculty
+                <fmt:message key="faculty.new-faculty-label"/>
             </c:when>
         </c:choose>
     </h1>
     <form action="${pageContext.request.contextPath}/controller?command=update-faculty" method="post">
         <input type="hidden" name="id" value="${requestScope.faculty.id}">
-        <div class="mb-3 col-md-6">
-            <label for="faculty-name" class="form-label">Faculty Name</label>
-            <input required type="text" class="form-control" id="faculty-name" name="faculty-name"
-            <c:if test="${requestScope.faculty != null}">
-                   value="${requestScope.faculty.facultyName}"
-            </c:if>
-                   placeholder="Faculty Name">
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label for="faculty-name" class="form-label"><fmt:message key="faculty.faculty-name"/></label>
+                <input required type="text" class="form-control" id="faculty-name" name="faculty-name"
+                <c:if test="${requestScope.faculty != null}">
+                       value="${requestScope.faculty.facultyName}"
+                </c:if>
+                       placeholder="<fmt:message key="faculty.faculty-name"/>">
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <label for="places-count" class="form-label"><fmt:message key="faculty.places"/></label>
+                <input required type="number" class="form-control" id="places-count" name="places-count"
+                <c:if test="${requestScope.faculty != null}">
+                       value="${requestScope.faculty.places}"
+                </c:if>
+                       placeholder="<fmt:message key="faculty.places"/>">
+            </div>
         </div>
-        <div class="mb-3 col-md-6">
-            <label for="places-count">Places</label>
-            <input required type="number" class="form-control" id="places-count" name="places-count"
-            <c:if test="${requestScope.faculty != null}">
-                   value="${requestScope.faculty.places}"
-            </c:if>
-                   placeholder="Available places">
-        </div>
+
         <div class="mb-3">
-            <label for="short-faculty-description" class="form-label">Short Faculty Description</label>
+            <label for="short-faculty-description" class="form-label"><fmt:message key="faculty.short-description"/></label>
             <textarea required class="form-control" id="short-faculty-description" name="short-faculty-description"
-                      rows="5"><c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyShortDescription}</c:if></textarea>
+                      rows="3" maxlength="300"><c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyShortDescription}</c:if></textarea>
         </div>
         <div class="mb-3">
-            <label for="faculty-description" class="form-label">Faculty Description (Markdown)</label>
-            <textarea required class="form-control" id="faculty-description" name="faculty-description" rows="25">
-      </textarea>
+            <label for="faculty-description" class="form-label"><fmt:message key="faculty.description"/></label>
+            <textarea required class="form-control" id="faculty-description" name="faculty-description" rows="25"></textarea>
         </div>
+
         <c:if test="${requestScope.faculty == null}">
-            <select name="subjects" class="subject-select mb-3" multiple aria-label="multiple select example">
+            <label for="subjects" class="form-label"><fmt:message key="faculty.choose-subjects"/></label>
+            <select name="subjects" id="subjects" class="subject-select mb-3" multiple aria-label="multiple select example">
                 <c:forEach items="${requestScope.subjects}" var="subject">
                     <option value="${subject.subjectId}">${subject.subjectName}</option>
                 </c:forEach>
