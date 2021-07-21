@@ -53,7 +53,7 @@ public class UpdateFacultyCommand implements Command {
                 return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
             }
         } catch (ServiceException e) {
-            return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
     }
 }

@@ -14,6 +14,7 @@ public class FacultyRowMapper implements RowMapper<Faculty> {
         faculty.setFacultyShortDescription(resultSet.getString(Column.FACULTY_SHORT_DESCRIPTION));
         faculty.setFacultyDescription(resultSet.getString(Column.FACULTY_DESCRIPTION));
         faculty.setPlaces(resultSet.getInt(Column.FACULTY_PLACES));
+        faculty.setApplicationClosed(resultSet.getBoolean(Column.IS_APPLICATION_CLOSED));
         return faculty;
     }
 }

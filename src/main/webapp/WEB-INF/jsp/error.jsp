@@ -15,8 +15,9 @@
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <h1 class="text-center align-middle fs-1">You just have messed something up</h1>
+    <h1 class="text-center mt-5 align-middle fs-1">You just have messed something up</h1>
 </div>
+
 <jsp:include page="components/footer.jsp"/>
 
 </body>

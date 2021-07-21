@@ -6,6 +6,7 @@ public class Faculty implements Identifiable{
     private String facultyShortDescription;
     private String facultyDescription;
     private int places;
+    private boolean isApplicationClosed;
 
     public Faculty() {}
 
@@ -54,25 +55,37 @@ public class Faculty implements Identifiable{
         this.places = places;
     }
 
+    public boolean isApplicationClosed() {
+        return isApplicationClosed;
+    }
+
+    public void setApplicationClosed(boolean applicationClosed) {
+        isApplicationClosed = applicationClosed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || o.getClass() != this.getClass()) return false;
+        if (!(o instanceof Faculty)) return false;
 
-        Faculty other = (Faculty) o;
+        Faculty faculty = (Faculty) o;
 
-        if (facultyId != other.facultyId) return false;
-        if (places != other.places) return false;
-        if (!facultyName.equals(other.facultyName)) return false;
-        return facultyDescription.equals(other.facultyDescription);
+        if (facultyId != faculty.facultyId) return false;
+        if (places != faculty.places) return false;
+        if (isApplicationClosed != faculty.isApplicationClosed) return false;
+        if (!facultyName.equals(faculty.facultyName)) return false;
+        if (!facultyShortDescription.equals(faculty.facultyShortDescription)) return false;
+        return facultyDescription.equals(faculty.facultyDescription);
     }
 
     @Override
     public int hashCode() {
         int result = (int) (facultyId ^ (facultyId >>> 32));
         result = 31 * result + facultyName.hashCode();
+        result = 31 * result + facultyShortDescription.hashCode();
         result = 31 * result + facultyDescription.hashCode();
         result = 31 * result + places;
+        result = 31 * result + (isApplicationClosed ? 1 : 0);
         return result;
     }
 
@@ -81,8 +94,10 @@ public class Faculty implements Identifiable{
         return "Faculty{" +
                 "facultyId=" + facultyId +
                 ", facultyName='" + facultyName + '\'' +
+                ", facultyShortDescription='" + facultyShortDescription + '\'' +
                 ", facultyDescription='" + facultyDescription + '\'' +
                 ", places=" + places +
+                ", isApplicationClosed=" + isApplicationClosed +
                 '}';
     }
 }
