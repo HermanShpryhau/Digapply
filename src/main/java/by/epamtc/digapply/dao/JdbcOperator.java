@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class JdbcOperator<T extends Identifiable> {
     private static final Logger logger = LogManager.getLogger();
@@ -41,6 +43,7 @@ public class JdbcOperator<T extends Identifiable> {
             throw new DaoException("Unable to execute query.", e);
         } catch (ConnectionPoolException e) {
             logger.error("Unable to retrieve connection.", e);
+            // TODO Check if there is need to throw exception
             throw new DaoException("Unable to retrieve connection.", e);
         }
         return result;
@@ -60,11 +63,48 @@ public class JdbcOperator<T extends Identifiable> {
             parameterSetter.setValues(statement);
             statement.executeUpdate();
         } catch (SQLException e) {
-            logger.error("Unable to execute query.", e);
-            throw new DaoException("Unable to execute query.", e);
+            logger.error("Unable to execute update query.", e);
+            throw new DaoException("Unable to execute update query.", e);
         } catch (ConnectionPoolException e) {
             logger.error("Unable to retrieve connection.", e);
             throw new DaoException("Unable to retrieve connection.", e);
+        }
+    }
+
+    public void executeTransactionalUpdate(List<ParametrizedQuery> queries) throws DaoException {
+        Connection connection = null;
+        try {
+            connection = connectionPool.takeConnection();
+            connection.setAutoCommit(false);
+            for (ParametrizedQuery query : queries) {
+                PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(query.getParams());
+                PreparedStatement statement = connection.prepareStatement(query.getQuery());
+                parameterSetter.setValues(statement);
+                statement.executeUpdate();
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                logger.error("Unable to rollback commit.", sqlException);
+                throw new DaoException(sqlException);
+            }
+            logger.error("Unable to execute update query.", e);
+            throw new DaoException("Unable to execute update query.", e);
+        } catch (ConnectionPoolException e) {
+            logger.error("Unable to retrieve connection.", e);
+            throw new DaoException("Unable to retrieve connection.", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                    connection.close();
+                } catch (SQLException e) {
+                    logger.error("Unable to return connection to connection pool.", e);
+                    throw new DaoException("Unable to return connection to connection pool.", e);
+                }
+            }
         }
     }
 }
