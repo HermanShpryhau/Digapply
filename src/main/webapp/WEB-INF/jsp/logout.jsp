@@ -10,7 +10,7 @@
 <head>
     <title>Sign Out | Digapply</title>
 </head>
-<body>
-<h1>Signed Out</h1>
+<body class="d-flex flex-column h-100">
+<h1>You have been signed out</h1>
 </body>
 </html>

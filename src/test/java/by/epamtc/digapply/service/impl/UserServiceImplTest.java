@@ -1,15 +1,13 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.connection.ConnectionPool;
-import by.epamtc.digapply.connection.ConnectionPoolException;
+import by.epamtc.digapply.dao.connection.ConnectionPool;
+import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +16,7 @@ class UserServiceImplTest {
 
     @BeforeAll
     static void setUpConnectionPool() throws ConnectionPoolException {
-        ConnectionPool.getInstance().init();
+        ConnectionPool.getInstance().initialize();
     }
 
     @BeforeEach

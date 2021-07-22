@@ -10,10 +10,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:bundle basename="labels"/>
+<noscript class="nojs">
+    <h1>You have to enable JavaScript in your browser to continue working with the Digapply app.</h1>
+</noscript>
 <header>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/controller?command=home">
                 <img src="assets/logo.png" alt="" width="30" height="26">
                 Star Fleet Academy
             </a>
@@ -24,58 +29,43 @@
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/controller?command=home">
+                            <fmt:message key="header.home"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Faculties</a>
+                        <a class="nav-link active" href="${pageContext.request.contextPath}/controller?command=list-faculties">
+                            <fmt:message key="header.faculties"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Apply Now</a>
+                        <a class="nav-link active" href="#">
+                            <fmt:message key="header.apply-now"/>
+                        </a>
                     </li>
                 </ul>
 
                 <div class="d-flex">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 p-2">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">EN</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">RU</a>
-                        </li>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul class=" navbar-nav me-3">
+                            <li class="nav-item">
+                                <a class="nav-link <fmt:message key="header.en-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=en">
+                                    EN
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <fmt:message key="header.ru-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=ru">
+                                    RU
+                                </a>
+                            </li>
+                        </ul>
                         <c:choose>
                             <c:when test="${sessionScope.username == null}">
                                 <li class="nav-item">
-                                    <a type="button" class="btn btn-outline-light ml-5 me-2" data-bs-toggle="modal"
-                                       data-bs-target="#sign-in-modal" class="nav-link active" aria-current="page">Sign
-                                        In</a>
+                                    <a type="button" href="${pageContext.request.contextPath}/controller?command=show-sign-in" class="btn btn-outline-light ml-5 me-2"  class="nav-link active" aria-current="page">
+                                        <fmt:message key="header.sign-in"/>
+                                    </a>
                                 </li>
-                                <div class="modal fade" id="sign-in-modal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="/controller?command=login" method="post">
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                                        <input name="email" type="email" class="form-control" id="exampleInputEmail1"
-                                                               aria-describedby="emailHelp">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                                                        <input name="password" type="password" class="form-control" id="exampleInputPassword1">
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Sign In</button>
-                                                </form>
-                                                <hr class="dropdown-divider">
-                                                <p class="text-muted">Don't have an account? <a href="#">Sign Up</a></p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
                             </c:when>
                             <c:when test="${sessionScope.username != null}">
                                 <div class="dropdown">
@@ -84,11 +74,15 @@
                                         ${sessionScope.username}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=profile">
+                                            <fmt:message key="header.profile"/>
+                                        </a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="/controller?command=logout">Sign Out</a></li>
+                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=logout">
+                                            <fmt:message key="header.sign-out"/>
+                                        </a></li>
                                     </ul>
                                 </div>
                             </c:when>
