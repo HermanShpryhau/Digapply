@@ -40,8 +40,8 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         removeById(entity.getId());
     }
 
-    protected void throwExceptionIfNull(T entity) throws DaoException {
-        if (entity == null) {
+    protected void throwExceptionIfNull(Object o) throws DaoException {
+        if (o == null) {
             logger.error("Entity parameter must not be null");
             throw new DaoException("Entity parameter must not be null");
         }

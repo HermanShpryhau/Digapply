@@ -97,6 +97,21 @@ public class FacultyServiceImpl implements FacultyService {
         }
     }
 
+    @Override
+    public Faculty addFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException {
+        if (!isFacultyEntityValid(faculty)) {
+            return null;
+        }
+
+        try {
+            facultyDao.save(faculty, subjectIds);
+            return faculty;
+        } catch (DaoException e) {
+            logger.error("Unable to save new faculty", e);
+            throw new ServiceException("Unable to save new faculty", e);
+        }
+    }
+
     private boolean isFacultyEntityValid(Faculty faculty) {
         EntityValidator<Faculty> facultyEntityValidator = EntityValidatorFactory.getInstance().getFacultyEntityValidator();
         return facultyEntityValidator.validate(faculty);

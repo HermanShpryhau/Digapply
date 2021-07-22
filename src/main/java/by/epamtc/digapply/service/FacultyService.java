@@ -20,4 +20,6 @@ public interface FacultyService {
     List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException;
 
     boolean updateFaculty(Faculty faculty) throws ServiceException;
+
+    Faculty addFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException;
 }

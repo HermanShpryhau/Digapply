@@ -18,6 +18,11 @@
 
 <div class="container">
     <h1 class="mt-5 mb-3"><fmt:message key="faculty.our-faculties"/></h1>
+    <c:if test="${sessionScope.role == 1}">
+        <div>
+            <a href="/controller?command=edit-faculty" class="btn btn-success mb-5">New Faculty</a>
+        </div>
+    </c:if>
     <c:forEach var="faculty" items="${faculties}">
         <div class="card mb-3">
             <div class="card-body">
