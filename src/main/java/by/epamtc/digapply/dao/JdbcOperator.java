@@ -76,34 +76,46 @@ public class JdbcOperator<T extends Identifiable> {
         try {
             connection = connectionPool.takeConnection();
             connection.setAutoCommit(false);
-            for (ParametrizedQuery query : queries) {
-                PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(query.getParams());
-                PreparedStatement statement = connection.prepareStatement(query.getQuery());
-                parameterSetter.setValues(statement);
-                statement.executeUpdate();
-            }
+            executeUpdates(queries, connection);
             connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException sqlException) {
-                logger.error("Unable to rollback commit.", sqlException);
-                throw new DaoException(sqlException);
-            }
+            attemptRollback(connection);
             logger.error("Unable to execute update query.", e);
             throw new DaoException("Unable to execute update query.", e);
         } catch (ConnectionPoolException e) {
             logger.error("Unable to retrieve connection.", e);
             throw new DaoException("Unable to retrieve connection.", e);
         } finally {
-            if (connection != null) {
-                try {
-                    connection.setAutoCommit(true);
-                    connection.close();
-                } catch (SQLException e) {
-                    logger.error("Unable to return connection to connection pool.", e);
-                    throw new DaoException("Unable to return connection to connection pool.", e);
-                }
+            attemptConnectionRelease(connection);
+        }
+    }
+
+    private void executeUpdates(List<ParametrizedQuery> queries, Connection connection) throws SQLException {
+        for (ParametrizedQuery query : queries) {
+            PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(query.getParams());
+            PreparedStatement statement = connection.prepareStatement(query.getQuery());
+            parameterSetter.setValues(statement);
+            statement.executeUpdate();
+        }
+    }
+
+    private void attemptRollback(Connection connection) throws DaoException {
+        try {
+            connection.rollback();
+        } catch (SQLException sqlException) {
+            logger.error("Unable to rollback commit.", sqlException);
+            throw new DaoException(sqlException);
+        }
+    }
+
+    private void attemptConnectionRelease(Connection connection) throws DaoException {
+        if (connection != null) {
+            try {
+                connection.setAutoCommit(true);
+                connection.close();
+            } catch (SQLException e) {
+                logger.error("Unable to return connection to connection pool.", e);
+                throw new DaoException("Unable to return connection to connection pool.", e);
             }
         }
     }
