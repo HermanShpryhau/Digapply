@@ -5,9 +5,7 @@ import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     private static final String SAVE_FACULTY_QUERY = "INSERT INTO Faculties (faculty_id, faculty_name, faculty_short_description, faculty_description, places, is_application_closed) VALUES (0, ?, ?, ?, ?, ?)";

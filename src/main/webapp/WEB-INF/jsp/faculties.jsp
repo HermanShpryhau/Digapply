@@ -17,12 +17,19 @@
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <h1 class="mt-5 mb-3"><fmt:message key="faculty.our-faculties"/></h1>
+    <h1 class="mt-5 mb-5"><fmt:message key="faculty.our-faculties"/></h1>
     <c:if test="${sessionScope.role == 1}">
         <div>
-            <a href="/controller?command=edit-faculty" class="btn btn-success mb-5">New Faculty</a>
+            <a href="${pageContext.request.contextPath}/controller?command=edit-faculty" class="btn btn-success mb-5">New Faculty</a>
         </div>
     </c:if>
+xxuytrgvjkppokoioikkjiju[=[[nbhqwqwq2323w3212h        <div class="col-11">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>
+    </form>
     <c:forEach var="faculty" items="${faculties}">
         <div class="card mb-3">
             <div class="card-body">
@@ -40,6 +47,37 @@
             </div>
         </div>
     </c:forEach>
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/controller?command=list-faculties&page=${requestScope.page-1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <c:forEach begin="1" end="${requestScope.number_of_pages}" var="n">
+                <c:choose>
+                    <c:when test="${requestScope.page == n}">
+                        <li class="page-item active">
+                            <a class="page-link">${n}</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item">
+                            <a class="page-link" href="${pageContext.request.contextPath}/controller?command=list-faculties&page=${n}">${n}</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <li class="page-item">
+                <a class="page-link" href="controller?command=list-faculties&page=${requestScope.page+1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <jsp:include page="components/footer.jsp"/>
