@@ -13,7 +13,8 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     private static final String FIND_FACULTY_BY_ID_QUERY = "SELECT * FROM Faculties WHERE faculty_id=?";
     private static final String UPDATE_FACULTY_QUERY = "UPDATE Faculties SET faculty_name=?, faculty_short_description=?, faculty_description=?, places=?, is_application_closed=? WHERE faculty_id=?";
     private static final String DELETE_FACULTY_QUERY = "DELETE FROM Faculties WHERE faculty_id=?";
-    private static final String FIND_BY_PATTERN_IN_NAME_QUERY = "SELECT * FROM Faculties WHERE faculty_name '%?%'";
+    private static final String FIND_BY_PATTERN_IN_NAME_QUERY = "SELECT * FROM Faculties WHERE faculty_name LIKE ? LIMIT ?, ?";
+    private static final String FIND_ALL_BY_PATTERN_IN_NAME_QUERY = "SELECT * FROM Faculties WHERE faculty_name LIKE ?";
     private static final String FIND_BEST_FACULTIES_QUERY = "SELECT Faculties.faculty_id, faculty_name, faculty_short_description, faculty_description, places, is_application_closed, COUNT(A.application_id) AS count\n" +
             "FROM Faculties\n" +
             "JOIN Applications A on Faculties.faculty_id = A.faculty_id\n" +
@@ -52,8 +53,16 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
-    public List<Faculty> findByPattern(String pattern) throws DaoException {
-        return jdbcOperator.executeQuery(FIND_BY_PATTERN_IN_NAME_QUERY, pattern);
+    public List<Faculty> findByPattern(String pattern, long page, long elementsPerPage) throws DaoException {
+        long startIndex = (page - 1) * elementsPerPage;
+        pattern = "%" + pattern + "%";
+        return jdbcOperator.executeQuery(FIND_BY_PATTERN_IN_NAME_QUERY, pattern, startIndex, elementsPerPage);
+    }
+
+    @Override
+    public long getRowsCountForSearch(String pattern) throws DaoException {
+        pattern = "%" + pattern + "%";
+        return jdbcOperator.executeQuery(FIND_ALL_BY_PATTERN_IN_NAME_QUERY, pattern).size();
     }
 
     @Override

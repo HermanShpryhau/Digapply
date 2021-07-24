@@ -25,8 +25,9 @@
             </div>
         </c:if>
         <form class="col-sm d-grid gap-2"
-              action="${pageContext.request.contextPath}/controller?command=search-faculties" method="get">
+              action="${pageContext.request.contextPath}/controller" method="get">
             <div class="input-group mb-3">
+                <input type="hidden" name="command" value="list-faculties">
                 <input type="text" name="search" class="form-control" placeholder="<fmt:message key="form.search"/>"/>
                 <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
             </div>
@@ -87,7 +88,7 @@
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link"
-                   href="${pageContext.request.contextPath}/controller?command=list-faculties&page=${requestScope.page-1}"
+                   href="${pageContext.request.contextPath}/controller?command=list-faculties&search=${param.search}&page=${requestScope.page-1}"
                    aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -103,14 +104,14 @@
                     <c:otherwise>
                         <li class="page-item">
                             <a class="page-link"
-                               href="${pageContext.request.contextPath}/controller?command=list-faculties&page=${n}">${n}</a>
+                               href="${pageContext.request.contextPath}/controller?command=list-faculties&search=${param.search}&page=${n}">${n}</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
 
             <li class="page-item">
-                <a class="page-link" href="controller?command=list-faculties&page=${requestScope.page+1}"
+                <a class="page-link" href="controller?command=list-faculties&search=${param.search}&page=${requestScope.page+1}"
                    aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

@@ -33,19 +33,9 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public List<Faculty> retrieveAllFaculties() throws ServiceException {
+    public List<Faculty> retrieveFacultiesByPage(long page, long elementsPerPage) throws ServiceException {
         try {
-            return facultyDao.findAll();
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve faculties.", e);
-            throw new ServiceException("Unable to retrieve faculties.", e);
-        }
-    }
-
-    @Override
-    public List<Faculty> retrieveFacultiesByPage(long page, long count) throws ServiceException {
-        try {
-            return facultyDao.findAllOnPage(page, count);
+            return facultyDao.findAllOnPage(page, elementsPerPage);
         } catch (DaoException e) {
             logger.error("Unable to retrieve faculties by page.", e);
             throw new ServiceException("Unable to retrieve faculties by page.", e);
@@ -75,19 +65,31 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException {
+    public List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException {
         try {
-            return subjectDao.findSubjectsByFaculty(faculty.getId());
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve subjects by faculty id", e);
-            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
+            return facultyDao.findByPattern(pattern, page, elementsPerPage);
+        } catch (DaoException e){
+            logger.error("Unable to search faculties by pattern in name", e);
+            throw new ServiceException("Unable to search faculties by pattern in name", e);
         }
     }
 
     @Override
-    public List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException {
+    public long countPagesForSearchResult(String pattern, long elementsPerPage) throws ServiceException {
         try {
-            return subjectDao.findSubjectsByFaculty(facultyId);
+            long rowsCount = facultyDao.getRowsCountForSearch(pattern);
+            long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
+            return (rowsCount / elementsPerPage) + leftover;
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve count of rows that satisfy search pattern", e);
+            throw new ServiceException("Unable to retrieve count of rows that satisfy search pattern", e);
+        }
+    }
+
+    @Override
+    public List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException {
+        try {
+            return subjectDao.findSubjectsByFaculty(faculty.getId());
         } catch (DaoException e) {
             logger.error("Unable to retrieve subjects by faculty id", e);
             throw new ServiceException("Unable to retrieve subjects by faculty id", e);

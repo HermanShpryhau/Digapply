@@ -9,17 +9,17 @@ public interface FacultyService {
 
     List<Faculty> retrieveBestFaculties() throws ServiceException;
 
-    List<Faculty> retrieveAllFaculties() throws ServiceException;
-
-    List<Faculty> retrieveFacultiesByPage(long page, long count) throws ServiceException;
+    List<Faculty> retrieveFacultiesByPage(long page, long elementsPerPage) throws ServiceException;
 
     long countPages(long elementsPerPage) throws ServiceException;
 
     Faculty retrieveFacultyById(long id) throws ServiceException;
 
-    List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
+    List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException;
 
-    List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException;
+    long countPagesForSearchResult(String pattern, long elementsPerPage) throws ServiceException;
+
+    List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
 
     boolean updateFaculty(Faculty faculty) throws ServiceException;
 

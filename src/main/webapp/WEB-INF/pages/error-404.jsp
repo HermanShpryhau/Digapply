@@ -15,7 +15,9 @@
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <h1 class="text-center align-middle fs-1">Sorry, but we couldn't find that page</h1>
+    <div class="mw-90 mh-90 d-flex justify-content-center align-items-center">
+        <h1 class="text-center align-middle fs-1">Sorry, but we couldn't find that page</h1>
+    </div>
 </div>
 <jsp:include page="components/footer.jsp"/>
 
