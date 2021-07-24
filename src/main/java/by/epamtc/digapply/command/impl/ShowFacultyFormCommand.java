@@ -15,7 +15,7 @@ import java.util.Optional;
 
 public class ShowFacultyFormCommand implements Command {
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdParameter = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         if (facultyIdParameter.isPresent()) {
             long facultyId = Long.parseLong(facultyIdParameter.get());
@@ -24,16 +24,16 @@ public class ShowFacultyFormCommand implements Command {
                 Faculty faculty = facultyService.retrieveFacultyById(facultyId);
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
             } catch (ServiceException e) {
-                return new CommandResult(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
             }
         }
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
             List<Subject> subjects = subjectService.retrieveAllSubjects();
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);
-            return new CommandResult(PagePath.FACULTY_FORM_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.FACULTY_FORM_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
-            return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
     }
 }

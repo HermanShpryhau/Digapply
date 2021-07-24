@@ -22,7 +22,7 @@ public class AddFacultyCommand implements Command {
     private static final int INVALID_PLACES_COUNT = -1;
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = INVALID_ID;
         if (facultyIdString.isPresent()) {
@@ -30,7 +30,7 @@ public class AddFacultyCommand implements Command {
                 facultyId = facultyIdString.get().equals("") ? DEFAULT_ID :Long.parseLong(facultyIdString.get());
             } catch (NumberFormatException e) {
                 // TODO Add error info
-                return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
             }
         }
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
@@ -41,7 +41,7 @@ public class AddFacultyCommand implements Command {
                 places = Integer.parseInt(placesString.get());
             } catch (NumberFormatException e) {
                 // TODO Add error info
-                return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
             }
         }
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
@@ -63,14 +63,14 @@ public class AddFacultyCommand implements Command {
         try {
             Faculty faculty = facultyService.addFaculty(newFaculty, subjectIds);
             if (faculty != null) {
-                return new CommandResult(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
+                return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 // TODO set error data
-                return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
             }
         } catch (ServiceException e) {
             logger.error("Unable to save faculty.", e);
-            return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
     }
 }

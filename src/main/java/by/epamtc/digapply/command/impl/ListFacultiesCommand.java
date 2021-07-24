@@ -19,7 +19,7 @@ public class ListFacultiesCommand implements Command {
     private static final String FIRST_PAGE_PARAMETER = "&page=1";
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> page = Optional.ofNullable(request.getParameter(RequestParameter.PAGE));
         long pageNumber = 1L;
 
@@ -27,7 +27,7 @@ public class ListFacultiesCommand implements Command {
             try {
                 pageNumber = Integer.parseInt(page.get());
             } catch (NumberFormatException e) {
-                return new CommandResult(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
             }
         }
 
@@ -37,17 +37,17 @@ public class ListFacultiesCommand implements Command {
         try {
             numberOfPages = facultyService.countPages(ELEMENTS_PER_PAGE);
             if (pageNumber < 1 || pageNumber > numberOfPages) {
-                return new CommandResult(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER, RoutingType.REDIRECT);
+                return new Routing(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER, RoutingType.REDIRECT);
             }
             facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
         } catch (ServiceException e) {
             logger.error("Unable to retrieve list of faculties.", e);
-            return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
         request.setAttribute(RequestAttribute.FACULTIES, facultyList);
         request.setAttribute(RequestAttribute.NUMBER_OF_PAGES, numberOfPages);
         request.setAttribute(RequestAttribute.PAGE, pageNumber);
 
-        return new CommandResult(PagePath.FACULTIES_PAGE, RoutingType.FORWARD);
+        return new Routing(PagePath.FACULTIES_PAGE, RoutingType.FORWARD);
     }
 }
