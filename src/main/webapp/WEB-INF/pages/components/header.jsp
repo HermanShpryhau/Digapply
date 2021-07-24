@@ -77,6 +77,13 @@
                                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=profile">
                                             <fmt:message key="header.profile"/>
                                         </a></li>
+                                        <c:if test="${sessionScope.role == 1}">
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/controller?command=dashboard" class="dropdown-item">
+                                                    <fmt:message key="header.dashboard"/>
+                                                </a>
+                                            </li>
+                                        </c:if>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

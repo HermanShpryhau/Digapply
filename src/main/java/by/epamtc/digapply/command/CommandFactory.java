@@ -23,6 +23,7 @@ public class CommandFactory {
         commands.put(CommandName.UPDATE_FACULTY_COMMAND, new UpdateFacultyCommand());
         commands.put(CommandName.ADD_FACULTY_COMMAND, new AddFacultyCommand());
         commands.put(CommandName.DELETE_FACULTY_COMMAND, new DeleteFacultyCommand());
+        commands.put(CommandName.SHOW_DASHBOARD_COMMAND, new ShowDashboardCommand());
     }
 
     public static CommandFactory getInstance() {

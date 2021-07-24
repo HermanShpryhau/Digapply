@@ -15,6 +15,7 @@ public class CommandName {
     public static final String ADD_FACULTY_COMMAND = "add-faculty";
     public static final String DELETE_FACULTY_COMMAND = "delete-faculty";
     public static final String SEARCH_FACULTY_COMMAND = "search-faculty";
+    public static final String SHOW_DASHBOARD_COMMAND = "dashboard";
 
     private CommandName() {}
 }
