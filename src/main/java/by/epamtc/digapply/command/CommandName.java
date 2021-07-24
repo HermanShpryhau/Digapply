@@ -4,7 +4,6 @@ public class CommandName {
     public static final String DEFAULT_COMMAND = "default";
     public static final String LOGIN_COMMAND = "login";
     public static final String LOGOUT_COMMAND = "logout";
-    public static final String SHOW_PAGE_COMMAND = "show-page";
     public static final String SIGNUP_COMMAND = "signup";
     public static final String PROFILE_COMMAND = "profile";
     public static final String SHOW_SIGN_IN_COMMAND = "show-sign-in";
@@ -15,6 +14,7 @@ public class CommandName {
     public static final String UPDATE_FACULTY_COMMAND = "update-faculty";
     public static final String ADD_FACULTY_COMMAND = "add-faculty";
     public static final String DELETE_FACULTY_COMMAND = "delete-faculty";
+    public static final String SEARCH_FACULTY_COMMAND = "search-faculty";
 
     private CommandName() {}
 }
