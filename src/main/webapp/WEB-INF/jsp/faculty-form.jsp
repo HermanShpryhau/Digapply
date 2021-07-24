@@ -50,7 +50,7 @@
     <div class="row">
         <div class="mb-3 col-md-6">
             <label for="faculty-name" class="form-label"><fmt:message key="faculty.faculty-name"/></label>
-            <input required type="text" class="form-control" id="faculty-name" name="faculty-name"
+            <input required type="text" class="form-control" id="faculty-name" name="faculty-name" pattern="[A-Za-zА-Яа-яЁёА-Яа-яЁё0-9\.\,]+"
             <c:if test="${requestScope.faculty != null}">
                    value="${requestScope.faculty.facultyName}"
             </c:if>
