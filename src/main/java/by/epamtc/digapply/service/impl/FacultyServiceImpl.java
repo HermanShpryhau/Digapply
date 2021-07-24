@@ -124,6 +124,17 @@ public class FacultyServiceImpl implements FacultyService {
         }
     }
 
+    @Override
+    public boolean removeFacultyById(long facultyId) throws ServiceException {
+        try {
+            facultyDao.removeById(facultyId);
+            return true;
+        } catch (DaoException e) {
+            logger.error("Unable to remove faculty by id.", e);
+            throw new ServiceException("Unable to remove faculty by id.", e);
+        }
+    }
+
     private boolean isFacultyEntityValid(Faculty faculty) {
         EntityValidator<Faculty> facultyEntityValidator = EntityValidatorFactory.getInstance().getFacultyEntityValidator();
         return facultyEntityValidator.validate(faculty);

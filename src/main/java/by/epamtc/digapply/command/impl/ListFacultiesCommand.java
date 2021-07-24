@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long ELEMENTS_PER_PAGE = 4L;
+    private static final String FIRST_PAGE_PARAMETER = "&page=1";
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,8 +35,11 @@ public class ListFacultiesCommand implements Command {
         List<Faculty> facultyList;
         long numberOfPages;
         try {
-            facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
             numberOfPages = facultyService.countPages(ELEMENTS_PER_PAGE);
+            if (pageNumber < 1 || pageNumber > numberOfPages) {
+                return new CommandResult(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER, RoutingType.REDIRECT);
+            }
+            facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
         } catch (ServiceException e) {
             logger.error("Unable to retrieve list of faculties.", e);
             return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);

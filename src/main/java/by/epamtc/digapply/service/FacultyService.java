@@ -24,4 +24,6 @@ public interface FacultyService {
     boolean updateFaculty(Faculty faculty) throws ServiceException;
 
     Faculty addFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException;
+
+    boolean removeFacultyById(long facultyId) throws ServiceException;
 }
