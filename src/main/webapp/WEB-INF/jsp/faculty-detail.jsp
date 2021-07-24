@@ -9,8 +9,6 @@
 <jsp:useBean id="faculty" scope="request" type="by.epamtc.digapply.entity.Faculty"/>
 <!doctype html>
 
-</body>
-</html>
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>

@@ -13,6 +13,8 @@ public interface FacultyService {
 
     List<Faculty> retrieveFacultiesByPage(long page, long count) throws ServiceException;
 
+    long countPages(long elementsPerPage) throws ServiceException;
+
     Faculty retrieveFacultyById(long id) throws ServiceException;
 
     List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
@@ -22,4 +24,6 @@ public interface FacultyService {
     boolean updateFaculty(Faculty faculty) throws ServiceException;
 
     Faculty addFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException;
+
+    boolean removeFacultyById(long facultyId) throws ServiceException;
 }

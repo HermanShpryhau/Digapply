@@ -13,7 +13,6 @@ public class CommandFactory {
         commands.put(CommandName.DEFAULT_COMMAND, new DefaultCommand());
         commands.put(CommandName.LOGIN_COMMAND, new LoginCommand());
         commands.put(CommandName.LOGOUT_COMMAND, new LogoutCommand());
-        commands.put(CommandName.SHOW_PAGE_COMMAND, new ShowPageCommand());
         commands.put(CommandName.SIGNUP_COMMAND, new SignUpCommand());
         commands.put(CommandName.PROFILE_COMMAND, new ProfileCommand());
         commands.put(CommandName.SHOW_SIGN_IN_COMMAND, new ShowSignInFormCommand());
@@ -23,6 +22,7 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_FACULTY_FORM_COMMAND, new ShowFacultyFormCommand());
         commands.put(CommandName.UPDATE_FACULTY_COMMAND, new UpdateFacultyCommand());
         commands.put(CommandName.ADD_FACULTY_COMMAND, new AddFacultyCommand());
+        commands.put(CommandName.DELETE_FACULTY_COMMAND, new DeleteFacultyCommand());
     }
 
     public static CommandFactory getInstance() {

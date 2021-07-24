@@ -53,6 +53,18 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public long countPages(long elementsPerPage) throws ServiceException {
+        try {
+            long rowsCount = facultyDao.getRowsCount();
+            long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
+            return (rowsCount / elementsPerPage) + leftover;
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve rows count.", e);
+            throw new ServiceException("Unable to retrieve rows count.", e);
+        }
+    }
+
+    @Override
     public Faculty retrieveFacultyById(long id) throws ServiceException {
         try {
             return facultyDao.findById(id);
@@ -109,6 +121,17 @@ public class FacultyServiceImpl implements FacultyService {
         } catch (DaoException e) {
             logger.error("Unable to save new faculty", e);
             throw new ServiceException("Unable to save new faculty", e);
+        }
+    }
+
+    @Override
+    public boolean removeFacultyById(long facultyId) throws ServiceException {
+        try {
+            facultyDao.removeById(facultyId);
+            return true;
+        } catch (DaoException e) {
+            logger.error("Unable to remove faculty by id.", e);
+            throw new ServiceException("Unable to remove faculty by id.", e);
         }
     }
 

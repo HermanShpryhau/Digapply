@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_QUERY = "SELECT * FROM ";
-    private static final String SELECT_ALL_ON_PAGE_QUERY = "SELECT * FROM ? LIMIT ?, ?";
+    private final String selectAllOnPageQuery;
 
     protected final RowMapper<T> mapper;
     protected final JdbcOperator<T> jdbcOperator;
@@ -20,6 +20,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         this.mapper = mapper;
         jdbcOperator = new JdbcOperator<>(this.mapper);
         this.tableName = tableName;
+        selectAllOnPageQuery = "SELECT * FROM " + tableName + " LIMIT ?, ?";
     }
 
     @Override
@@ -30,8 +31,13 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
 
     @Override
     public List<T> findAllOnPage(long page, long count) throws DaoException {
-        long startIndex = page * count;
-        return jdbcOperator.executeQuery(SELECT_ALL_ON_PAGE_QUERY, tableName, startIndex, count);
+        long startIndex = (page - 1) * count;
+        return jdbcOperator.executeQuery(selectAllOnPageQuery, startIndex, count);
+    }
+
+    @Override
+    public long getRowsCount() throws DaoException {
+        return findAll().size();
     }
 
     @Override

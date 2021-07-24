@@ -13,6 +13,8 @@ public interface Dao<T extends Identifiable> {
 
     List<T> findAllOnPage(long page, long count) throws DaoException;
 
+    long getRowsCount() throws DaoException;
+
     void updateEntity(T entity) throws DaoException;
 
     void removeById(long id) throws DaoException;
