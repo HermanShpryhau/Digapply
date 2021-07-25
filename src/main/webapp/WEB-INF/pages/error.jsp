@@ -22,18 +22,18 @@
 </div>
 
 <div class="container h-100">
-    <div class="h-100 d-flex flex-column align-items-center justify-content-center">
-        <div>
-            <h1 class="text-center"><fmt:message key="error.error-head"/></h1>
-        </div>
-        <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <fmt:message key="${requestScope.error_key}"/>
-        </div>
-        <div>
-            <a href="${pageContext.request.contextPath}/controller?command=home" class="btn btn-primary btn-lg mt-5">
-                <fmt:message key="error.return-home"/>
-            </a>
+    <div class="col-6">
+        <div class="h-100 d-flex flex-column align-items-center justify-content-center">
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <h1 class="text-center"><fmt:message key="error.error-head"/></h1>
+                <fmt:message key="${requestScope.error_key}"/>
+            </div>
+            <div>
+                <a href="${pageContext.request.contextPath}/controller?command=home" class="btn btn-primary btn-lg mt-5">
+                    <fmt:message key="error.return-home"/>
+                </a>
+            </div>
         </div>
     </div>
 </div>
