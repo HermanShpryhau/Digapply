@@ -41,7 +41,7 @@ public class UpdateFacultyCommand implements Command {
             if (facultyService.updateFaculty(updatedFaculty)) {
                 return new Routing(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId, RoutingType.REDIRECT);
             } else {
-                // TODO Set error data
+                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
                 return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
             }
         } catch (ServiceException e) {

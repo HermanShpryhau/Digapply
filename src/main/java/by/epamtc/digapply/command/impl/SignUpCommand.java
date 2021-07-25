@@ -18,7 +18,7 @@ public class SignUpCommand implements Command {
         Optional<String> password = Optional.ofNullable(request.getParameter(RequestParameter.PASSWORD));
 
         UserService userService = ServiceFactory.getInstance().getUserService();
-        boolean isRegistered = false;
+        boolean isRegistered;
         try {
             isRegistered = userService.register(
                     firstName.orElse(null),
