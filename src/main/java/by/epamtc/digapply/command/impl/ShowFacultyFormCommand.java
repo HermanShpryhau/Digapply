@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Displays faculty attributes form
+ */
 public class ShowFacultyFormCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

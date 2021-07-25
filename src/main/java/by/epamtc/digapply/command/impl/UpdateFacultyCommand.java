@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+/**
+ * Updates faculty data in datasource
+ */
 public class UpdateFacultyCommand implements Command {
     private static final long INVALID_ID = -1;
     private static final int INVALID_PLACES_COUNT = -1;

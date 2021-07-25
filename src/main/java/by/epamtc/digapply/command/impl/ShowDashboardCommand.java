@@ -8,6 +8,9 @@ import by.epamtc.digapply.command.RoutingType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Displays admin dashboard
+ */
 public class ShowDashboardCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

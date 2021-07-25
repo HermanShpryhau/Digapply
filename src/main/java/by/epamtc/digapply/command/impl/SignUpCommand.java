@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+/**
+ * Registers new user
+ */
 public class SignUpCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

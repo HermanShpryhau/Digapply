@@ -1,5 +1,8 @@
 package by.epamtc.digapply.command;
 
+/**
+ * Contains string constants that represent names of request parameters.
+ */
 public class RequestParameter {
     public static final String COMMAND = "command";
     public static final String EMAIL = "email";

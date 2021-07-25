@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Thread-safe singleton {@code Command} implementations provider.
+ */
 public class CommandFactory {
     private static final Map<String, Command> commands = new HashMap<>();
 
@@ -26,10 +29,20 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_DASHBOARD_COMMAND, new ShowDashboardCommand());
     }
 
+    /**
+     * Get instance of {@code CommandFactory}.
+     * @return Instance of singleton.
+     */
     public static CommandFactory getInstance() {
         return Holder.INSTANCE;
     }
 
+    /**
+     * Get {@code Command} implementation for given name.
+     * If there is no implementation for this name, default command will be returned.
+     * @param name String containing command name passed as parameter to controller
+     * @return Command implementation instance.
+     */
     public Command getCommand(String name) {
         return Optional.ofNullable(commands.get(name)).orElse(commands.get(CommandName.DEFAULT_COMMAND));
     }
