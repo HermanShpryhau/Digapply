@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Saves faculty to data source
+ */
 public class AddFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_FACULTY_ID = 0;
@@ -37,7 +40,7 @@ public class AddFacultyCommand implements Command {
 
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
-            Faculty faculty = facultyService.addFaculty(newFaculty, subjectIds);
+            Faculty faculty = facultyService.saveFaculty(newFaculty, subjectIds);
             if (faculty != null) {
                 return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {

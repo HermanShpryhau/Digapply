@@ -1,5 +1,8 @@
 package by.epamtc.digapply.dao;
 
+/**
+ * Wrapper for SQL query with parameters.
+ */
 public class ParametrizedQuery {
     private String query;
     private Object[] params;

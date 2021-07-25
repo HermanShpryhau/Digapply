@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Forwards request to home page
+ */
 public class HomeCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 

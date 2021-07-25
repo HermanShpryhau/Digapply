@@ -8,6 +8,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+/**
+ * Initializes and disposes connection pool.
+ */
 public class ConnectionPoolManager implements ServletContextListener {
     private static final Logger logger = LogManager.getLogger();
 

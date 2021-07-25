@@ -3,6 +3,9 @@ package by.epamtc.digapply.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+/**
+ * Application entity.
+ */
 public class Application  implements Serializable, Identifiable {
     private long applicationId;
     private long userId;

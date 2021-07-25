@@ -1,5 +1,8 @@
 package by.epamtc.digapply.command;
 
+/**
+ * Contains string constants that represent names of request attributes.
+ */
 public class RequestAttribute {
     public static final String ERROR_ATTRIBUTE = "error";
     public static final String BEST_FACULTIES = "best_faculties";

@@ -1,5 +1,8 @@
 package by.epamtc.digapply.service;
 
+/**
+ * Exception thrown by Service layer.
+ */
 public class ServiceException extends Exception {
     public ServiceException() {
         super();

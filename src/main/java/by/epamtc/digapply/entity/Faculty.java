@@ -1,5 +1,8 @@
 package by.epamtc.digapply.entity;
 
+/**
+ * Faculty entity.
+ */
 public class Faculty implements Identifiable{
     private long facultyId;
     private String facultyName;

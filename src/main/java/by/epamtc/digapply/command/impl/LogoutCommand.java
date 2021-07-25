@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Signs user out
+ */
 public class LogoutCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * {@link FacultyService} implementation.
+ */
 public class FacultyServiceImpl implements FacultyService {
     private static final Logger logger = LogManager.getLogger();
     private static final int BEST_FACULTIES_COUNT = 3;
@@ -112,7 +115,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public Faculty addFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException {
+    public Faculty saveFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException {
         if (!isFacultyEntityValid(faculty)) {
             return null;
         }

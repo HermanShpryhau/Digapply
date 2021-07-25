@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * {@link SubjectService} implementation.
+ */
 public class SubjectServiceImpl implements SubjectService {
     private static final Logger logger = LogManager.getLogger();
 

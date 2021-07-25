@@ -1,5 +1,8 @@
 package by.epamtc.digapply.command;
 
+/**
+ * Contains string constants that represent command name parameter values.
+ */
 public class CommandName {
     public static final String DEFAULT_COMMAND = "default";
     public static final String LOGIN_COMMAND = "login";
