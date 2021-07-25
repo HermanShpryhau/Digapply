@@ -24,8 +24,7 @@ public class DeleteFacultyCommand implements Command {
                     return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
                 }
             } catch (NumberFormatException e) {
-                // TODO set error data
-                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
             } catch (ServiceException e) {
                 return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
             }
