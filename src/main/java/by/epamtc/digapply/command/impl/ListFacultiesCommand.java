@@ -16,18 +16,20 @@ import java.util.Optional;
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long ELEMENTS_PER_PAGE = 4L;
+    private static final long DEFAULT_PAGE_NUMBER = 1L;
     private static final String FIRST_PAGE_PARAMETER = "&page=1";
+    private static final String SEARCH_PARAMETER = "&search=";
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> page = Optional.ofNullable(request.getParameter(RequestParameter.PAGE));
-        long pageNumber = 1L;
+        long pageNumber = DEFAULT_PAGE_NUMBER;
 
         if (page.isPresent()) {
             try {
                 pageNumber = Integer.parseInt(page.get());
             } catch (NumberFormatException e) {
-                return new CommandResult(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
             }
         }
 
@@ -35,19 +37,32 @@ public class ListFacultiesCommand implements Command {
         List<Faculty> facultyList;
         long numberOfPages;
         try {
-            numberOfPages = facultyService.countPages(ELEMENTS_PER_PAGE);
-            if (pageNumber < 1 || pageNumber > numberOfPages) {
-                return new CommandResult(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER, RoutingType.REDIRECT);
+            Optional<String> searchPatternParam = Optional.ofNullable(request.getParameter(RequestParameter.SEARCH));
+            if (searchPatternParam.isPresent() && !searchPatternParam.get().equals("")) {
+                String searchPattern = searchPatternParam.get();
+                numberOfPages = facultyService.countPagesForSearchResult(searchPattern, ELEMENTS_PER_PAGE);
+                if (pageNumber < 1 || pageNumber > numberOfPages) {
+                    return new Routing(
+                            PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER + SEARCH_PARAMETER + searchPattern,
+                            RoutingType.REDIRECT
+                    );
+                }
+                facultyList = facultyService.searchFaculties(searchPattern, pageNumber, ELEMENTS_PER_PAGE);
+            } else {
+                numberOfPages = facultyService.countPages(ELEMENTS_PER_PAGE);
+                if (pageNumber < 1 || pageNumber > numberOfPages) {
+                    return new Routing(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER, RoutingType.REDIRECT);
+                }
+                facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
             }
-            facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
         } catch (ServiceException e) {
             logger.error("Unable to retrieve list of faculties.", e);
-            return new CommandResult(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
         request.setAttribute(RequestAttribute.FACULTIES, facultyList);
         request.setAttribute(RequestAttribute.NUMBER_OF_PAGES, numberOfPages);
         request.setAttribute(RequestAttribute.PAGE, pageNumber);
 
-        return new CommandResult(PagePath.FACULTIES_PAGE, RoutingType.FORWARD);
+        return new Routing(PagePath.FACULTIES_PAGE, RoutingType.FORWARD);
     }
 }

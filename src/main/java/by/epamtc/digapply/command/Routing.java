@@ -1,10 +1,10 @@
 package by.epamtc.digapply.command;
 
-public class CommandResult {
+public class Routing {
     private final String page;
     private final RoutingType type;
 
-    public CommandResult(String page, RoutingType resultType) {
+    public Routing(String page, RoutingType resultType) {
         this.page = page;
         type = resultType;
     }

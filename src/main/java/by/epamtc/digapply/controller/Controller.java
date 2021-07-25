@@ -1,10 +1,8 @@
 package by.epamtc.digapply.controller;
 
 import by.epamtc.digapply.command.Command;
-import by.epamtc.digapply.command.CommandResult;
+import by.epamtc.digapply.command.Routing;
 import by.epamtc.digapply.command.CommandFactory;
-import by.epamtc.digapply.dao.connection.ConnectionPool;
-import by.epamtc.digapply.dao.connection.ConnectionPoolException;
 import by.epamtc.digapply.command.PagePath;
 import by.epamtc.digapply.command.RequestParameter;
 import org.apache.logging.log4j.LogManager;
@@ -37,11 +35,11 @@ public class Controller extends HttpServlet {
         }
 
         Command command = CommandFactory.getInstance().getCommand(commandName);
-        CommandResult commandResult;
-        commandResult = command.execute(request, response);
+        Routing routing;
+        routing = command.execute(request, response);
 
-        String page = commandResult.getPage();
-        switch (commandResult.getRoutingType()) {
+        String page = routing.getPage();
+        switch (routing.getRoutingType()) {
             case FORWARD:
                 request.getRequestDispatcher(page).forward(request, response);
                 break;

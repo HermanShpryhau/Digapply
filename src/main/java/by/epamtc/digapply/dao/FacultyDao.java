@@ -8,4 +8,8 @@ public interface FacultyDao extends Dao<Faculty> {
     List<Faculty> findBestFaculties(int count) throws DaoException;
 
     void save(Faculty faculty, List<Long> subjectIds) throws DaoException;
+
+    List<Faculty> findByPattern(String pattern, long page, long elementsPerPage) throws DaoException;
+
+    long getRowsCountForSearch(String pattern) throws DaoException;
 }

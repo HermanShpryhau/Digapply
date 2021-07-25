@@ -42,7 +42,11 @@ public class AuthorizationFilter implements Filter {
         String command = request.getParameter("command");
         if (!authorizedCommands.get(roleId).contains(command)) {
             session.setAttribute(SessionAttribute.PREVIOUS_COMMAND, command);
-            request.getRequestDispatcher(PagePath.LOGIN_PAGE).forward(request, response);
+            if (roleId == Role.GUEST.getId()) {
+                request.getRequestDispatcher(PagePath.LOGIN_PAGE).forward(request, response);
+            } else {
+                request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
+            }
             return;
         }
 
@@ -58,19 +62,18 @@ public class AuthorizationFilter implements Filter {
         authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
-                CommandName.SHOW_PAGE_COMMAND,
                 CommandName.HOME_COMMAND,
                 CommandName.LIST_FACULTIES_COMMAND,
                 CommandName.SHOW_FACULTY_COMMAND,
                 CommandName.SHOW_FACULTY_FORM_COMMAND,
                 CommandName.UPDATE_FACULTY_COMMAND,
                 CommandName.ADD_FACULTY_COMMAND,
-                CommandName.DELETE_FACULTY_COMMAND
+                CommandName.DELETE_FACULTY_COMMAND,
+                CommandName.SHOW_DASHBOARD_COMMAND
         ));
         authorizedCommands.put(Role.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
-                CommandName.SHOW_PAGE_COMMAND,
                 CommandName.HOME_COMMAND,
                 CommandName.LIST_FACULTIES_COMMAND,
                 CommandName.SHOW_FACULTY_COMMAND
@@ -79,7 +82,6 @@ public class AuthorizationFilter implements Filter {
                 CommandName.LOGIN_COMMAND,
                 CommandName.SHOW_SIGN_IN_COMMAND,
                 CommandName.SIGNUP_COMMAND,
-                CommandName.SHOW_PAGE_COMMAND,
                 CommandName.HOME_COMMAND,
                 CommandName.LIST_FACULTIES_COMMAND,
                 CommandName.SHOW_FACULTY_COMMAND

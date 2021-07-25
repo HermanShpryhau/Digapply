@@ -11,14 +11,14 @@ import java.util.Optional;
 
 public class SignUpCommand implements Command {
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> firstName = Optional.ofNullable(request.getParameter(RequestParameter.FIRST_NAME));
         Optional<String> lastName = Optional.ofNullable(request.getParameter(RequestParameter.LAST_NAME));
         Optional<String> email = Optional.ofNullable(request.getParameter(RequestParameter.EMAIL));
         Optional<String> password = Optional.ofNullable(request.getParameter(RequestParameter.PASSWORD));
 
         UserService userService = ServiceFactory.getInstance().getUserService();
-        boolean isRegistered = false;
+        boolean isRegistered;
         try {
             isRegistered = userService.register(
                     firstName.orElse(null),
@@ -27,13 +27,13 @@ public class SignUpCommand implements Command {
                     password.orElse(null)
             );
         } catch (ServiceException e) {
-            return new CommandResult(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
         if (isRegistered) {
-            return new CommandResult(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } else {
             request.setAttribute(RequestAttribute.ERROR_ATTRIBUTE, "");
-            return new CommandResult(PagePath.SIGNUP_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.SIGNUP_PAGE, RoutingType.FORWARD);
         }
     }
 }

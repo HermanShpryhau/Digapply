@@ -10,7 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}" />
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 <noscript class="nojs">
     <h1>You have to enable JavaScript in your browser to continue working with the Digapply app.</h1>
@@ -77,6 +77,13 @@
                                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=profile">
                                             <fmt:message key="header.profile"/>
                                         </a></li>
+                                        <c:if test="${sessionScope.role == 1}">
+                                            <li>
+                                                <a href="${pageContext.request.contextPath}/controller?command=dashboard" class="dropdown-item">
+                                                    <fmt:message key="header.dashboard"/>
+                                                </a>
+                                            </li>
+                                        </c:if>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

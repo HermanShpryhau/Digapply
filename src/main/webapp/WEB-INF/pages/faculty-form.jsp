@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 
 <c:choose>
@@ -31,7 +31,7 @@
         </c:choose> | Digapply
     </title>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
@@ -50,7 +50,7 @@
     <div class="row">
         <div class="mb-3 col-md-6">
             <label for="faculty-name" class="form-label"><fmt:message key="faculty.faculty-name"/></label>
-            <input required type="text" class="form-control" id="faculty-name" name="faculty-name"
+            <input required type="text" class="form-control" id="faculty-name" name="faculty-name" pattern="[A-Za-zА-Яа-яЁёА-Яа-яЁё0-9\.\,]+"
             <c:if test="${requestScope.faculty != null}">
                    value="${requestScope.faculty.facultyName}"
             </c:if>
