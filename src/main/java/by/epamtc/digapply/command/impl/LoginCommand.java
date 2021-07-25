@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
             user = userService.login(email, String.valueOf(password));
         } catch (ServiceException e) {
             logger.error("Unable to test user sign in data.", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
         Arrays.fill(password, ' ');
         if (user != null) {
@@ -43,8 +43,8 @@ public class LoginCommand implements Command {
             session.setAttribute(SessionAttribute.USERNAME, username);
             session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
         } else {
-            session.setAttribute(SessionAttribute.LOGIN_ERROR, true);
-            return new Routing(PagePath.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
+            // TODO Set error data
+            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
 
         Routing routing;

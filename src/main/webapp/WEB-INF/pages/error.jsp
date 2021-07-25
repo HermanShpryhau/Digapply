@@ -3,20 +3,38 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 <!doctype html>
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>User error | Digapply</title>
+    <title><fmt:message key="error.error-head"/> | Digapply</title>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <div class="mw-90 mh-90 d-flex justify-content-center align-items-center">
+    <div class="vh-100 d-flex align-items-center justify-content-center">
         <h1>You must have messed something up.</h1>
+        <a href="/controller?command=home" class="btn btn-primary btn-lg mt-5"><fmt:message key="error.return-home"/></a>
+    </div>
+</div>
+
+<div class="container h-100">
+    <div class="h-100 d-flex flex-column align-items-center justify-content-center">
+        <div>
+            <h1 class="text-center"><fmt:message key="error.error-head"/></h1>
+        </div>
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <fmt:message key="${requestScope.error_key}"/>
+        </div>
+        <div>
+            <a href="${pageContext.request.contextPath}/controller?command=home" class="btn btn-primary btn-lg mt-5">
+                <fmt:message key="error.return-home"/>
+            </a>
+        </div>
     </div>
 </div>
 

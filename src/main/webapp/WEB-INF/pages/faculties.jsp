@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 <!doctype html>
 <html>
@@ -11,7 +11,7 @@
     <jsp:include page="components/head-links.jsp"/>
     <title>Faculties | Digapply</title>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
@@ -90,7 +90,7 @@
                 <a class="page-link"
                    href="${pageContext.request.contextPath}/controller?command=list-faculties&search=${param.search}&page=${requestScope.page-1}"
                    aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true"><i class="bi bi-caret-left-fill"></i></span>
                 </a>
             </li>
 
@@ -113,7 +113,7 @@
             <li class="page-item">
                 <a class="page-link" href="controller?command=list-faculties&search=${param.search}&page=${requestScope.page+1}"
                    aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true"><i class="bi bi-caret-right-fill"></i></span>
                 </a>
             </li>
         </ul>

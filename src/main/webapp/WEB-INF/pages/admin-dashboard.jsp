@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+<fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 <!doctype html>
 
@@ -11,7 +11,7 @@
 <head>
     <jsp:include page="components/head-links.jsp"/>
     <title><fmt:message key="dashboard.title"/></title>
-</head class="d-flex flex-column h-100">
+</head class="d-flex flex-column min-vh-100">
 <body>
 <jsp:include page="components/header.jsp"/>
 
