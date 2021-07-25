@@ -40,7 +40,7 @@ public class AddFacultyCommand implements Command {
 
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
-            Faculty faculty = facultyService.addFaculty(newFaculty, subjectIds);
+            Faculty faculty = facultyService.saveFaculty(newFaculty, subjectIds);
             if (faculty != null) {
                 return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {

@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Authorizes users to execute commands according to their role.
+ */
 public class AuthorizationFilter implements Filter {
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
 

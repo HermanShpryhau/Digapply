@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Interface that each controller command should implement
+ * Interface of executable controller command.
  */
 @FunctionalInterface
 public interface Command {

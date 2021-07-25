@@ -1,5 +1,8 @@
 package by.epamtc.digapply.dao.mapper;
 
+/**
+ * Contains string constants that represent names columns of tables in DB.
+ */
 public class Column {
     public static final String USER_ID = "user_id";
     public static final String USER_EMAIL = "email";

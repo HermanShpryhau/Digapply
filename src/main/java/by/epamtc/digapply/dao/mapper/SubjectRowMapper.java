@@ -5,6 +5,9 @@ import by.epamtc.digapply.entity.Subject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * {@link RowMapper} implementation for Subject entity.
+ */
 public class SubjectRowMapper implements RowMapper<Subject> {
     @Override
     public Subject map(ResultSet resultSet) throws SQLException {

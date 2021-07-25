@@ -2,6 +2,9 @@ package by.epamtc.digapply.entity;
 
 import java.io.Serializable;
 
+/**
+ * User entity.
+ */
 public class User implements Serializable, Identifiable {
     private long userId;
     private String email;

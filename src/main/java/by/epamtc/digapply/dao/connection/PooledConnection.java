@@ -8,12 +8,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public class ProxyConnection implements Connection {
+/**
+ * Connection stored in connection pool. {@code close()} method is overridden to return connection to connection pool.
+ */
+public class PooledConnection implements Connection {
     private static final Logger logger = LogManager.getLogger();
 
     private Connection connection;
 
-    ProxyConnection(Connection connection) {
+    PooledConnection(Connection connection) {
         this.connection = connection;
     }
 

@@ -12,6 +12,9 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Opens and stores connections to database. Thread-safe.
+ */
 public class ConnectionPool {
     private static final int POOL_SIZE = 10;
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
@@ -20,8 +23,8 @@ public class ConnectionPool {
     private static final String DB_PASSWORD_PROP = "db.password";
     private static final String DB_DRIVER_PROP = "db.jdbc-driver";
 
-    private BlockingQueue<ProxyConnection> pool;
-    private BlockingQueue<ProxyConnection> usedConnections;
+    private BlockingQueue<PooledConnection> pool;
+    private BlockingQueue<PooledConnection> usedConnections;
 
     private ConnectionPool() {
     }
@@ -42,7 +45,7 @@ public class ConnectionPool {
             usedConnections = new ArrayBlockingQueue<>(POOL_SIZE);
             for (int i = 0; i < POOL_SIZE; i++) {
                 Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                pool.add(new ProxyConnection(connection));
+                pool.add(new PooledConnection(connection));
             }
         } catch (IOException e) {
             logger.error("Unable to load DB properties!", e);
@@ -58,7 +61,7 @@ public class ConnectionPool {
     }
 
     public Connection takeConnection() throws ConnectionPoolException {
-        ProxyConnection connection;
+        PooledConnection connection;
         try {
             connection = pool.take();
             usedConnections.put(connection);
@@ -74,7 +77,7 @@ public class ConnectionPool {
         if (connection != null) {
             usedConnections.remove(connection);
             try {
-                pool.put((ProxyConnection) connection);
+                pool.put((PooledConnection) connection);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.error("Unable to release connection to data source.", e);
@@ -85,10 +88,10 @@ public class ConnectionPool {
 
     public void dispose() throws ConnectionPoolException {
         try {
-            for (ProxyConnection connection : pool) {
+            for (PooledConnection connection : pool) {
                 connection.reallyClose();
             }
-            for (ProxyConnection connection : usedConnections) {
+            for (PooledConnection connection : usedConnections) {
                 connection.reallyClose();
             }
         } catch (SQLException e) {

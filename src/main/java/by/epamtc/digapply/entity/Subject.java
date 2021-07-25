@@ -1,5 +1,8 @@
 package by.epamtc.digapply.entity;
 
+/**
+ * Subject entity.
+ */
 public class Subject implements Identifiable {
     private long subjectId;
     private String subjectName;

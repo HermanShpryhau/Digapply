@@ -5,6 +5,9 @@ import by.epamtc.digapply.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * {@link RowMapper} implementation for User entity.
+ */
 public class UserRowMapper implements RowMapper<User> {
 
     public UserRowMapper() {}

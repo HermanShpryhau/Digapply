@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Thread-safe singleton {@code Command} implementations provider.
+ * Thread-safe singleton {@link Command} implementations provider.
  */
 public class CommandFactory {
     private static final Map<String, Command> commands = new HashMap<>();
@@ -30,7 +30,7 @@ public class CommandFactory {
     }
 
     /**
-     * Get instance of {@code CommandFactory}.
+     * Gets instance of {@code CommandFactory}.
      * @return Instance of singleton.
      */
     public static CommandFactory getInstance() {
@@ -38,7 +38,7 @@ public class CommandFactory {
     }
 
     /**
-     * Get {@code Command} implementation for given name.
+     * Gets {@link Command} implementation for given name.
      * If there is no implementation for this name, default command will be returned.
      * @param name String containing command name passed as parameter to controller
      * @return Command implementation instance.

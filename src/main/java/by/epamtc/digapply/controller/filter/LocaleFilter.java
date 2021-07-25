@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Sets web app locale.
+ */
 public class LocaleFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

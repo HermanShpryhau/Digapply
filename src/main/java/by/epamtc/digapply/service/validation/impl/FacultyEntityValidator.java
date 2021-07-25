@@ -3,6 +3,9 @@ package by.epamtc.digapply.service.validation.impl;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.validation.EntityValidator;
 
+/**
+ * Faculty entity validator.
+ */
 public class FacultyEntityValidator implements EntityValidator<Faculty> {
     @Override
     public boolean validate(Faculty entity) {
