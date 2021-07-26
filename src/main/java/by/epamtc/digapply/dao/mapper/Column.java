@@ -21,5 +21,14 @@ public class Column {
     public static final String SUBJECT_ID = "subject_id";
     public static final String SUBJECT_NAME = "subject_name";
 
+    public static final String APPLICATION_ID = "application_id";
+    public static final String APPLY_DATE = "apply_date";
+    public static final String APPROVED = "approved";
+    public static final String APPROVE_DATE = "approve_date";
+
+    public static final String RESULT_ID = "result_id";
+    public static final String SCORE = "score";
+    public static final String CERTIFICATE_ID = "certificate_id";
+
     private Column() {}
 }
