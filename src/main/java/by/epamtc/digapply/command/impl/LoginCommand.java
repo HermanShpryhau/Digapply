@@ -43,6 +43,7 @@ public class LoginCommand implements Command {
         Arrays.fill(password, ' ');
         if (user != null) {
             String username = user.getName() + " " + user.getSurname();
+            session.setAttribute(SessionAttribute.USER_ID, user.getId());
             session.setAttribute(SessionAttribute.USERNAME, username);
             session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
         } else {
