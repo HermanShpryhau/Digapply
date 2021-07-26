@@ -1,5 +1,6 @@
 package by.epamtc.digapply.dao;
 
+import by.epamtc.digapply.dao.impl.ApplicationDaoImpl;
 import by.epamtc.digapply.dao.impl.FacultyDaoImpl;
 import by.epamtc.digapply.dao.impl.SubjectDaoImpl;
 import by.epamtc.digapply.dao.impl.UserDaoImpl;
@@ -11,6 +12,7 @@ public class DaoFactory {
     private final UserDao userDao = new UserDaoImpl();
     private final FacultyDao facultyDao = new FacultyDaoImpl();
     private final SubjectDao subjectDao = new SubjectDaoImpl();
+    private final ApplicationDao applicationDao = new ApplicationDaoImpl();
 
     private DaoFactory() {
     }
@@ -44,6 +46,14 @@ public class DaoFactory {
      * @return {@link SubjectDao} implementation.
      */
     public SubjectDao getSubjectDao() { return subjectDao; }
+
+    /**
+     * Gets implementation of {@link ApplicationDao}
+     * @return {@link ApplicationDao} implementation.
+     */
+    public ApplicationDao getApplicationDao() {
+        return applicationDao;
+    }
 
     private static class Holder {
         static final DaoFactory INSTANCE = new DaoFactory();
