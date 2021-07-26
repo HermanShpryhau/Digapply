@@ -9,7 +9,7 @@ import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.validation.EntityValidator;
-import by.epamtc.digapply.service.validation.EntityValidatorFactory;
+import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -151,7 +151,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     private boolean isFacultyEntityValid(Faculty faculty) {
-        EntityValidator<Faculty> facultyEntityValidator = EntityValidatorFactory.getInstance().getFacultyEntityValidator();
+        EntityValidator<Faculty> facultyEntityValidator = ValidatorFactory.getInstance().getFacultyEntityValidator();
         return facultyEntityValidator.validate(faculty);
     }
 }

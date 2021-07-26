@@ -31,10 +31,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
         jdbcOperator.executeUpdate(
                 SAVE_APPLICATION_QUERY,
                 entity.getUserId(),
-                entity.getFacultyId(),
-                entity.getApplyDate(),
-                entity.isApproved(),
-                entity.getApproveDate()
+                entity.getFacultyId()
         );
         Application application = jdbcOperator.executeSingleEntityQuery(
                 FIND_APPLICATION_BY_USER_FACULTY_QUERY,

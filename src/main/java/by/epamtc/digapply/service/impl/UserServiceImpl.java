@@ -8,7 +8,7 @@ import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.validation.EntityValidator;
-import by.epamtc.digapply.service.validation.EntityValidatorFactory;
+import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isUserEntityValid(User user) {
-        EntityValidator<User> userEntityValidator = EntityValidatorFactory.getInstance().getUserDataValidator();
+        EntityValidator<User> userEntityValidator = ValidatorFactory.getInstance().getUserDataValidator();
         return userEntityValidator.validate(user);
     }
 }

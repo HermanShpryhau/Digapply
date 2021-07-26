@@ -20,6 +20,7 @@ public class CommandName {
     public static final String SEARCH_FACULTY_COMMAND = "search-faculty";
     public static final String SHOW_DASHBOARD_COMMAND = "dashboard";
     public static final String NEW_APPLICATION_COMMAND = "new-application";
+    public static final String SUBMIT_APPLICATION_COMMAND = "submit-application";
 
     private CommandName() {}
 }

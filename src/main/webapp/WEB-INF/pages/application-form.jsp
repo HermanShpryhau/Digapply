@@ -11,7 +11,7 @@
         <c:set var="action" value="${pageContext.request.contextPath}/controller?command=update-application"/>
     </c:when>
     <c:otherwise>
-        <c:set var="action" value="${pageContext.request.contextPath}/controller?command=submit-applicaion"/>
+        <c:set var="action" value="${pageContext.request.contextPath}/controller?command=submit-application"/>
     </c:otherwise>
 </c:choose>
 
@@ -29,6 +29,7 @@
     <p class="fs-4">In order to apply please fill in your results in following subjects and specify result certificate ID.</p>
 
     <form action="${action}" method="post">
+        <input type="hidden" name="faculty-id" value="${requestScope.faculty.facultyId}">
         <c:forEach var="subject" items="${requestScope.subjects}">
             <div class="mb-4">
                 <div class="row">

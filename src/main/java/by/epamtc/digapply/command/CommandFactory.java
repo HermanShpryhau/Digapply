@@ -28,6 +28,7 @@ public class CommandFactory {
         commands.put(CommandName.DELETE_FACULTY_COMMAND, new DeleteFacultyCommand());
         commands.put(CommandName.SHOW_DASHBOARD_COMMAND, new ShowDashboardCommand());
         commands.put(CommandName.NEW_APPLICATION_COMMAND, new NewApplicationCommand());
+        commands.put(CommandName.SUBMIT_APPLICATION_COMMAND, new SubmitApplicationCommand());
     }
 
     /**
