@@ -50,7 +50,6 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + page);
                 break;
             default:
-                logger.error("Unknown routing type!");
                 request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
         }
     }
