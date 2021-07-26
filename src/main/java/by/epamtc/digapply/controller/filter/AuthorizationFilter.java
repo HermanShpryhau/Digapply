@@ -72,14 +72,16 @@ public class AuthorizationFilter implements Filter {
                 CommandName.UPDATE_FACULTY_COMMAND,
                 CommandName.ADD_FACULTY_COMMAND,
                 CommandName.DELETE_FACULTY_COMMAND,
-                CommandName.SHOW_DASHBOARD_COMMAND
+                CommandName.SHOW_DASHBOARD_COMMAND,
+                CommandName.NEW_APPLICATION_COMMAND
         ));
         authorizedCommands.put(Role.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
                 CommandName.HOME_COMMAND,
                 CommandName.LIST_FACULTIES_COMMAND,
-                CommandName.SHOW_FACULTY_COMMAND
+                CommandName.SHOW_FACULTY_COMMAND,
+                CommandName.NEW_APPLICATION_COMMAND
         ));
         authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,

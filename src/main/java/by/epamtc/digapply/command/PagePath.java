@@ -15,7 +15,6 @@ public class PagePath {
     public static final String LOGIN_PAGE_REDIRECT = "/controller?command=show-sign-in";
 
     public static final String SIGNUP_PAGE = "WEB-INF/pages/signup.jsp";
-    public static final String SIGNUP_PAGE_REDIRECT = "/controller?command=show-page&page=WEB-INF/jsp/signup.jsp";
 
     public static final String PROFILE_PAGE = "WEB-INF/pages/profile.jsp";
     public static final String PROFILE_PAGE_REDIRECT = "/controller?command=profile";
@@ -29,6 +28,8 @@ public class PagePath {
     public static final String FACULTY_FORM_PAGE = "WEB-INF/pages/faculty-form.jsp";
 
     public static final String DASHBOARD_PAGE = "WEB-INF/pages/admin-dashboard.jsp";
+
+    public static final String APPLICATION_FORM = "WEB-INF/pages/application-form.jsp";
 
     private PagePath() {}
 }
