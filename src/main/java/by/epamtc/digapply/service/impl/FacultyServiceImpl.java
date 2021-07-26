@@ -100,6 +100,16 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException {
+        try {
+            return subjectDao.findSubjectsByFaculty(facultyId);
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve subjects by faculty id", e);
+            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
+        }
+    }
+
+    @Override
     public boolean updateFaculty(Faculty faculty) throws ServiceException {
         if (isFacultyEntityValid(faculty)) {
             try {

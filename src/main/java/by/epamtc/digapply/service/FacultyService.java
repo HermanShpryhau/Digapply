@@ -63,6 +63,13 @@ public interface FacultyService {
     List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
 
     /**
+     * Retrieves list of subjects required to apply for faculty by ID.
+     * @param facultyId Faculty ID.
+     * @return List of required subjects.
+     */
+    List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException;
+
+    /**
      * Updates Faculty entity representation in data source.
      * @param faculty Faculty to update.
      * @return {@code true} if entity was successfully updated, {@code false} if submitted data was invalid.
