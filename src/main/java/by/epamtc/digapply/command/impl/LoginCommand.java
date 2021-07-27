@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private static final String CONTROLLER_COMMAND = "/controller?command=";
+    private static final String CONTROLLER_COMMAND = "/controller?";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

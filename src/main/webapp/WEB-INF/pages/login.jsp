@@ -39,7 +39,7 @@
                 <button type="submit" class="btn btn-primary"><fmt:message key="form.sign-in-btn"/></button>
             </form>
             <hr class="dropdown-divider">
-            <p class="text-muted"><fmt:message key="form.no-account"/><a href="/controller?command=show-page&page=WEB-INF/jsp/signup.jsp"><fmt:message key="form.sign-up-btn"/></a></p>
+            <p class="text-muted"><fmt:message key="form.no-account"/><a href="/controller?command=show-sign-up"><fmt:message key="form.sign-up-btn"/></a></p>
         </div>
         <div class="col"></div>
     </div>

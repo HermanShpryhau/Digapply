@@ -15,15 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Authorizes users to execute commands according to their role.
  */
 public class AuthorizationFilter implements Filter {
+    private final Set<String> availableCommands = new HashSet<>();
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
 
     @Override
@@ -43,17 +42,31 @@ public class AuthorizationFilter implements Filter {
         }
 
         String command = request.getParameter("command");
+        if (!availableCommands.contains(command)) {
+            request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
+            return;
+        }
         if (!authorizedCommands.get(roleId).contains(command)) {
-            session.setAttribute(SessionAttribute.PREVIOUS_COMMAND, command);
-            if (roleId == Role.GUEST.getId()) {
-                request.getRequestDispatcher(PagePath.LOGIN_PAGE).forward(request, response);
-            } else {
-                request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
-            }
+            String requestParameters = buildRequestParametersString(request);
+            session.setAttribute(SessionAttribute.PREVIOUS_COMMAND, requestParameters);
+            request.getRequestDispatcher(PagePath.LOGIN_PAGE).forward(request, response);
             return;
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
+    }
+
+    private String buildRequestParametersString(HttpServletRequest request) {
+        Map<String, String[]> parameters = request.getParameterMap();
+        StringBuilder requestParameters = new StringBuilder();
+        for (Map.Entry<String, String[]> parameter : parameters.entrySet()) {
+            requestParameters.append(parameter.getKey());
+            requestParameters.append('=');
+            requestParameters.append(parameter.getValue()[0]);
+            requestParameters.append('&');
+        }
+        requestParameters.deleteCharAt(requestParameters.length() - 1);
+        return requestParameters.toString();
     }
 
     @Override
@@ -91,7 +104,13 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SIGNUP_COMMAND,
                 CommandName.HOME_COMMAND,
                 CommandName.LIST_FACULTIES_COMMAND,
-                CommandName.SHOW_FACULTY_COMMAND
+                CommandName.SHOW_FACULTY_COMMAND,
+                CommandName.SHOW_SIGNUP_COMMAND
         ));
+        availableCommands.addAll(
+                authorizedCommands.values().stream()
+                        .flatMap(List::stream)
+                        .collect(Collectors.toList())
+        );
     }
 }

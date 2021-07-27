@@ -8,6 +8,7 @@ public class CommandName {
     public static final String LOGIN_COMMAND = "login";
     public static final String LOGOUT_COMMAND = "logout";
     public static final String SIGNUP_COMMAND = "signup";
+    public static final String SHOW_SIGNUP_COMMAND = "show-sign-up";
     public static final String PROFILE_COMMAND = "profile";
     public static final String SHOW_SIGN_IN_COMMAND = "show-sign-in";
     public static final String HOME_COMMAND = "home";
