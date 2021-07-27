@@ -6,4 +6,5 @@ public interface ApplicationService {
 
     boolean saveApplication(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException;
 
+    boolean hasApplication(long userId) throws ServiceException;
 }

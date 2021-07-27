@@ -14,7 +14,8 @@ import java.util.List;
 public class ApplicationDaoImpl extends AbstractDao<Application> implements ApplicationDao {
     private static final String SAVE_APPLICATION_QUERY = "INSERT INTO Applications (application_id, user_id, faculty_id, apply_date, approved, approve_date) VALUES (0, ?, ?, CURRENT_TIMESTAMP(), false, NULL)";
     private static final String SAVE_RESULT_FOR_APPLICATION_QUERY = "INSERT INTO Results (result_id, application_id, subject_id, score, certificate_id) VALUES (0, (SELECT application_id FROM Applications WHERE user_id=? AND faculty_id=?), ?, ?, ?)";
-    private static final String FIND_APPLICATION_BY_ID_QUERY = "SELECT * FROM Application WHERE application_id=?";
+    private static final String FIND_APPLICATION_BY_ID_QUERY = "SELECT * FROM Applications WHERE application_id=?";
+    private static final String FIND_APPLICATION_BY_USER_QUERY = "SELECT * FROM Applications WHERE user_id=?";
     private static final String UPDATE_APPLICATION_QUERY = "UPDATE Applications SET user_id=?, faculty_id=?, apply_date=?, approved=?, approve_date=? WHERE application_id=?";
     private static final String DELETE_APPLICATION_QUERY = "DELETE FROM Applications  WHERE application_id=?";
 
@@ -52,6 +53,11 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     @Override
     public Application findById(long id) throws DaoException {
         return jdbcOperator.executeSingleEntityQuery(FIND_APPLICATION_BY_ID_QUERY, id);
+    }
+
+    @Override
+    public Application findByUserId(long userId) throws DaoException {
+        return jdbcOperator.executeSingleEntityQuery(FIND_APPLICATION_BY_USER_QUERY, userId);
     }
 
     @Override

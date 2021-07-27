@@ -30,9 +30,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         List<Result> results = buildResultsList(scores, certificateIds);
-        Application application = new Application();
-        application.setUserId(userId);
-        application.setFacultyId(facultyId);
+        Application application = buildApplication(userId, facultyId);
         ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             applicationDao.save(application, results);
@@ -42,6 +40,24 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         return true;
+    }
+
+    private Application buildApplication(long userId, long facultyId) {
+        Application application = new Application();
+        application.setUserId(userId);
+        application.setFacultyId(facultyId);
+        return application;
+    }
+
+    @Override
+    public boolean hasApplication(long userId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            return applicationDao.findByUserId(userId) != null;
+        } catch (DaoException e) {
+            logger.error("Unable to fetch application by user id.", e);
+            throw new ServiceException("Unable to fetch application by user id.", e);
+        }
     }
 
     private List<Result> buildResultsList(Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {

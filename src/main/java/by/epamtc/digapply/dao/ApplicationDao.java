@@ -9,4 +9,6 @@ public interface ApplicationDao extends Dao<Application> {
 
     void save(Application entity, List<Result> results) throws DaoException;
 
+    Application findByUserId(long userId) throws DaoException;
+
 }

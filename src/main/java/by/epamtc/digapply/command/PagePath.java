@@ -29,7 +29,8 @@ public class PagePath {
 
     public static final String DASHBOARD_PAGE = "WEB-INF/pages/admin-dashboard.jsp";
 
-    public static final String APPLICATION_FORM = "WEB-INF/pages/application-form.jsp";
+    public static final String APPLICATION_FORM_PAGE = "WEB-INF/pages/application-form.jsp";
+    public static final String ONLY_ONE_APPLICATION_PAGE = "WEB-INF/pages/only-one-app.jsp";
 
     private PagePath() {}
 }
