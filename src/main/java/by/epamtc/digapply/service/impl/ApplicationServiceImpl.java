@@ -45,10 +45,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> retrieveApplicationsByFaculty(long facultyId) throws ServiceException {
+    public List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException {
+        List<ApplicationDto> dtos = new ArrayList<>();
         ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
-            return applicationDao.findByFacultyId(facultyId);
+            List<Application> applications = applicationDao.findByFacultyId(facultyId);
+            for (Application application : applications) {
+                dtos.add(buildApplicationDto(application));
+            }
+            return dtos;
         } catch (DaoException e) {
             logger.error("Unable to fetch applications by faculty id.", e);
             throw new ServiceException("Unable to fetch applications by faculty id.", e);

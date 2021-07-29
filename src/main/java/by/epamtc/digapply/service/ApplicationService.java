@@ -16,7 +16,7 @@ public interface ApplicationService {
 
     Application retrieveApplicationByUserId(long userId) throws ServiceException;
 
-    List<Application> retrieveApplicationsByFaculty(long facultyId) throws ServiceException;
+    List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException;
 
     int calculateTotalScore(long applicationId) throws ServiceException;
 
