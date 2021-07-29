@@ -32,5 +32,8 @@ public class PagePath {
     public static final String APPLICATION_FORM_PAGE = "WEB-INF/pages/application-form.jsp";
     public static final String ONLY_ONE_APPLICATION_PAGE = "WEB-INF/pages/only-one-app.jsp";
 
+    public static final String APPLICATION_TABLE_PAGE = "WEB-INF/pages/application-table.jsp";
+    public static final String APPLICATION_TABLE_PAGE_REDIRECT = "/controller?command=manage-applications";
+
     private PagePath() {}
 }

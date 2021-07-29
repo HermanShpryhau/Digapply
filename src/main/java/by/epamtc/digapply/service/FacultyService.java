@@ -32,11 +32,31 @@ public interface FacultyService {
     long countPages(long elementsPerPage) throws ServiceException;
 
     /**
+     * Retrieves all faculties.
+     * @return List of all faculties in data source.
+     */
+    List<Faculty> retrieveAllFaculties() throws ServiceException;
+
+    /**
      * Retrieves faculty by ID.
      * @param id ID of faculty
      * @return Faculty object with given ID.
      */
     Faculty retrieveFacultyById(long id) throws ServiceException;
+
+    /**
+     * Retrieves list of subjects required to apply for faculty.
+     * @param faculty Faculty entity.
+     * @return List of required subjects.
+     */
+    List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
+
+    /**
+     * Retrieves list of subjects required to apply for faculty by ID.
+     * @param facultyId Faculty ID.
+     * @return List of required subjects.
+     */
+    List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException;
 
     /**
      * Searches for faculties with given pattern in name.
@@ -54,20 +74,6 @@ public interface FacultyService {
      * @return Number of pages needed to display search results.
      */
     long countPagesForSearchResult(String pattern, long elementsPerPage) throws ServiceException;
-
-    /**
-     * Retrieves list of subjects required to apply for faculty.
-     * @param faculty Faculty entity.
-     * @return List of required subjects.
-     */
-    List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
-
-    /**
-     * Retrieves list of subjects required to apply for faculty by ID.
-     * @param facultyId Faculty ID.
-     * @return List of required subjects.
-     */
-    List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException;
 
     /**
      * Updates Faculty entity representation in data source.

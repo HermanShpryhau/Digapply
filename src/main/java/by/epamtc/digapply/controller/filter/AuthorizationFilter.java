@@ -89,7 +89,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.NEW_APPLICATION_COMMAND,
                 CommandName.SUBMIT_APPLICATION_COMMAND,
                 CommandName.CANCEL_APPLICATION_COMMAND,
-                CommandName.APPROVE_APPLICATION_COMMAND
+                CommandName.APPROVE_APPLICATION_COMMAND,
+                CommandName.SHOW_APPLICATIONS_TABLE_COMMAND
         ));
         authorizedCommands.put(Role.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,

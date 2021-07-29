@@ -18,12 +18,12 @@ public class CommandName {
     public static final String UPDATE_FACULTY_COMMAND = "update-faculty";
     public static final String ADD_FACULTY_COMMAND = "add-faculty";
     public static final String DELETE_FACULTY_COMMAND = "delete-faculty";
-    public static final String SEARCH_FACULTY_COMMAND = "search-faculty";
     public static final String SHOW_DASHBOARD_COMMAND = "dashboard";
     public static final String NEW_APPLICATION_COMMAND = "new-application";
     public static final String SUBMIT_APPLICATION_COMMAND = "submit-application";
     public static final String CANCEL_APPLICATION_COMMAND = "cancel-application";
     public static final String APPROVE_APPLICATION_COMMAND = "approve-application";
+    public static final String SHOW_APPLICATIONS_TABLE_COMMAND = "manage-applications";
 
     private CommandName() {}
 }

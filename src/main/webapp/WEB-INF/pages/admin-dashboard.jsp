@@ -46,7 +46,7 @@
             <div class="card">
                 <div class="card-body d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.applications-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-applications"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=manage-applications" class="btn btn-primary"><fmt:message key="dashboard.manage-applications"/></a>
                 </div>
             </div>
         </div>

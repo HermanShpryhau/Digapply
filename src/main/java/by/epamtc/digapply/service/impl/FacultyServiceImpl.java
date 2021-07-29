@@ -68,6 +68,16 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public List<Faculty> retrieveAllFaculties() throws ServiceException {
+        try {
+            return facultyDao.findAll();
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve all faculties.", e);
+            throw new ServiceException("Unable to retrieve all faculties.", e);
+        }
+    }
+
+    @Override
     public List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException {
         try {
             return facultyDao.findByPattern(pattern, page, elementsPerPage);
