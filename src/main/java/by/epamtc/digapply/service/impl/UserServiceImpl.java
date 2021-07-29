@@ -79,4 +79,19 @@ public class UserServiceImpl implements UserService {
         EntityValidator<User> userEntityValidator = ValidatorFactory.getInstance().getUserDataValidator();
         return userEntityValidator.validate(user);
     }
+
+    @Override
+    public String getFullNameById(long userId) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            User user = userDao.findById(userId);
+            if (user == null) {
+                return null;
+            }
+            return user.getName() + ' ' + user.getSurname();
+        } catch (DaoException e) {
+            logger.error("Unable to fetch user by id", e);
+            throw new ServiceException("Unable to fetch user by id", e);
+        }
+    }
 }

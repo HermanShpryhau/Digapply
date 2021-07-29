@@ -2,12 +2,10 @@ package by.epamtc.digapply.service.impl;
 
 import by.epamtc.digapply.dao.*;
 import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Result;
 import by.epamtc.digapply.entity.dto.ApplicationDto;
-import by.epamtc.digapply.service.ApplicationService;
-import by.epamtc.digapply.service.ServiceException;
-import by.epamtc.digapply.service.ServiceFactory;
+import by.epamtc.digapply.entity.dto.ResultDto;
+import by.epamtc.digapply.service.*;
 import by.epamtc.digapply.service.validation.ApplicationFormDataValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
@@ -65,19 +63,52 @@ public class ApplicationServiceImpl implements ApplicationService {
         try {
             List<Application> applications = applicationDao.findAll();
             for (Application application : applications) {
-
+                dtos.add(buildApplicationDto(application));
             }
         } catch (DaoException e) {
             logger.error("Unable to retrieve all applications", e);
             throw new ServiceException("Unable to retrieve all applications", e);
         }
-        return null;
+
+        return dtos;
     }
 
-    private ApplicationDto buildApplicationDto(Application application) throws DaoException {
+    private ApplicationDto buildApplicationDto(Application application) throws ServiceException {
+        ApplicationDto dto = new ApplicationDto();
+        dto.setApplicationId(application.getId());
+        dto.setApplicantName(getApplicantNameById(application.getUserId()));
+        dto.setFacultyName(getFacultyNameById(application.getFacultyId()));
+        List<ResultDto> results = getResultsForApplication(application.getId());
+        dto.setResults(results);
+        dto.setTotalScore(calculateTotalScoreFromDto(results));
+        dto.setApplyDate(application.getApplyDate());
+        dto.setApproved(application.isApproved());
+        dto.setApproveDate(application.getApproveDate());
+        return dto;
+    }
+
+    private String getApplicantNameById(long userId) throws ServiceException {
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        return userService.getFullNameById(userId);
+    }
+
+    private String getFacultyNameById(long facultyId) throws ServiceException {
         FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
+        try {
+            return facultyDao.findById(facultyId).getFacultyName();
+        } catch (DaoException e) {
+            logger.error("Unable to fetch faculty by id.", e);
+            throw new ServiceException("Unable to fetch faculty by id.", e);
+        }
+    }
 
+    private List<ResultDto> getResultsForApplication(long applicationId) throws ServiceException {
+        ResultService resultService = ServiceFactory.getInstance().getResultService();
+        return resultService.retrieveResultsForApplication(applicationId);
+    }
 
+    private int calculateTotalScoreFromDto(List<ResultDto> results) {
+        return results.stream().mapToInt(ResultDto::getScore).sum();
     }
 
     @Override

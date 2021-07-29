@@ -25,4 +25,6 @@ public interface UserService {
      */
     boolean register(String firstName, String lastName, String email, String password) throws ServiceException;
 
+    String getFullNameById(long userId) throws ServiceException;
+
 }
