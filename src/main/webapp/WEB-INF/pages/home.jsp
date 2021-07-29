@@ -28,12 +28,7 @@
         <div class="row mt-5">
             <div class="col-sm my-auto">
                 <h1 class="display-5 fw-bold"><fmt:message key="home.promo"/></h1>
-                <p class="fs-5 fs-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque molestiae
-                    voluptatibus in nesciunt harum voluptas incidunt qui, necessitatibus porro doloremque consequuntur
-                    quae adipisci excepturi saepe unde veniam asperiores similique maiores? Lorem, ipsum dolor sit amet
-                    consectetur adipisicing elit. Nostrum amet eligendi illo consectetur saepe et expedita, cum
-                    dignissimos, dolorum commodi fugit quisquam. Iure, maiores velit ipsum dicta placeat molestiae
-                    aliquam!</p>
+                <p class="fs-5 fs-normal"></p>
             </div>
 
             <div class="col-sm">
