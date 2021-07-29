@@ -1,6 +1,7 @@
 package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
+import by.epamtc.digapply.entity.Role;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
@@ -20,6 +21,9 @@ public class CancelApplicationCommand implements Command {
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             if (applicationService.cancelApplication(userId)) {
+                if ((long) request.getSession().getAttribute(SessionAttribute.ROLE) == Role.ADMIN.getId()) {
+                    return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
+                }
                 return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);

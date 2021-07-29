@@ -6,6 +6,7 @@ import java.util.List;
 
 public class ApplicationDto implements Serializable {
     private long applicationId;
+    private long applicantId;
     private String applicantName;
     private String facultyName;
     private List<ResultDto> results;
@@ -22,6 +23,14 @@ public class ApplicationDto implements Serializable {
 
     public void setApplicationId(long applicationId) {
         this.applicationId = applicationId;
+    }
+
+    public long getApplicantId() {
+        return applicantId;
+    }
+
+    public void setApplicantId(long applicantId) {
+        this.applicantId = applicantId;
     }
 
     public String getApplicantName() {
@@ -88,6 +97,7 @@ public class ApplicationDto implements Serializable {
         ApplicationDto other = (ApplicationDto) o;
 
         if (applicationId != other.applicationId) return false;
+        if (applicationId != other.getApplicantId()) return false;
         if (totalScore != other.totalScore) return false;
         if (isApproved != other.isApproved) return false;
         if (!applicantName.equals(other.applicantName)) return false;
@@ -100,6 +110,7 @@ public class ApplicationDto implements Serializable {
     @Override
     public int hashCode() {
         int result = (int) (applicationId ^ (applicationId >>> 32));
+        result = 31 * result + (int) (applicantId ^ (applicationId >>> 32));
         result = 31 * result + applicantName.hashCode();
         result = 31 * result + facultyName.hashCode();
         result = 31 * result + results.hashCode();
@@ -114,6 +125,7 @@ public class ApplicationDto implements Serializable {
     public String toString() {
         return "ApplicationDto{" +
                 "applicationId=" + applicationId +
+                ", applicantId=" + applicantId +
                 ", applicantName='" + applicantName + '\'' +
                 ", facultyName='" + facultyName + '\'' +
                 ", results=" + results +

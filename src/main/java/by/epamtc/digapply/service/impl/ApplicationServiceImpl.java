@@ -81,6 +81,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ApplicationDto buildApplicationDto(Application application) throws ServiceException {
         ApplicationDto dto = new ApplicationDto();
         dto.setApplicationId(application.getId());
+        dto.setApplicantId(application.getUserId());
         dto.setApplicantName(getApplicantNameById(application.getUserId()));
         dto.setFacultyName(getFacultyNameById(application.getFacultyId()));
         List<ResultDto> results = getResultsForApplication(application.getId());
