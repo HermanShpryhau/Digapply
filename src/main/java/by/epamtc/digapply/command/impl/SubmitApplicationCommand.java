@@ -12,15 +12,14 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SubmitApplicationCommand implements Command {
-    private static final long INVALID_FACULTY_ID = -1;
     private static final String SUBJECT_ID_PREFIX = "sid-";
     private static final String CERTIFICATE_ID_PREFIX = "cid-";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_ID));
-        long facultyId = getFacultyId(facultyIdString);
-        if (facultyId == INVALID_FACULTY_ID) {
+        long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
+        if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
             return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
         }
 
@@ -47,17 +46,5 @@ public class SubmitApplicationCommand implements Command {
         } catch (ServiceException e) {
             return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
-    }
-
-    private long getFacultyId(Optional<String> facultyIdString) {
-        long facultyId = INVALID_FACULTY_ID;
-        if (facultyIdString.isPresent()) {
-            try {
-                facultyId = Long.parseLong(facultyIdString.get());
-            } catch (NumberFormatException e) {
-                facultyId = INVALID_FACULTY_ID;
-            }
-        }
-        return facultyId;
     }
 }

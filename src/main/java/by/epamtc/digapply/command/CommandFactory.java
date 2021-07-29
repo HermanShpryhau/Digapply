@@ -30,6 +30,7 @@ public class CommandFactory {
         commands.put(CommandName.NEW_APPLICATION_COMMAND, new NewApplicationCommand());
         commands.put(CommandName.SUBMIT_APPLICATION_COMMAND, new SubmitApplicationCommand());
         commands.put(CommandName.SHOW_SIGNUP_COMMAND, new ShowSignUpCommand());
+        commands.put(CommandName.CANCEL_APPLICATION_COMMAND, new CancelApplicationCommand());
     }
 
     /**

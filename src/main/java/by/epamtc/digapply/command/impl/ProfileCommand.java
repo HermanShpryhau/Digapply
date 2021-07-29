@@ -22,12 +22,14 @@ public class ProfileCommand implements Command {
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             Application application = applicationService.retrieveApplicationByUserId((long)session.getAttribute(SessionAttribute.USER_ID));
-            request.setAttribute(RequestAttribute.APPLICATION, application);
-            FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
-            Faculty faculty = facultyService.retrieveFacultyById(application.getFacultyId());
-            request.setAttribute(RequestAttribute.FACULTY_NAME, faculty.getFacultyName());
-            int totalScore = applicationService.calculateTotalScore(application.getId());
-            request.setAttribute(RequestAttribute.TOTAL_SCORE, totalScore);
+            if (application != null) {
+                request.setAttribute(RequestAttribute.APPLICATION, application);
+                FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
+                Faculty faculty = facultyService.retrieveFacultyById(application.getFacultyId());
+                request.setAttribute(RequestAttribute.FACULTY_NAME, faculty.getFacultyName());
+                int totalScore = applicationService.calculateTotalScore(application.getId());
+                request.setAttribute(RequestAttribute.TOTAL_SCORE, totalScore);
+            }
         } catch (ServiceException e) {
             return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }

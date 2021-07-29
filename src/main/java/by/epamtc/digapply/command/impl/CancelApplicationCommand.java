@@ -1,0 +1,31 @@
+package by.epamtc.digapply.command.impl;
+
+import by.epamtc.digapply.command.*;
+import by.epamtc.digapply.service.ApplicationService;
+import by.epamtc.digapply.service.ServiceException;
+import by.epamtc.digapply.service.ServiceFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
+
+public class CancelApplicationCommand implements Command {
+    @Override
+    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+        Optional<String> userIdString = Optional.ofNullable(request.getParameter(RequestParameter.USER_ID));
+        long userId = RequestParameterParser.parsePositiveLong(userIdString);
+        if (userId == RequestParameterParser.INVALID_POSITIVE_INT) {
+            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+        }
+        ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
+        try {
+            if (applicationService.cancelApplication(userId)) {
+                return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
+            } else {
+                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            }
+        } catch (ServiceException e) {
+            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+        }
+    }
+}

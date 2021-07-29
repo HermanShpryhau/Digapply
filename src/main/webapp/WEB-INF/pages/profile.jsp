@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hermanshpryhau
-  Date: 10.07.21
-  Time: 19:41
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -22,10 +15,16 @@
 <body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 <div class="container">
-    <h1 class="mt-5 mb-2">${sessionScope.username}</h1>
-    <a class="btn btn-outline-primary" href="#"><fmt:message key="profile.edit"/></a>
+    <div class="row justify-content-between mt-5 mb-2">
+        <div class="col">
+            <h1>${sessionScope.username}</h1>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-dark" href="#"><i class="bi bi-pencil-square"></i></a>
+        </div>
+    </div>
 
-    <h2 class="mt-5 mb-3"><fmt:message key="profile.application-status"/></h2>
+    <h2 class="mt-4 mb-3"><fmt:message key="profile.application-status"/></h2>
     <c:choose>
         <c:when test="${requestScope.application != null}">
             <div class="card <c:if test="${requestScope.application.approved}">text-white bg-success</c:if> ">
@@ -46,7 +45,7 @@
                         <br/>
                         <fmt:message key="profile.total-score"/>: ${requestScope.total_score}
                     </p>
-                    <a href="#" class="btn btn-warning"><i class="bi bi-x-circle"></i> <fmt:message key="profile.cancel-application"/></a>
+                    <a href="/controller?command=cancel-application&user-id=${sessionScope.user_id}" class="btn btn-warning"><i class="bi bi-x-circle"></i> <fmt:message key="profile.cancel-application"/></a>
                 </div>
             </div>
         </c:when>

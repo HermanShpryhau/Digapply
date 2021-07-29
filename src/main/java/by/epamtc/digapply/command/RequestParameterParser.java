@@ -6,6 +6,9 @@ public class RequestParameterParser {
     public static final long INVALID_POSITIVE_LONG = -1L;
     public static final int INVALID_POSITIVE_INT = -1;
 
+    private RequestParameterParser() {
+    }
+
     public static long parsePositiveLong(Optional<String> optional) {
         long number = INVALID_POSITIVE_INT;
         if (optional.isPresent()) {

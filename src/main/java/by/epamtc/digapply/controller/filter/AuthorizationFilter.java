@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
  * Authorizes users to execute commands according to their role.
  */
 public class AuthorizationFilter implements Filter {
-    private final Set<String> availableCommands = new HashSet<>();
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
+    private Set<String> availableCommands = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -87,7 +87,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.DELETE_FACULTY_COMMAND,
                 CommandName.SHOW_DASHBOARD_COMMAND,
                 CommandName.NEW_APPLICATION_COMMAND,
-                CommandName.SUBMIT_APPLICATION_COMMAND
+                CommandName.SUBMIT_APPLICATION_COMMAND,
+                CommandName.CANCEL_APPLICATION_COMMAND
         ));
         authorizedCommands.put(Role.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
@@ -96,7 +97,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.LIST_FACULTIES_COMMAND,
                 CommandName.SHOW_FACULTY_COMMAND,
                 CommandName.NEW_APPLICATION_COMMAND,
-                CommandName.SUBMIT_APPLICATION_COMMAND
+                CommandName.SUBMIT_APPLICATION_COMMAND,
+                CommandName.CANCEL_APPLICATION_COMMAND
         ));
         authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,
@@ -107,10 +109,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_FACULTY_COMMAND,
                 CommandName.SHOW_SIGNUP_COMMAND
         ));
-        availableCommands.addAll(
-                authorizedCommands.values().stream()
-                        .flatMap(List::stream)
-                        .collect(Collectors.toList())
-        );
+        availableCommands = authorizedCommands.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
     }
 }

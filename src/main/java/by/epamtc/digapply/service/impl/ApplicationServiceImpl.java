@@ -62,6 +62,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public boolean cancelApplication(long userId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            Application application = applicationDao.findByUserId(userId);
+            if (application == null) {
+                return false;
+            }
+            applicationDao.remove(application);
+            return true;
+        } catch (DaoException e) {
+            logger.error("Unable to remove application from DB.", e);
+            throw new ServiceException("Unable to remove application from DB.", e);
+        }
+    }
+
+    @Override
     public boolean saveApplication(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
         ApplicationFormDataValidator validator = ValidatorFactory.getInstance().getApplicationFormDataValidator();
         if (!validator.validate(userId, facultyId, scores, certificateIds)) {
