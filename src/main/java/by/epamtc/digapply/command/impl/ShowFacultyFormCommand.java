@@ -19,17 +19,20 @@ import java.util.Optional;
 public class ShowFacultyFormCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
-        Optional<String> facultyIdParameter = Optional.ofNullable(request.getParameter(RequestParameter.ID));
-        if (facultyIdParameter.isPresent()) {
-            long facultyId = Long.parseLong(facultyIdParameter.get());
-            FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
-            try {
-                Faculty faculty = facultyService.retrieveFacultyById(facultyId);
-                request.setAttribute(RequestAttribute.FACULTY, faculty);
-            } catch (ServiceException e) {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
-            }
+        Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
+        long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
+        if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
+            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
         }
+
+        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
+        try {
+            Faculty faculty = facultyService.retrieveFacultyById(facultyId);
+            request.setAttribute(RequestAttribute.FACULTY, faculty);
+        } catch (ServiceException e) {
+            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+        }
+
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
             List<Subject> subjects = subjectService.retrieveAllSubjects();

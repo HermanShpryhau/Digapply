@@ -14,23 +14,22 @@ import java.util.Optional;
  * Updates faculty data in datasource
  */
 public class UpdateFacultyCommand implements Command {
-    private static final long INVALID_ID = -1;
-    private static final int INVALID_PLACES_COUNT = -1;
     private static final String HTML_TAG_SCRIPT = "\\<.*?\\>";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
-        long facultyId = parseFacultyId(facultyIdString);
-        if (facultyId == INVALID_ID) {
+        long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
+        if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
             return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
 
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
 
         Optional<String> placesString = Optional.ofNullable(request.getParameter(RequestParameter.PLACES_COUNT));
-        int places = parsePlacesCount(placesString);
-        if (places == INVALID_PLACES_COUNT) {
+        int places = RequestParameterParser.parsePositiveInt(placesString);
+        if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
+            // TODO Set error data
             return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
 
@@ -50,30 +49,6 @@ public class UpdateFacultyCommand implements Command {
         } catch (ServiceException e) {
             return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
-    }
-
-    private long parseFacultyId(Optional<String> idString) {
-        long id = INVALID_ID;
-        if (idString.isPresent()) {
-            try {
-                id = Long.parseLong(idString.get());
-            } catch (NumberFormatException e) {
-                id = INVALID_ID;
-            }
-        }
-        return id;
-    }
-
-    private int parsePlacesCount(Optional<String> placesCountString) {
-        int places = INVALID_PLACES_COUNT;
-        if (placesCountString.isPresent()) {
-            try {
-                places = Integer.parseInt(placesCountString.get());
-            } catch (NumberFormatException e) {
-                places = INVALID_PLACES_COUNT;
-            }
-        }
-        return places;
     }
 
     private Faculty buildFaculty(long facultyId, Optional<String> facultyName, int places, Optional<String> shortDescription, Optional<String> facultyDescription) {

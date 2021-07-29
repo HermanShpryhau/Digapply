@@ -19,7 +19,7 @@ public class DeleteFacultyCommand implements Command {
 
         if (facultyIdString.isPresent()) {
             try {
-                long facultyId = Long.parseLong(facultyIdString.get());
+                long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
                 FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
                 if (facultyService.removeFacultyById(facultyId)) {
                     return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);

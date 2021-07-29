@@ -21,14 +21,13 @@ import java.util.stream.Collectors;
 public class AddFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_FACULTY_ID = 0;
-    private static final int INVALID_PLACES_COUNT = -1;
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
         Optional<String> placesString = Optional.ofNullable(request.getParameter(RequestParameter.PLACES_COUNT));
-        int places = fetchPlacesCount(placesString);
-        if (places == INVALID_PLACES_COUNT) {
+        int places = RequestParameterParser.parsePositiveInt(placesString);
+        if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
             request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PLACES_COUNT);
             return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
         }
@@ -51,18 +50,6 @@ public class AddFacultyCommand implements Command {
             logger.error("Unable to save faculty.", e);
             return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
-    }
-
-    private int fetchPlacesCount(Optional<String> placesString) {
-        int places = INVALID_PLACES_COUNT;
-        if (placesString.isPresent()) {
-            try {
-                places = Integer.parseInt(placesString.get());
-            } catch (NumberFormatException e) {
-               return INVALID_PLACES_COUNT;
-            }
-        }
-        return places;
     }
 
     private List<Long> buildSubjectIdsList(HttpServletRequest request) {

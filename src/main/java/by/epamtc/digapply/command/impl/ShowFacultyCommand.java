@@ -24,27 +24,24 @@ public class ShowFacultyCommand implements Command {
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
 
-        if (facultyIdString.isPresent()) {
-            long facultyId;
-            try {
-                facultyId = Long.parseLong(facultyIdString.get());
-            } catch (NumberFormatException e) {
-                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+        long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
+        if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
+            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+        }
+
+        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
+        try {
+            Faculty faculty = facultyService.retrieveFacultyById(facultyId);
+            if (faculty != null) {
+                request.setAttribute(RequestAttribute.FACULTY, faculty);
+                List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(faculty);
+                request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
+            } else {
+                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
             }
-            FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
-            try {
-                Faculty faculty = facultyService.retrieveFacultyById(facultyId);
-                if (faculty != null) {
-                    request.setAttribute(RequestAttribute.FACULTY, faculty);
-                    List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(faculty);
-                    request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
-                } else {
-                    return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
-                }
-            } catch (ServiceException e) {
-                logger.error("Unable to retrieve faculty", e);
-                return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
-            }
+        } catch (ServiceException e) {
+            logger.error("Unable to retrieve faculty", e);
+            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
         }
 
         return new Routing(PagePath.FACULTY_DETAIL_PAGE, RoutingType.FORWARD);
