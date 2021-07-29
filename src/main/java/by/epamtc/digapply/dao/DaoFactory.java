@@ -1,9 +1,6 @@
 package by.epamtc.digapply.dao;
 
-import by.epamtc.digapply.dao.impl.ApplicationDaoImpl;
-import by.epamtc.digapply.dao.impl.FacultyDaoImpl;
-import by.epamtc.digapply.dao.impl.SubjectDaoImpl;
-import by.epamtc.digapply.dao.impl.UserDaoImpl;
+import by.epamtc.digapply.dao.impl.*;
 
 /**
  * Thread-safe singleton DAO implementations provider.
@@ -13,6 +10,7 @@ public class DaoFactory {
     private final FacultyDao facultyDao = new FacultyDaoImpl();
     private final SubjectDao subjectDao = new SubjectDaoImpl();
     private final ApplicationDao applicationDao = new ApplicationDaoImpl();
+    private final ResultDao resultDao = new ResultDaoImpl();
 
     private DaoFactory() {
     }
@@ -53,6 +51,14 @@ public class DaoFactory {
      */
     public ApplicationDao getApplicationDao() {
         return applicationDao;
+    }
+
+    /**
+     * Gets implementation of {@link ResultDao}
+     * @return {@link ResultDao} implementation.
+     */
+    public ResultDao getResultDao() {
+        return resultDao;
     }
 
     private static class Holder {
