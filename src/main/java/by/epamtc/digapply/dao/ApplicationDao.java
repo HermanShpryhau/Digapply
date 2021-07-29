@@ -11,4 +11,6 @@ public interface ApplicationDao extends Dao<Application> {
 
     Application findByUserId(long userId) throws DaoException;
 
+    List<Application> findByFacultyId(long facultyId) throws DaoException;
+
 }

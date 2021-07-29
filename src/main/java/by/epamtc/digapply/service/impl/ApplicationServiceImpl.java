@@ -1,11 +1,10 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.dao.ApplicationDao;
-import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.DaoFactory;
-import by.epamtc.digapply.dao.ResultDao;
+import by.epamtc.digapply.dao.*;
 import by.epamtc.digapply.entity.Application;
+import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Result;
+import by.epamtc.digapply.entity.dto.ApplicationDto;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
@@ -45,6 +44,40 @@ public class ApplicationServiceImpl implements ApplicationService {
             logger.error("Unable to fetch application by user id.", e);
             throw new ServiceException("Unable to fetch application by user id.", e);
         }
+    }
+
+    @Override
+    public List<Application> retrieveApplicationsByFaculty(long facultyId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            return applicationDao.findByFacultyId(facultyId);
+        } catch (DaoException e) {
+            logger.error("Unable to fetch applications by faculty id.", e);
+            throw new ServiceException("Unable to fetch applications by faculty id.", e);
+        }
+    }
+
+    @Override
+    public List<ApplicationDto> retrieveAllApplicationsDto() throws ServiceException {
+        List<ApplicationDto> dtos = new ArrayList<>();
+
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            List<Application> applications = applicationDao.findAll();
+            for (Application application : applications) {
+
+            }
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve all applications", e);
+            throw new ServiceException("Unable to retrieve all applications", e);
+        }
+        return null;
+    }
+
+    private ApplicationDto buildApplicationDto(Application application) throws DaoException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
+
+
     }
 
     @Override
