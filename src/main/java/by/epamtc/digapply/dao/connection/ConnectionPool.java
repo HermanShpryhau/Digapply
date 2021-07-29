@@ -23,8 +23,8 @@ public class ConnectionPool {
     private static final String DB_PASSWORD_PROP = "db.password";
     private static final String DB_DRIVER_PROP = "db.jdbc-driver";
 
-    private BlockingQueue<PooledConnection> pool;
-    private BlockingQueue<PooledConnection> usedConnections;
+    private BlockingQueue<ProxyConnection> pool;
+    private BlockingQueue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
     }
@@ -45,7 +45,7 @@ public class ConnectionPool {
             usedConnections = new ArrayBlockingQueue<>(POOL_SIZE);
             for (int i = 0; i < POOL_SIZE; i++) {
                 Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                pool.add(new PooledConnection(connection));
+                pool.add(new ProxyConnection(connection));
             }
         } catch (IOException e) {
             logger.error("Unable to load DB properties!", e);
@@ -61,7 +61,7 @@ public class ConnectionPool {
     }
 
     public Connection takeConnection() throws ConnectionPoolException {
-        PooledConnection connection;
+        ProxyConnection connection;
         try {
             connection = pool.take();
             usedConnections.put(connection);
@@ -77,7 +77,7 @@ public class ConnectionPool {
         if (connection != null) {
             usedConnections.remove(connection);
             try {
-                pool.put((PooledConnection) connection);
+                pool.put((ProxyConnection) connection);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.error("Unable to release connection to data source.", e);
@@ -88,10 +88,10 @@ public class ConnectionPool {
 
     public void dispose() throws ConnectionPoolException {
         try {
-            for (PooledConnection connection : pool) {
+            for (ProxyConnection connection : pool) {
                 connection.reallyClose();
             }
-            for (PooledConnection connection : usedConnections) {
+            for (ProxyConnection connection : usedConnections) {
                 connection.reallyClose();
             }
         } catch (SQLException e) {
