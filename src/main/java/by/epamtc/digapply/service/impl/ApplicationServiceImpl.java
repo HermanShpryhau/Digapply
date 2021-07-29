@@ -8,11 +8,13 @@ import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Result;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.ServiceException;
+import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.validation.ApplicationFormDataValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +76,24 @@ public class ApplicationServiceImpl implements ApplicationService {
         } catch (DaoException e) {
             logger.error("Unable to remove application from DB.", e);
             throw new ServiceException("Unable to remove application from DB.", e);
+        }
+    }
+
+    @Override
+    public boolean approveApplication(long applicationId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            Application application = applicationDao.findById(applicationId);
+            if (application == null) {
+                return false;
+            }
+            application.setApproved(true);
+            application.setApproveDate(new Timestamp(System.currentTimeMillis()));
+            applicationDao.updateEntity(application);
+            return true;
+        } catch (DaoException e) {
+            logger.error("Unable to approve application.", e);
+            throw new ServiceException("Unable to approve application.", e);
         }
     }
 

@@ -23,6 +23,7 @@ public class CommandName {
     public static final String NEW_APPLICATION_COMMAND = "new-application";
     public static final String SUBMIT_APPLICATION_COMMAND = "submit-application";
     public static final String CANCEL_APPLICATION_COMMAND = "cancel-application";
+    public static final String APPROVE_APPLICATION_COMMAND = "approve-application";
 
     private CommandName() {}
 }

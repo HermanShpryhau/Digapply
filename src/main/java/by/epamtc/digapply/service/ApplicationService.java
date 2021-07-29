@@ -15,4 +15,6 @@ public interface ApplicationService {
     int calculateTotalScore(long applicationId) throws ServiceException;
 
     boolean cancelApplication(long userId) throws ServiceException;
+
+    boolean approveApplication(long applicationId) throws ServiceException;
 }
