@@ -22,7 +22,7 @@
 <jsp:include page="components/header.jsp"/>
 <div class="container">
   <h1 class="mt-5 mb-2">${sessionScope.username}</h1>
-  <h2><fmt:message key="profile.pending"/></h2>
+  <h2><fmt:message key="profile.application-status"/></h2>
   <a class="btn btn-outline-primary" href="#"><fmt:message key="profile.edit"/></a>
 </div>
 <jsp:include page="components/footer.jsp"/>

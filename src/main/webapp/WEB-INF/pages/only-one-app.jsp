@@ -9,7 +9,7 @@
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title><fmt:message key="application.new-app"/> | Digapply</title>
+    <title><fmt:message key="application.new-app-title"/> | Digapply</title>
 </head>
 <body class="d-flex flex-column vh-100">
 <jsp:include page="components/header.jsp"/>
