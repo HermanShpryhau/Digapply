@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hermanshpryhau
-  Date: 7.07.21
-  Time: 11:21
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -28,7 +21,7 @@
         <div class="row mt-5">
             <div class="col-sm my-auto">
                 <h1 class="display-5 fw-bold"><fmt:message key="home.promo"/></h1>
-                <p class="fs-5 fs-normal"></p>
+                <p class="fs-5 fs-normal"><fmt:message key="home.welcome"/></p>
             </div>
 
             <div class="col-sm">
