@@ -3,6 +3,7 @@ package by.epamtc.digapply.service.impl;
 import by.epamtc.digapply.dao.ApplicationDao;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.DaoFactory;
+import by.epamtc.digapply.dao.ResultDao;
 import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Result;
 import by.epamtc.digapply.service.ApplicationService;
@@ -21,6 +22,44 @@ public class ApplicationServiceImpl implements ApplicationService {
     private static final Logger logger = LogManager.getLogger();
     private static final String SCORE_PREFIX = "sid-";
     private static final String CERTIFICATE_ID_PREFIX = "cid-";
+
+    @Override
+    public boolean hasApplication(long userId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            return applicationDao.findByUserId(userId) != null;
+        } catch (DaoException e) {
+            logger.error("Unable to fetch application by user id.", e);
+            throw new ServiceException("Unable to fetch application by user id.", e);
+        }
+    }
+
+    @Override
+    public Application retrieveApplicationByUserId(long userId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            return applicationDao.findByUserId(userId);
+        } catch (DaoException e) {
+            logger.error("Unable to fetch application by user id.", e);
+            throw new ServiceException("Unable to fetch application by user id.", e);
+        }
+    }
+
+    @Override
+    public int calculateTotalScore(long applicationId) throws ServiceException {
+        ResultDao resultDao = DaoFactory.getInstance().getResultDao();
+        try {
+            List<Result> results = resultDao.findByApplicationId(applicationId);
+            int total = 0;
+            for (Result result : results) {
+                total += result.getScore();
+            }
+            return total;
+        } catch (DaoException e) {
+            logger.error("Unable to fetch results for application id.", e);
+            throw new ServiceException("Unable to fetch results for application id.", e);
+        }
+    }
 
     @Override
     public boolean saveApplication(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
@@ -47,17 +86,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setUserId(userId);
         application.setFacultyId(facultyId);
         return application;
-    }
-
-    @Override
-    public boolean hasApplication(long userId) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
-        try {
-            return applicationDao.findByUserId(userId) != null;
-        } catch (DaoException e) {
-            logger.error("Unable to fetch application by user id.", e);
-            throw new ServiceException("Unable to fetch application by user id.", e);
-        }
     }
 
     private List<Result> buildResultsList(Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
