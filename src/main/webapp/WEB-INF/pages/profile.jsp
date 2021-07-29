@@ -50,7 +50,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            You haven't submitted any application yet.
+            <fmt:message key="profile.no-application"/>
         </c:otherwise>
     </c:choose>
 </div>
