@@ -30,12 +30,12 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
-    public void save(Faculty entity) throws DaoException {
+    public long save(Faculty entity) throws DaoException {
         throw new DaoException("Unsupported operation for Faculties table.");
     }
 
     @Override
-    public void save(Faculty faculty, List<Long> subjectIds) throws DaoException {
+    public long save(Faculty faculty, List<Long> subjectIds) throws DaoException {
         throwExceptionIfNull(faculty);
         throwExceptionIfNull(subjectIds);
 
@@ -47,7 +47,7 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
             queries.add(new ParametrizedQuery(ADD_SUBJECT_TO_FACULTY_QUERY, addSubjectQueryParams));
         }
 
-        jdbcOperator.executeTransactionalUpdate(queries);
+        return jdbcOperator.executeTransactionalUpdate(queries);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
-    public void updateEntity(Faculty entity) throws DaoException {
+    public long updateEntity(Faculty entity) throws DaoException {
         throwExceptionIfNull(entity);
         jdbcOperator.executeUpdate(
                 UPDATE_FACULTY_QUERY,
@@ -80,11 +80,13 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
                 entity.isApplicationClosed(),
                 entity.getId()
         );
+        return entity.getId();
     }
 
     @Override
-    public void removeById(long id) throws DaoException {
+    public long removeById(long id) throws DaoException {
         jdbcOperator.executeUpdate(DELETE_FACULTY_QUERY, id);
+        return id;
     }
 
     @Override

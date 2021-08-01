@@ -21,9 +21,9 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public void save(User entity) throws DaoException {
+    public long save(User entity) throws DaoException {
         throwExceptionIfNull(entity);
-        jdbcOperator.executeUpdate(
+        return jdbcOperator.executeUpdate(
                 SAVE_USER_QUERY,
                 entity.getEmail(),
                 entity.getPassword(),
@@ -44,9 +44,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public void updateEntity(User entity) throws DaoException {
+    public long updateEntity(User entity) throws DaoException {
         throwExceptionIfNull(entity);
-
         jdbcOperator.executeUpdate(
                 UPDATE_USER_QUERY,
                 entity.getEmail(),
@@ -56,10 +55,12 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
                 entity.getRoleId(),
                 entity.getId()
         );
+        return entity.getId();
     }
 
     @Override
-    public void removeById(long id) throws DaoException {
+    public long removeById(long id) throws DaoException {
         jdbcOperator.executeUpdate(DELETE_USER_QUERY, id);
+        return id;
     }
 }

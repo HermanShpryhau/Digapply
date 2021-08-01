@@ -20,7 +20,7 @@ public interface FacultyDao extends Dao<Faculty> {
      * @param faculty Faculty entity.
      * @param subjectIds IDs of required subjects.
      */
-    void save(Faculty faculty, List<Long> subjectIds) throws DaoException;
+    long save(Faculty faculty, List<Long> subjectIds) throws DaoException;
 
     /**
      * Fetches faculties on certain page with search patter in name.

@@ -27,8 +27,8 @@ public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     }
 
     @Override
-    public void save(Subject entity) throws DaoException {
-        jdbcOperator.executeUpdate(SAVE_SUBJECT_QUERY, entity.getSubjectName());
+    public long save(Subject entity) throws DaoException {
+        return jdbcOperator.executeUpdate(SAVE_SUBJECT_QUERY, entity.getSubjectName());
     }
 
     @Override
@@ -37,17 +37,19 @@ public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     }
 
     @Override
-    public void updateEntity(Subject entity) throws DaoException {
-        jdbcOperator.executeUpdate(UPDATE_SUBJECT_QUERY, entity.getSubjectName(), entity.getId());
-    }
-
-    @Override
-    public void removeById(long id) throws DaoException {
-        jdbcOperator.executeUpdate(DELETE_SUBJECT_BY_ID_QUERY, id);
-    }
-
-    @Override
     public List<Subject> findSubjectsByFaculty(long facultyId) throws DaoException {
         return jdbcOperator.executeQuery(FIND_SUBJECTS_BY_FACULTY_QUERY, facultyId);
+    }
+
+    @Override
+    public long updateEntity(Subject entity) throws DaoException {
+        jdbcOperator.executeUpdate(UPDATE_SUBJECT_QUERY, entity.getSubjectName(), entity.getId());
+        return entity.getId();
+    }
+
+    @Override
+    public long removeById(long id) throws DaoException {
+        jdbcOperator.executeUpdate(DELETE_SUBJECT_BY_ID_QUERY, id);
+        return id;
     }
 }

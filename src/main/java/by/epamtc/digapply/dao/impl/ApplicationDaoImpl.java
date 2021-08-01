@@ -25,12 +25,12 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     }
 
     @Override
-    public void save(Application entity) throws DaoException {
+    public long save(Application entity) throws DaoException {
         throw new DaoException("Unsupported save operation for Application entity.");
     }
 
     @Override
-    public void save(Application entity, List<Result> results) throws DaoException {
+    public long save(Application entity, List<Result> results) throws DaoException {
         List<ParametrizedQuery> transactionQueries = new ArrayList<>();
         ParametrizedQuery saveApplicationQuery = new ParametrizedQuery(
                 SAVE_APPLICATION_QUERY,
@@ -48,7 +48,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
             ParametrizedQuery saveResultForApplication = new ParametrizedQuery(SAVE_RESULT_FOR_APPLICATION_QUERY, parameters);
             transactionQueries.add(saveResultForApplication);
         }
-        jdbcOperator.executeTransactionalUpdate(transactionQueries);
+        return jdbcOperator.executeTransactionalUpdate(transactionQueries);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     }
 
     @Override
-    public void updateEntity(Application entity) throws DaoException {
+    public long updateEntity(Application entity) throws DaoException {
         jdbcOperator.executeUpdate(
                 UPDATE_APPLICATION_QUERY,
                 entity.getUserId(),
@@ -77,10 +77,12 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
                 entity.getApproveDate(),
                 entity.getApplicationId()
         );
+        return entity.getId();
     }
 
     @Override
-    public void removeById(long id) throws DaoException {
+    public long removeById(long id) throws DaoException {
         jdbcOperator.executeUpdate(DELETE_APPLICATION_QUERY, id);
+        return id;
     }
 }

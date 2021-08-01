@@ -20,8 +20,8 @@ public class ResultDaoImpl extends AbstractDao<Result> implements ResultDao {
     }
 
     @Override
-    public void save(Result entity) throws DaoException {
-        jdbcOperator.executeUpdate(
+    public long save(Result entity) throws DaoException {
+        return jdbcOperator.executeUpdate(
                 SAVE_RESULT_QUERY,
                 entity.getApplicationId(),
                 entity.getSubjectId(),
@@ -36,7 +36,7 @@ public class ResultDaoImpl extends AbstractDao<Result> implements ResultDao {
     }
 
     @Override
-    public void updateEntity(Result entity) throws DaoException {
+    public long updateEntity(Result entity) throws DaoException {
         jdbcOperator.executeUpdate(
                 UPDATE_RESULT_QUERY,
                 entity.getApplicationId(),
@@ -45,11 +45,13 @@ public class ResultDaoImpl extends AbstractDao<Result> implements ResultDao {
                 entity.getCertificateId(),
                 entity.getResultId()
         );
+        return entity.getId();
     }
 
     @Override
-    public void removeById(long id) throws DaoException {
+    public long removeById(long id) throws DaoException {
         jdbcOperator.executeUpdate(DELETE_APPLICATION_QUERY, id);
+        return id;
     }
 
     @Override
