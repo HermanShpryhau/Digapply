@@ -40,13 +40,15 @@
             </div>
         </c:forEach>
         <div class="d-grid gap-2 d-md-block">
-            <input type="submit" class="btn btn-lg btn-success" value="<fmt:message key="application.submit"/>">
+            <input type="submit" class="btn btn-outline-success" value="<fmt:message key="application.save-changes"/>">
         </div>
     </form>
-    <form action="${pageContext.request.contextPath}/controller?command=approve-application" method="post">
-        <input type="hidden" name="id" value="${requestScope.application.applicationId}">
-        <input type="submit" class="btn btn-success" value="Approve">
-    </form>
+    <div class="mt-5">
+        <form action="${pageContext.request.contextPath}/controller?command=approve-application" method="post">
+            <input type="hidden" name="id" value="${requestScope.application.applicationId}">
+            <input type="submit" class="btn btn-success" value="<fmt:message key="application.approve"/>">
+        </form>
+    </div>
 </div>
 
 <jsp:include page="components/footer.jsp"/>

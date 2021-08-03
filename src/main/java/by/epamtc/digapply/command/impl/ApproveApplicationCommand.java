@@ -20,8 +20,7 @@ public class ApproveApplicationCommand implements Command {
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             if (applicationService.approveApplication(applicationId)) {
-                // TODO Change page to applications list
-                return new Routing(PagePath.FACULTIES_PAGE, RoutingType.REDIRECT);
+                return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
             }
