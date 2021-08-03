@@ -18,6 +18,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     private static final String FIND_APPLICATION_BY_USER_QUERY = "SELECT * FROM Applications WHERE user_id=?";
     private static final String FIND_APPLICATIONS_BY_FACULTY_QUERY = "SELECT * FROM Applications WHERE faculty_id=?";
     private static final String UPDATE_APPLICATION_QUERY = "UPDATE Applications SET user_id=?, faculty_id=?, apply_date=?, approved=?, approve_date=? WHERE application_id=?";
+    private static final String UPDATE_RESULT_QUERY = "UPDATE Results SET score=?, certificate_id=? WHERE application_id=? AND subject_id=?";
     private static final String DELETE_APPLICATION_QUERY = "DELETE FROM Applications  WHERE application_id=?";
 
     public ApplicationDaoImpl() {
@@ -67,7 +68,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     }
 
     @Override
-    public long updateEntity(Application entity) throws DaoException {
+    public long update(Application entity) throws DaoException {
         jdbcOperator.executeUpdate(
                 UPDATE_APPLICATION_QUERY,
                 entity.getUserId(),
@@ -78,6 +79,18 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
                 entity.getApplicationId()
         );
         return entity.getId();
+    }
+
+    @Override
+    public long update(long id, List<Result> results) throws DaoException {
+        List<ParametrizedQuery> transactionQueries = new ArrayList<>();
+        for (Result result : results) {
+            Object[] parameters = {result.getScore(), result.getCertificateId(), id, result.getSubjectId()};
+            ParametrizedQuery query = new ParametrizedQuery(UPDATE_RESULT_QUERY, parameters);
+            transactionQueries.add(query);
+        }
+        jdbcOperator.executeTransactionalUpdate(transactionQueries);
+        return id;
     }
 
     @Override

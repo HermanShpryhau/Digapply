@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SubmitApplicationCommand implements Command {
-    private static final String SUBJECT_ID_PREFIX = "sid-";
-    private static final String CERTIFICATE_ID_PREFIX = "cid-";
-
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_ID));
@@ -27,9 +24,9 @@ public class SubmitApplicationCommand implements Command {
         Map<String, String> scores = new HashMap<>();
         Map<String, String> certificates = new HashMap<>();
         for (Map.Entry<String, String[]> parameter : parameters.entrySet()) {
-            if (parameter.getKey().startsWith(SUBJECT_ID_PREFIX)) {
+            if (parameter.getKey().startsWith(RequestParameter.SUBJECT_ID_PREFIX)) {
                 scores.put(parameter.getKey(), parameter.getValue()[0]);
-            } else if (parameter.getKey().startsWith(CERTIFICATE_ID_PREFIX)) {
+            } else if (parameter.getKey().startsWith(RequestParameter.CERTIFICATE_ID_PREFIX)) {
                 certificates.put(parameter.getKey(), parameter.getValue()[0]);
             }
         }

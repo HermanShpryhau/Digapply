@@ -42,7 +42,7 @@ public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     }
 
     @Override
-    public long updateEntity(Subject entity) throws DaoException {
+    public long update(Subject entity) throws DaoException {
         jdbcOperator.executeUpdate(UPDATE_SUBJECT_QUERY, entity.getSubjectName(), entity.getId());
         return entity.getId();
     }

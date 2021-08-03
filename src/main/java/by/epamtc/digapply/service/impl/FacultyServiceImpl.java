@@ -123,7 +123,7 @@ public class FacultyServiceImpl implements FacultyService {
     public boolean updateFaculty(Faculty faculty) throws ServiceException {
         if (isFacultyEntityValid(faculty)) {
             try {
-                facultyDao.updateEntity(faculty);
+                facultyDao.update(faculty);
                 return true;
             } catch (DaoException e) {
                 logger.error("Unable to update faculty.", e);

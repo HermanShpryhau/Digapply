@@ -20,6 +20,7 @@
     <h1 class="mt-5 mb=3">Faculty: ${requestScope.application.facultyName}</h1>
 
     <form action="${pageContext.request.contextPath}/controller?command=update-application" method="post">
+        <input type="hidden" name="id" id="id" value="${requestScope.application.applicationId}">
         <c:forEach var="result" items="${requestScope.application.results}">
             <div class="mb-4">
                 <div class="row">

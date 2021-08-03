@@ -69,7 +69,7 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
-    public long updateEntity(Faculty entity) throws DaoException {
+    public long update(Faculty entity) throws DaoException {
         throwExceptionIfNull(entity);
         jdbcOperator.executeUpdate(
                 UPDATE_FACULTY_QUERY,

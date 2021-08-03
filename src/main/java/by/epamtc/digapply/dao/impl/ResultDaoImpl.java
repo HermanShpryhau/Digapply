@@ -36,7 +36,7 @@ public class ResultDaoImpl extends AbstractDao<Result> implements ResultDao {
     }
 
     @Override
-    public long updateEntity(Result entity) throws DaoException {
+    public long update(Result entity) throws DaoException {
         jdbcOperator.executeUpdate(
                 UPDATE_RESULT_QUERY,
                 entity.getApplicationId(),

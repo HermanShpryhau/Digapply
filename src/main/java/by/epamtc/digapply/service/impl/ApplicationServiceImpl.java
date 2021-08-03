@@ -171,7 +171,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
             application.setApproved(true);
             application.setApproveDate(new Timestamp(System.currentTimeMillis()));
-            applicationDao.updateEntity(application);
+            applicationDao.update(application);
             return true;
         } catch (DaoException e) {
             logger.error("Unable to approve application.", e);
@@ -197,6 +197,24 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean updateApplication(long applicationId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
+        ApplicationFormDataValidator validator = ValidatorFactory.getInstance().getApplicationFormDataValidator();
+        if (!validator.validate(scores, certificateIds)) {
+            return false;
+        }
+
+        List<Result> results = buildResultsList(scores, certificateIds);
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            applicationDao.update(applicationId, results);
+            return true;
+        } catch (DaoException e) {
+            logger.error("Unable to update application results.", e);
+            throw new ServiceException("Unable to update application results.", e);
+        }
     }
 
     private Application buildApplication(long userId, long facultyId) {

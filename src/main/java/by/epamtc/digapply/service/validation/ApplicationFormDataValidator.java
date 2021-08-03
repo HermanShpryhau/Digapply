@@ -6,4 +6,6 @@ public interface ApplicationFormDataValidator {
 
     boolean validate(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificates);
 
+    boolean validate(Map<String, String> scores, Map<String, String> certificateIds);
+
 }

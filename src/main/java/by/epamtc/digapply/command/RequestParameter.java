@@ -20,6 +20,8 @@ public class RequestParameter {
     public static final String SUBJECTS = "subjects";
     public static final String SEARCH = "search";
     public static final String USER_ID = "user-id";
+    public static final String SUBJECT_ID_PREFIX = "sid-";
+    public static final String CERTIFICATE_ID_PREFIX = "cid-";
 
     private RequestParameter() {}
 }

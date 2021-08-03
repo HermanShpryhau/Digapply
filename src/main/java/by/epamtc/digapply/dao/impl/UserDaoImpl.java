@@ -44,7 +44,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public long updateEntity(User entity) throws DaoException {
+    public long update(User entity) throws DaoException {
         throwExceptionIfNull(entity);
         jdbcOperator.executeUpdate(
                 UPDATE_USER_QUERY,

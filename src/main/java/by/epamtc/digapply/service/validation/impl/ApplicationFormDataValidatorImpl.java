@@ -14,6 +14,13 @@ public class ApplicationFormDataValidatorImpl implements ApplicationFormDataVali
                 ofEqualSize(scores, certificateIds);
     }
 
+    @Override
+    public boolean validate(Map<String, String> scores, Map<String, String> certificateIds) {
+        return areScoresValid(scores) &&
+                areCertificateIdsValid(certificateIds) &&
+                ofEqualSize(scores, certificateIds);
+    }
+
     private boolean isIdValid(long id) {
         return id > 0;
     }

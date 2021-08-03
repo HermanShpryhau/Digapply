@@ -126,7 +126,7 @@ public class JdbcOperator<T extends Identifiable> {
         boolean idSet = false;
         for (ParametrizedQuery query : queries) {
             PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(query.getParams());
-            PreparedStatement statement = connection.prepareStatement(query.getQuery());
+            PreparedStatement statement = connection.prepareStatement(query.getQuery(), Statement.RETURN_GENERATED_KEYS);
             parameterSetter.setValues(statement);
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();

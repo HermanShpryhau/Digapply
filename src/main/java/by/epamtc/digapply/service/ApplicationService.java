@@ -26,4 +26,6 @@ public interface ApplicationService {
 
     boolean approveApplication(long applicationId) throws ServiceException;
 
+    boolean updateApplication(long applicationId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException;
+
 }

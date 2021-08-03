@@ -47,7 +47,7 @@ public interface Dao<T extends Identifiable> {
      * Updates entity data in table.
      * @param entity Entity to update. Object must contain updated data.
      */
-    long updateEntity(T entity) throws DaoException;
+    long update(T entity) throws DaoException;
 
     /**
      * Deletes entity from table.

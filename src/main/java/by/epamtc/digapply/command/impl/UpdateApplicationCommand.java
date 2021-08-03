@@ -1,14 +1,41 @@
 package by.epamtc.digapply.command.impl;
 
-import by.epamtc.digapply.command.Command;
-import by.epamtc.digapply.command.Routing;
+import by.epamtc.digapply.command.*;
+import by.epamtc.digapply.service.ApplicationService;
+import by.epamtc.digapply.service.ServiceException;
+import by.epamtc.digapply.service.ServiceFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class UpdateApplicationCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
-        return null;
+        Optional<String> applicationIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
+        long applicationId = RequestParameterParser.parsePositiveLong(applicationIdString);
+        if (applicationId == RequestParameterParser.INVALID_POSITIVE_LONG) {
+            return Routing.ERROR_404;
+        }
+
+        Map<String, String[]> parameters = request.getParameterMap();
+        Map<String, String> scores = new HashMap<>();
+        Map<String, String> certificates = new HashMap<>();
+        parameters.entrySet().stream()
+                .filter(e -> e.getKey().startsWith(RequestParameter.SUBJECT_ID_PREFIX))
+                .forEach(e -> scores.put(e.getKey(), e.getValue()[0]));
+        parameters.entrySet().stream()
+                .filter(e -> e.getKey().startsWith(RequestParameter.CERTIFICATE_ID_PREFIX))
+                .forEach(e -> certificates.put(e.getKey(), e.getValue()[0]));
+
+        ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
+        try {
+            applicationService.updateApplication(applicationId, scores, certificates);
+            return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
+        } catch (ServiceException e) {
+            return Routing.ERROR_500;
+        }
     }
 }
