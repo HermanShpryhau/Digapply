@@ -78,6 +78,18 @@ public class ApplicationServiceImpl implements ApplicationService {
         return dtos;
     }
 
+    @Override
+    public ApplicationDto retrieveApplicationDtoById(long id) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            Application application = applicationDao.findById(id);
+            return buildApplicationDto(application);
+        } catch (DaoException e) {
+            logger.error("Unable to fetch application by id.", e);
+            throw new ServiceException("Unable to fetch application by id.", e);
+        }
+    }
+
     private ApplicationDto buildApplicationDto(Application application) throws ServiceException {
         ApplicationDto dto = new ApplicationDto();
         dto.setApplicationId(application.getId());

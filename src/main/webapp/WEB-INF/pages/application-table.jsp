@@ -75,8 +75,8 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td><a href="#"><fmt:message key="application.review"/></a></td>
-                        <td><a href="/controller?command=cancel-application&user-id=${application.applicantId}" class="text-danger"><fmt:message key="application.revoke"/></a></td>
+                        <td><a href="${pageContext.request.contextPath}/controller?command=edit-application&id=${application.applicationId}"><fmt:message key="application.review"/></a></td>
+                        <td><a href="${pageContext.request.contextPath}/controller?command=cancel-application&user-id=${application.applicantId}" class="text-danger"><fmt:message key="application.revoke"/></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

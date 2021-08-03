@@ -18,6 +18,8 @@ public interface ApplicationService {
 
     List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException;
 
+    ApplicationDto retrieveApplicationDtoById(long id) throws ServiceException;
+
     int calculateTotalScore(long applicationId) throws ServiceException;
 
     boolean cancelApplication(long userId) throws ServiceException;

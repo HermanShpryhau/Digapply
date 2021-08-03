@@ -24,6 +24,7 @@ public class CommandName {
     public static final String CANCEL_APPLICATION_COMMAND = "cancel-application";
     public static final String APPROVE_APPLICATION_COMMAND = "approve-application";
     public static final String SHOW_APPLICATIONS_TABLE_COMMAND = "manage-applications";
+    public static final String SHOW_APPLICATION_EDIT_FORM_COMMAND = "edit-application";
 
     private CommandName() {}
 }

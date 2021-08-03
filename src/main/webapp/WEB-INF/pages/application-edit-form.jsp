@@ -5,7 +5,6 @@
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
-<jsp:useBean id="application" class="by.epamtc.digapply.entity.Application" scope="request"/>
 
 <!doctype html>
 <html>
@@ -17,25 +16,25 @@
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
-    <h1 class="mt-5 mb=3">Applicant: ${requestScope.applicant}</h1>
-    <h1 class="mt-5 mb=3">Faculty: ${requestScope.faculty.facultyName}</h1>
+    <h1 class="mt-5 mb=3">Applicant: ${requestScope.application.applicantName}</h1>
+    <h1 class="mt-5 mb=3">Faculty: ${requestScope.application.facultyName}</h1>
 
     <form action="${pageContext.request.contextPath}/controller?command=update-application" method="post">
-        <c:forEach var="resultMapEntry" items="${requestScope.resultMap}">
+        <c:forEach var="result" items="${requestScope.application.results}">
             <div class="mb-4">
                 <div class="row">
                     <div class="col">
-                        <h3>${resultMapEntry.key}</h3>
+                        <h3>${result.subjectName}</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="sid-${resultMapEntry.value.subjectId}" class="form-label"><fmt:message key="application.score"/></label>
-                        <input required min="0" type="number" class="form-control" id="sid-${resultMapEntry.value.subjectId}" name="sid-${resultMapEntry.value.subjectId}" value="${resultMapEntry.value.score}" placeholder="Score">
+                        <label for="sid-${result.subjectId}" class="form-label"><fmt:message key="application.score"/></label>
+                        <input required min="0" type="number" class="form-control" id="sid-${result.subjectId}" name="sid-${result.subjectId}" value="${result.score}" placeholder="Score">
                     </div>
                     <div class="col">
-                        <label for="cid-${resultMapEntry.value.subjectId}" class="form-label"><fmt:message key="application.certificate-id"/></label>
-                        <input required maxlength="9" minlength="9" pattern="^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$" type="text" class="form-control" id="cid-${resultMapEntry.value.subjectId}" name="cid-${resultMapEntry.value.subjectId}" value="${resultMapEntry.value.certificateId}" placeholder="A1B2-C3D4" aria-label="Last name">
+                        <label for="cid-${result.subjectId}" class="form-label"><fmt:message key="application.certificate-id"/></label>
+                        <input required maxlength="9" minlength="9" pattern="^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$" type="text" class="form-control" id="cid-${result.subjectId}" name="cid-${result.subjectId}" value="${result.certificateId}" placeholder="A1B2-C3D4">
                     </div>
                 </div>
             </div>
@@ -45,7 +44,7 @@
         </div>
     </form>
     <form action="${pageContext.request.contextPath}/controller?command=approve-application" method="post">
-        <input type="hidden" name="id" value="${application.id}">
+        <input type="hidden" name="id" value="${requestScope.application.applicationId}">
         <input type="submit" class="btn btn-success" value="Approve">
     </form>
 </div>
