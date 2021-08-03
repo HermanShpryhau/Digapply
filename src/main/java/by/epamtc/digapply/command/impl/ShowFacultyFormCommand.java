@@ -22,7 +22,7 @@ public class ShowFacultyFormCommand implements Command {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
 
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
@@ -30,7 +30,7 @@ public class ShowFacultyFormCommand implements Command {
             Faculty faculty = facultyService.retrieveFacultyById(facultyId);
             request.setAttribute(RequestAttribute.FACULTY, faculty);
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
 
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
@@ -39,7 +39,7 @@ public class ShowFacultyFormCommand implements Command {
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);
             return new Routing(PagePath.FACULTY_FORM_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 }

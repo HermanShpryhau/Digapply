@@ -26,7 +26,7 @@ public class ShowFacultyCommand implements Command {
 
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
 
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
@@ -37,11 +37,11 @@ public class ShowFacultyCommand implements Command {
                 List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(faculty);
                 request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
             } else {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             }
         } catch (ServiceException e) {
             logger.error("Unable to retrieve faculty", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
 
         return new Routing(PagePath.FACULTY_DETAIL_PAGE, RoutingType.FORWARD);

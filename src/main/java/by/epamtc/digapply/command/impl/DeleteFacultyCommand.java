@@ -24,15 +24,15 @@ public class DeleteFacultyCommand implements Command {
                 if (facultyService.removeFacultyById(facultyId)) {
                     return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
                 } else {
-                    return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                    return Routing.ERROR_404;
                 }
             } catch (NumberFormatException e) {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             } catch (ServiceException e) {
-                return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_500;
             }
         } else {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
     }
 }

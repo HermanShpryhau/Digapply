@@ -30,7 +30,7 @@ public class SignUpCommand implements Command {
                     password.orElse(null)
             );
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
         if (isRegistered) {
             return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);

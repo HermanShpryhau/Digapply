@@ -21,7 +21,7 @@ public class ShowApplicationsTableCommand implements Command {
             List<Faculty> faculties = facultyService.retrieveAllFaculties();
             request.setAttribute(RequestAttribute.FACULTIES, faculties);
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
 
         List<ApplicationDto> applications;
@@ -32,13 +32,13 @@ public class ShowApplicationsTableCommand implements Command {
             try {
                 applications = applicationService.retrieveApplicationsByFaculty(facultyId);
             } catch (ServiceException e) {
-                return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_500;
             }
         } else {
             try {
                 applications = applicationService.retrieveAllApplicationsDto();
             } catch (ServiceException e) {
-                return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_500;
             }
         }
 

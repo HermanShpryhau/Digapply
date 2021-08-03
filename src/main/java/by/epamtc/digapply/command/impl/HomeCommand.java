@@ -26,7 +26,7 @@ public class HomeCommand implements Command {
             bestFaculties = facultyService.retrieveBestFaculties();
         } catch (ServiceException e) {
             logger.error("Unable to retrieve best faculties", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         request.setAttribute(RequestAttribute.BEST_FACULTIES, bestFaculties);
         return new Routing(PagePath.HOME_PAGE, RoutingType.FORWARD);

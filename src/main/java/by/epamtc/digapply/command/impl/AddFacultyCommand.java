@@ -29,7 +29,7 @@ public class AddFacultyCommand implements Command {
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
             request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PLACES_COUNT);
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
         Optional<String> facultyDescription = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
@@ -44,11 +44,11 @@ public class AddFacultyCommand implements Command {
                 return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR;
             }
         } catch (ServiceException e) {
             logger.error("Unable to save faculty.", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 

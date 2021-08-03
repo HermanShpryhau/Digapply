@@ -22,10 +22,10 @@ public class ApproveApplicationCommand implements Command {
             if (applicationService.approveApplication(applicationId)) {
                 return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             }
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 }

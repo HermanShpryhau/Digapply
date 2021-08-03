@@ -16,7 +16,7 @@ public class CancelApplicationCommand implements Command {
         Optional<String> userIdString = Optional.ofNullable(request.getParameter(RequestParameter.USER_ID));
         long userId = RequestParameterParser.parsePositiveLong(userIdString);
         if (userId == RequestParameterParser.INVALID_POSITIVE_INT) {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
@@ -26,10 +26,10 @@ public class CancelApplicationCommand implements Command {
                 }
                 return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             }
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 }

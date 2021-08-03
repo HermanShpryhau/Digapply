@@ -28,7 +28,7 @@ public class LoginCommand implements Command {
         String email = request.getParameter(RequestParameter.EMAIL);
         if (email == null || request.getParameter((RequestParameter.PASSWORD)) == null) {
             request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_LOGIN_DATA);
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
@@ -38,7 +38,7 @@ public class LoginCommand implements Command {
             user = userService.login(email, String.valueOf(password));
         } catch (ServiceException e) {
             logger.error("Unable to test user sign in data.", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         Arrays.fill(password, ' ');
         if (user != null) {
@@ -48,7 +48,7 @@ public class LoginCommand implements Command {
             session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
         } else {
             request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_LOGIN_DATA);
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
 
         Routing routing;

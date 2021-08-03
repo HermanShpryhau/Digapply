@@ -32,7 +32,7 @@ public class ListFacultiesCommand implements Command {
             try {
                 pageNumber = Integer.parseInt(page.get());
             } catch (NumberFormatException e) {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             }
         }
 
@@ -60,7 +60,7 @@ public class ListFacultiesCommand implements Command {
             }
         } catch (ServiceException e) {
             logger.error("Unable to retrieve list of faculties.", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         request.setAttribute(RequestAttribute.FACULTIES, facultyList);
         request.setAttribute(RequestAttribute.NUMBER_OF_PAGES, numberOfPages);

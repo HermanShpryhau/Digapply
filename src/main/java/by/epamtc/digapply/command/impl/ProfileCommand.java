@@ -31,7 +31,7 @@ public class ProfileCommand implements Command {
                 request.setAttribute(RequestAttribute.TOTAL_SCORE, totalScore);
             }
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         return new Routing(PagePath.PROFILE_PAGE, RoutingType.FORWARD);
     }

@@ -21,7 +21,8 @@ public class UpdateFacultyCommand implements Command {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            // TODO Set error data
+            return Routing.ERROR;
         }
 
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
@@ -30,7 +31,7 @@ public class UpdateFacultyCommand implements Command {
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
             // TODO Set error data
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
 
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
@@ -44,10 +45,10 @@ public class UpdateFacultyCommand implements Command {
                 return new Routing(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId, RoutingType.REDIRECT);
             } else {
                 request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR;
             }
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 

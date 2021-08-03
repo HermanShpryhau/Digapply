@@ -16,7 +16,7 @@ public class EditApplicationCommand implements Command {
         Optional<String> applicationIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long applicationId = RequestParameterParser.parsePositiveLong(applicationIdString);
         if (applicationId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
@@ -24,7 +24,7 @@ public class EditApplicationCommand implements Command {
             request.setAttribute(RequestAttribute.APPLICATION, applicationDto);
             return new Routing(PagePath.APPLICATION_EDIT_FORM_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 }

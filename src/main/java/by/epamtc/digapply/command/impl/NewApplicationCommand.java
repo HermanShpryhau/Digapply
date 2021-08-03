@@ -24,7 +24,7 @@ public class NewApplicationCommand implements Command {
                 return new Routing(PagePath.ONLY_ONE_APPLICATION_PAGE, RoutingType.FORWARD);
             }
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_ID));
         if (facultyIdString.isPresent()) {
@@ -36,12 +36,12 @@ public class NewApplicationCommand implements Command {
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
                 request.setAttribute(RequestAttribute.SUBJECTS, subjects);
             } catch (NumberFormatException e) {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             } catch (ServiceException e) {
-                return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_500;
             }
         } else {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
         return new Routing(PagePath.APPLICATION_FORM_PAGE, RoutingType.FORWARD);
     }

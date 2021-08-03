@@ -17,7 +17,7 @@ public class SubmitApplicationCommand implements Command {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_404;
         }
 
         Map<String, String[]> parameters = request.getParameterMap();
@@ -38,10 +38,10 @@ public class SubmitApplicationCommand implements Command {
                 return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 // TODO set error data
-                return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR;
             }
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 }
