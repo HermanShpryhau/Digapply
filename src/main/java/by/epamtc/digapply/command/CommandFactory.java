@@ -32,6 +32,7 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_APPLICATIONS_TABLE_COMMAND, new ShowApplicationsTableCommand());
         commands.put(CommandName.SHOW_APPLICATION_EDIT_FORM_COMMAND, new EditApplicationCommand());
         commands.put(CommandName.UPDATE_APPLICATION_COMMAND, new UpdateApplicationCommand());
+        commands.put(CommandName.SHOW_SUBJECTS_TABLE_COMMAND, new ShowSubjectsTableCommand());
     }
 
     /**

@@ -1,7 +1,7 @@
 package by.epamtc.digapply.command;
 
 /**
- * Command name as request parameter values.
+ * Command names as request parameter values.
  */
 public class CommandName {
     public static final String DEFAULT_COMMAND = "default";
@@ -26,6 +26,7 @@ public class CommandName {
     public static final String SHOW_APPLICATIONS_TABLE_COMMAND = "manage-applications";
     public static final String SHOW_APPLICATION_EDIT_FORM_COMMAND = "edit-application";
     public static final String UPDATE_APPLICATION_COMMAND = "update-application";
+    public static final String SHOW_SUBJECTS_TABLE_COMMAND = "manage-subjects";
 
     private CommandName() {}
 }

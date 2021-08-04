@@ -37,5 +37,8 @@ public class PagePath {
 
     public static final String APPLICATION_EDIT_FORM_PAGE = "WEB-INF/pages/application-edit-form.jsp";
 
+    public static final String SUBJECT_TABLE_PAGE = "WEB-INF/pages/subject-table.jsp";
+    public static final String SUBJECT_TABLE_PAGE_REDIRECT = "/conrtoller?command=manage-subjects";
+
     private PagePath() {}
 }

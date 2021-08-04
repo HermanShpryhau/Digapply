@@ -12,7 +12,7 @@
     <jsp:include page="components/head-links.jsp"/>
     <title><fmt:message key="dashboard.title"/></title>
 </head class="d-flex flex-column min-vh-100">
-<body>
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
@@ -38,7 +38,7 @@
             <div class="card">
                 <div class="card-body d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.subject-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-subjects"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=manage-subjects" class="btn btn-primary"><fmt:message key="dashboard.manage-subjects"/></a>
                 </div>
             </div>
         </div>
