@@ -4,9 +4,6 @@ import by.epamtc.digapply.entity.Subject;
 
 import java.util.List;
 
-/**
- * Business logic connected with Subjects.
- */
 public interface SubjectService {
 
     /**

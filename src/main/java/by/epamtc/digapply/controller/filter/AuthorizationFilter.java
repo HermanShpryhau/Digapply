@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Authorizes users to execute commands according to their role.
- */
 public class AuthorizationFilter implements Filter {
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
     private Set<String> availableCommands = new HashSet<>();

@@ -1,7 +1,7 @@
 package by.epamtc.digapply.command;
 
 /**
- * Contains string constants that represent names of session attributes.
+ * Names of session attributes.
  */
 public class SessionAttribute {
     public static final String ROLE = "role";

@@ -2,9 +2,6 @@ package by.epamtc.digapply.dao;
 
 import by.epamtc.digapply.dao.impl.*;
 
-/**
- * Thread-safe singleton DAO implementations provider.
- */
 public class DaoFactory {
     private final UserDao userDao = new UserDaoImpl();
     private final FacultyDao facultyDao = new FacultyDaoImpl();

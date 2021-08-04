@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Thread-safe singleton {@link Command} implementations provider.
- */
 public class CommandFactory {
     private static final Map<String, Command> commands = new HashMap<>();
 

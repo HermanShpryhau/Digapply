@@ -2,9 +2,6 @@ package by.epamtc.digapply.dao;
 
 import by.epamtc.digapply.entity.User;
 
-/**
- * User entity DAO.
- */
 public interface UserDao extends Dao<User>{
 
     /**

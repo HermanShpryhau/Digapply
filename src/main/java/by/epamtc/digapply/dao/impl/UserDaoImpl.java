@@ -6,9 +6,6 @@ import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
 
-/**
- * Implementation of {@link UserDao} interface
- */
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String SAVE_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, ?)";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=?";

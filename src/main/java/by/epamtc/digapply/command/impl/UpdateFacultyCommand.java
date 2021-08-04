@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-/**
- * Updates faculty data in datasource
- */
 public class UpdateFacultyCommand implements Command {
     private static final String HTML_TAG_SCRIPT = "\\<.*?\\>";
 

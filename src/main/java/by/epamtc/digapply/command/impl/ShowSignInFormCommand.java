@@ -5,9 +5,6 @@ import by.epamtc.digapply.command.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Displays sign in form
- */
 public class ShowSignInFormCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

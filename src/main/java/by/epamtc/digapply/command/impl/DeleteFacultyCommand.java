@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-/**
- * Deletes faculty form data source
- */
 public class DeleteFacultyCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {

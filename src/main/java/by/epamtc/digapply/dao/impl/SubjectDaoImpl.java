@@ -8,9 +8,6 @@ import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 
 import java.util.List;
 
-/**
- * Implementation of {@link SubjectDao} interface
- */
 public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     private static final String SAVE_SUBJECT_QUERY = "INSERT INTO Subjects (subject_id, subject_name) VALUES (0, ?)";
     private static final String FIND_SUBJECT_BY_ID_QUERY = "SELECT * FROM Subjects WHERE subject_id=?";

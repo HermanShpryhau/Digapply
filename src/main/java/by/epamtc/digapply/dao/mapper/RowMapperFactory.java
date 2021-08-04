@@ -3,9 +3,6 @@ package by.epamtc.digapply.dao.mapper;
 import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.entity.*;
 
-/**
- * Thread-safe singleton {@link RowMapper} implementations provider.
- */
 public class RowMapperFactory {
     private final RowMapper<User> userRowMapper = new UserRowMapper();
     private final RowMapper<Faculty> facultyRowMapper = new FacultyRowMapper();

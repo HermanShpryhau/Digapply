@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Shows paginated list of all faculties and faculties that comply to search pattern
- */
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long ELEMENTS_PER_PAGE = 4L;

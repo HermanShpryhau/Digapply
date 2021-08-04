@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Displays details on faculty
- */
 public class ShowFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 

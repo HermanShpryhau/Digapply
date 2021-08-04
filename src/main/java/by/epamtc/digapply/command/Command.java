@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 @FunctionalInterface
 public interface Command {
     /**
-     * Executed by controller when certain command is called
+     * Called by controller when certain command is called.
      * @param request HttpServletRequest from incoming request
      * @param response HttpServletResponse for incoming request
      * @return Routing to page with routing type

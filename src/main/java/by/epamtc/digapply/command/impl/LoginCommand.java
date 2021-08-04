@@ -14,9 +14,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Optional;
 
-/**
- * Performs user authentication against data submitted with sign in form
- */
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String CONTROLLER_COMMAND = "/controller?";

@@ -4,9 +4,6 @@ import by.epamtc.digapply.entity.Subject;
 
 import java.util.List;
 
-/**
- * Subject entity DAO.
- */
 public interface SubjectDao extends Dao<Subject> {
 
     /**

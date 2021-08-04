@@ -1,7 +1,7 @@
 package by.epamtc.digapply.command;
 
 /**
- * Contains string constants that represent paths to jsp pages in WEB-INF.
+ * Paths and redirect requests to jsp pages.
  */
 public class PagePath {
     public static final String ERROR_404_PAGE = "WEB-INF/pages/error-404.jsp";

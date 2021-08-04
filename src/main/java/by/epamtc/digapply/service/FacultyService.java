@@ -5,9 +5,6 @@ import by.epamtc.digapply.entity.Subject;
 
 import java.util.List;
 
-/**
- * Business logic connected with Faculties.
- */
 public interface FacultyService {
 
     /**

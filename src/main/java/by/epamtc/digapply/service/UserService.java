@@ -2,9 +2,6 @@ package by.epamtc.digapply.service;
 
 import by.epamtc.digapply.entity.User;
 
-/**
- * Business logic connected with Subjects.
- */
 public interface UserService {
 
     /**

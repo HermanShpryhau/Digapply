@@ -4,9 +4,6 @@ import by.epamtc.digapply.entity.Faculty;
 
 import java.util.List;
 
-/**
- * Faculty entity DAO.
- */
 public interface FacultyDao extends Dao<Faculty> {
     /**
      * Fetches faculties with most applications.

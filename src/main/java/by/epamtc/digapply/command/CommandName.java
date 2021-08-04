@@ -1,7 +1,7 @@
 package by.epamtc.digapply.command;
 
 /**
- * Contains string constants that represent command name parameter values.
+ * Command name as request parameter values.
  */
 public class CommandName {
     public static final String DEFAULT_COMMAND = "default";
