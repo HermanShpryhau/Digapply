@@ -83,12 +83,13 @@ public class Result implements Serializable, Identifiable{
 
     @Override
     public String toString() {
-        return "Result{" +
-                "resultId=" + resultId +
-                ", applicationId=" + applicationId +
-                ", subjectId=" + subjectId +
-                ", score=" + score +
-                ", certificateId='" + certificateId + '\'' +
-                '}';
+        return new StringBuilder().append("Result{")
+                .append("resultId=").append(resultId)
+                .append(", applicationId=").append(applicationId)
+                .append(", subjectId=").append(subjectId)
+                .append(", score=").append(score)
+                .append(", certificateId='")
+                .append(certificateId).append('\'')
+                .append('}').toString();
     }
 }

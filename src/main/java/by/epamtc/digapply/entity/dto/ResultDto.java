@@ -88,13 +88,13 @@ public class ResultDto implements Serializable {
 
     @Override
     public String toString() {
-        return "ResultDto{" +
-                "resultId=" + resultId +
-                ", applicationId=" + applicationId +
-                ", subjectId=" + subjectId +
-                ", subjectName='" + subjectName + '\'' +
-                ", score=" + score +
-                ", certificateId='" + certificateId + '\'' +
-                '}';
+        return new StringBuilder().append("ResultDto{")
+                .append("resultId=").append(resultId)
+                .append(", applicationId=").append(applicationId)
+                .append(", subjectId=").append(subjectId)
+                .append(", subjectName='").append(subjectName).append('\'')
+                .append(", score=").append(score)
+                .append(", certificateId='").append(certificateId).append('\'')
+                .append('}').toString();
     }
 }

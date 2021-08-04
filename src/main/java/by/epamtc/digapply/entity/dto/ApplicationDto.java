@@ -123,16 +123,16 @@ public class ApplicationDto implements Serializable {
 
     @Override
     public String toString() {
-        return "ApplicationDto{" +
-                "applicationId=" + applicationId +
-                ", applicantId=" + applicantId +
-                ", applicantName='" + applicantName + '\'' +
-                ", facultyName='" + facultyName + '\'' +
-                ", results=" + results +
-                ", totalScore=" + totalScore +
-                ", applyDate=" + applyDate +
-                ", isApproved=" + isApproved +
-                ", approveDate=" + approveDate +
-                '}';
+        return new StringBuilder().append("ApplicationDto{")
+                .append("applicationId=").append(applicationId)
+                .append(", applicantId=").append(applicantId)
+                .append(", applicantName='").append(applicantName).append('\'')
+                .append(", facultyName='").append(facultyName).append('\'')
+                .append(", results=").append(results)
+                .append(", totalScore=").append(totalScore)
+                .append(", applyDate=").append(applyDate)
+                .append(", isApproved=").append(isApproved)
+                .append(", approveDate=").append(approveDate)
+                .append('}').toString();
     }
 }

@@ -91,13 +91,13 @@ public class Faculty implements Identifiable{
 
     @Override
     public String toString() {
-        return "Faculty{" +
-                "facultyId=" + facultyId +
-                ", facultyName='" + facultyName + '\'' +
-                ", facultyShortDescription='" + facultyShortDescription + '\'' +
-                ", facultyDescription='" + facultyDescription + '\'' +
-                ", places=" + places +
-                ", isApplicationClosed=" + isApplicationClosed +
-                '}';
+        return new StringBuilder().append("Faculty{")
+                .append("facultyId=").append(facultyId)
+                .append(", facultyName='").append(facultyName).append('\'')
+                .append(", facultyShortDescription='").append(facultyShortDescription).append('\'')
+                .append(", facultyDescription='").append(facultyDescription).append('\'')
+                .append(", places=").append(places)
+                .append(", isApplicationClosed=").append(isApplicationClosed)
+                .append('}').toString();
     }
 }

@@ -52,9 +52,9 @@ public class Subject implements Identifiable {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "subjectId=" + subjectId +
-                ", subjectName='" + subjectName + '\'' +
-                '}';
+        return new StringBuilder().append("Subject{")
+                .append("subjectId=").append(subjectId)
+                .append(", subjectName='").append(subjectName).append('\'')
+                .append('}').toString();
     }
 }
