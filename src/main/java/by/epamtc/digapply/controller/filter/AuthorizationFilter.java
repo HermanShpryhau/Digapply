@@ -1,5 +1,6 @@
 package by.epamtc.digapply.controller.filter;
 
+import by.epamtc.digapply.command.CommandFactory;
 import by.epamtc.digapply.entity.Role;
 import by.epamtc.digapply.command.SessionAttribute;
 import by.epamtc.digapply.command.CommandName;
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 
 public class AuthorizationFilter implements Filter {
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
-    private Set<String> availableCommands = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -39,7 +39,8 @@ public class AuthorizationFilter implements Filter {
         }
 
         String command = request.getParameter("command");
-        if (!availableCommands.contains(command)) {
+        CommandFactory commandFactory = CommandFactory.getInstance();
+        if (!commandFactory.commandExists(command)) {
             request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
             return;
         }
@@ -116,8 +117,5 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_FACULTY_COMMAND,
                 CommandName.SHOW_SIGNUP_COMMAND
         ));
-        availableCommands = authorizedCommands.values().stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toSet());
     }
 }

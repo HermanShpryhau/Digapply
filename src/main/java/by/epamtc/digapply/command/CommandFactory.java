@@ -37,6 +37,7 @@ public class CommandFactory {
         commands.put(CommandName.NEW_SUBJECT_COMMAND, new NewSubjectCommand());
         commands.put(CommandName.UPDATE_SUBJECT_COMMAND, new UpdateSubjectCommand());
         commands.put(CommandName.EDIT_SUBJECT_COMMAND, new EditSubjectCommand());
+        commands.put(CommandName.DELETE_SUBJECT_COMMAND, new DeleteSubjectCommand());
     }
 
     /**
@@ -55,6 +56,15 @@ public class CommandFactory {
      */
     public Command getCommand(String name) {
         return Optional.ofNullable(commands.get(name)).orElse(commands.get(CommandName.DEFAULT_COMMAND));
+    }
+
+    /**
+     * Checks if command with given name exists.
+     * @param commandName Name of command.
+     * @return Result of containsKey method called on commands map.
+     */
+    public boolean commandExists(String commandName) {
+        return commands.containsKey(commandName);
     }
 
     private static class Holder {
