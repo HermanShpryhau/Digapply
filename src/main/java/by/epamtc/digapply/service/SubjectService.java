@@ -12,4 +12,12 @@ public interface SubjectService {
      */
     List<Subject> retrieveAllSubjects() throws ServiceException;
 
+    Subject retrieveSubjectById(long id) throws ServiceException;
+
+    boolean saveSubject(String subjectName) throws ServiceException;
+
+    boolean updateSubject(Subject subject) throws ServiceException;
+
+    boolean removeSubject(long id) throws ServiceException;
+
 }

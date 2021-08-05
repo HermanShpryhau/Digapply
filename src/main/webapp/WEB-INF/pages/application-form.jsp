@@ -41,22 +41,6 @@
         </c:forEach>
         <div class="d-grid gap-2 d-md-block">
             <input type="submit" class="btn btn-lg btn-success" value="<fmt:message key="application.submit"/>">
-
-        <%--            <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#submit-modal"><fmt:message key="application.submit"/></button>--%>
-<%--            <div class="modal" id="submit-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">--%>
-<%--                <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">--%>
-<%--                    <div class="modal-content">--%>
-<%--                        <div class="modal-body">--%>
-<%--                            <h1><fmt:message key="application.submit-modal-head"/></h1>--%>
-<%--                            <p><fmt:message key="application.submit-modal-body"/></p>--%>
-<%--                        </div>--%>
-<%--                        <div class="modal-footer">--%>
-<%--                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="application.cancel"/></button>--%>
-<%--                            <input type="submit" class="btn btn-lg btn-success" value="<fmt:message key="application.submit"/>">--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
         </div>
     </form>
 </div>

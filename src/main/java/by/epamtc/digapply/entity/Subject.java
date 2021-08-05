@@ -13,7 +13,7 @@ public class Subject implements Identifiable {
 
     @Override
     public long getId() {
-        return 0;
+        return subjectId;
     }
 
     public long getSubjectId() {

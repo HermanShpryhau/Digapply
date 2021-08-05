@@ -10,7 +10,7 @@
     <jsp:include page="components/head-links.jsp"/>
     <title>Subjects Management | Digapply</title>
 </head>
-<body >
+<body>
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">

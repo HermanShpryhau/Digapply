@@ -17,6 +17,7 @@ public class RequestAttribute {
     public static final String TOTAL_SCORE = "total_score";
     public static final String APPLICATION = "application";
     public static final String APPLICATIONS = "applications";
+    public static final String SUBJECT = "subject";
 
     private RequestAttribute() {}
 }

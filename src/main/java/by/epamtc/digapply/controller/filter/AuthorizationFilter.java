@@ -90,7 +90,12 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_APPLICATIONS_TABLE_COMMAND,
                 CommandName.SHOW_APPLICATION_EDIT_FORM_COMMAND,
                 CommandName.UPDATE_APPLICATION_COMMAND,
-                CommandName.SHOW_SUBJECTS_TABLE_COMMAND
+                CommandName.SHOW_SUBJECTS_TABLE_COMMAND,
+                CommandName.ADD_SUBJECT_COMMAND,
+                CommandName.NEW_SUBJECT_COMMAND,
+                CommandName.EDIT_SUBJECT_COMMAND,
+                CommandName.UPDATE_SUBJECT_COMMAND,
+                CommandName.DELETE_SUBJECT_COMMAND
         ));
         authorizedCommands.put(Role.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,

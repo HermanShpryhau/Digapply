@@ -33,10 +33,14 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_APPLICATION_EDIT_FORM_COMMAND, new EditApplicationCommand());
         commands.put(CommandName.UPDATE_APPLICATION_COMMAND, new UpdateApplicationCommand());
         commands.put(CommandName.SHOW_SUBJECTS_TABLE_COMMAND, new ShowSubjectsTableCommand());
+        commands.put(CommandName.ADD_SUBJECT_COMMAND, new AddSubjectCommand());
+        commands.put(CommandName.NEW_SUBJECT_COMMAND, new NewSubjectCommand());
+        commands.put(CommandName.UPDATE_SUBJECT_COMMAND, new UpdateSubjectCommand());
+        commands.put(CommandName.EDIT_SUBJECT_COMMAND, new EditSubjectCommand());
     }
 
     /**
-     * Gets instance of {@code CommandFactory}.
+     * Gets instance of {@link CommandFactory}.
      * @return Instance of singleton.
      */
     public static CommandFactory getInstance() {

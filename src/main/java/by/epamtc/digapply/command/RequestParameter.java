@@ -22,6 +22,7 @@ public class RequestParameter {
     public static final String USER_ID = "user-id";
     public static final String SUBJECT_ID_PREFIX = "sid-";
     public static final String CERTIFICATE_ID_PREFIX = "cid-";
+    public static final String SUBJECT_NAME = "subject-name";
 
     private RequestParameter() {}
 }

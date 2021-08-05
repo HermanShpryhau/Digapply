@@ -27,6 +27,11 @@ public class CommandName {
     public static final String SHOW_APPLICATION_EDIT_FORM_COMMAND = "edit-application";
     public static final String UPDATE_APPLICATION_COMMAND = "update-application";
     public static final String SHOW_SUBJECTS_TABLE_COMMAND = "manage-subjects";
+    public static final String ADD_SUBJECT_COMMAND = "add-subject";
+    public static final String NEW_SUBJECT_COMMAND = "new-subject";
+    public static final String EDIT_SUBJECT_COMMAND = "edit-subject";
+    public static final String UPDATE_SUBJECT_COMMAND = "update-subject";
+    public static final String DELETE_SUBJECT_COMMAND = "delete-subject";
 
     private CommandName() {}
 }
