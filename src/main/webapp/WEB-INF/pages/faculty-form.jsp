@@ -103,7 +103,11 @@
 <jsp:include page="components/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
-    let simplemde = new SimpleMDE({element: document.getElementById("faculty-description")});
+    let simplemde = new SimpleMDE({
+        element: document.getElementById("faculty-description"),
+        spellChecker: false,
+        status: false
+    });
     simplemde.value(`<c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyDescription}</c:if>`);
 </script>
 </body>
