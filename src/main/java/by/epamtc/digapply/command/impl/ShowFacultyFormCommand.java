@@ -18,16 +18,14 @@ public class ShowFacultyFormCommand implements Command {
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
-        if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return Routing.ERROR_404;
-        }
-
-        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
-        try {
-            Faculty faculty = facultyService.retrieveFacultyById(facultyId);
-            request.setAttribute(RequestAttribute.FACULTY, faculty);
-        } catch (ServiceException e) {
-            return Routing.ERROR_404;
+        if (facultyId != RequestParameterParser.INVALID_POSITIVE_LONG) {
+            FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
+            try {
+                Faculty faculty = facultyService.retrieveFacultyById(facultyId);
+                request.setAttribute(RequestAttribute.FACULTY, faculty);
+            } catch (ServiceException e) {
+                return Routing.ERROR_500;
+            }
         }
 
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
