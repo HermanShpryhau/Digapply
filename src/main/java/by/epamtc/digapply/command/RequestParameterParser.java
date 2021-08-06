@@ -1,8 +1,12 @@
 package by.epamtc.digapply.command;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RequestParameterParser {
+    private static final String NUMBER_REGEX = "\\d+";
+
     public static final long INVALID_POSITIVE_LONG = -1L;
     public static final int INVALID_POSITIVE_INT = -1;
 
@@ -10,24 +14,24 @@ public class RequestParameterParser {
     }
 
     public static long parsePositiveLong(Optional<String> optional) {
-        long number = INVALID_POSITIVE_INT;
-        if (optional.isPresent()) {
-            try {
-                number = Long.parseLong(optional.get());
-            } catch (NumberFormatException ignored) {
-            }
+        if (optional.isPresent() && isNumericString(optional.get())) {
+            return Long.parseLong(optional.get());
+        } else {
+            return INVALID_POSITIVE_LONG;
         }
-        return number;
     }
 
     public static int parsePositiveInt(Optional<String> optional) {
-        int number = INVALID_POSITIVE_INT;
-        if (optional.isPresent()) {
-            try {
-                number = Integer.parseInt(optional.get());
-            } catch (NumberFormatException ignored) {
-            }
+        if (optional.isPresent() && isNumericString(optional.get())) {
+            return Integer.parseInt(optional.get());
+        } else {
+            return INVALID_POSITIVE_INT;
         }
-        return number;
+    }
+
+    private static boolean isNumericString(String number) {
+        Pattern numberPattern = Pattern.compile(NUMBER_REGEX);
+        Matcher matcher = numberPattern.matcher(number);
+        return matcher.matches();
     }
 }
