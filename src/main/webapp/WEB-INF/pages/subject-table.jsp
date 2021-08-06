@@ -8,25 +8,25 @@
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>Subjects Management | Digapply</title>
+    <title><fmt:message key="subject.subject-management"/> | Digapply</title>
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
     <h1 class="mt-5 mb-3">
-        Subjects Management
+        <fmt:message key="subject.subject-management"/>
     </h1>
-    <a href="/controller?command=new-subject" class="btn btn-success mt-3 mb-3"><i class="bi bi-plus-lg"></i> New Subject</a>
+    <a href="/controller?command=new-subject" class="btn btn-success mt-3 mb-3"><i class="bi bi-plus-lg"></i> <fmt:message key="subject.new-subject"/></a>
     <div class="min-vh-100">
         <div class="h-100 w-100 overflow-auto">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col" >Delete</th>
+                    <th scope="col"><fmt:message key="subject.name"/></th>
+                    <th scope="col"><fmt:message key="subject.edit"/></th>
+                    <th scope="col" ><fmt:message key="subject.delete"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,10 +35,10 @@
                         <th>${subject.id}</th>
                         <td>${subject.subjectName}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/controller?command=edit-subject&id=${subject.id}">Edit</a>
+                            <a href="${pageContext.request.contextPath}/controller?command=edit-subject&id=${subject.id}"><fmt:message key="subject.edit"/></a>
                         </td>
                         <td>
-                            <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=delete-subject&id=${subject.id}">Delete</a>
+                            <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=delete-subject&id=${subject.id}"><fmt:message key="subject.delete"/></a>
                         </td>
                     </tr>
                 </c:forEach>

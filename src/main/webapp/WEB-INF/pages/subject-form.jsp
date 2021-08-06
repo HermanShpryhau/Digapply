@@ -25,7 +25,7 @@
               ${requestScope.subject.subjectName}
           </c:when>
           <c:otherwise>
-              New Subject
+              <fmt:message key="subject.new-subject"/>
           </c:otherwise>
       </c:choose> | Digappy
     </title>
@@ -40,7 +40,7 @@
                 ${requestScope.subject.subjectName}
             </c:when>
             <c:otherwise>
-                New Subject
+                <fmt:message key="subject.new-subject"/>
             </c:otherwise>
         </c:choose>
     </h1>
@@ -50,17 +50,17 @@
             <input type="hidden" name="id" value="${requestScope.subject.id}">
         </c:if>
         <div class="mb-3">
-            <label for="subject-name" class="form-label">Subject Name</label>
+            <label for="subject-name" class="form-label"><fmt:message key="subject.subject-name"/></label>
             <br/>
             <input type="text" id="subject-name" name="subject-name" maxlength="45"
             <c:if test="${requestScope.subject != null}">value="${requestScope.subject.subjectName}"</c:if>>
         </div>
         <c:choose>
             <c:when test="${requestScope.subject != null}">
-                <input type="submit" class="btn btn-outline-success" value="Save Changes">
+                <input type="submit" class="btn btn-outline-success" value="<fmt:message key="subject.save-changes"/>"/>
             </c:when>
             <c:otherwise>
-                <input type="submit" class="btn btn-outline-success" value="Add Subject">
+                <input type="submit" class="btn btn-outline-success" value="<fmt:message key="subject.add-subject"/>"/>
             </c:otherwise>
         </c:choose>
     </form>
