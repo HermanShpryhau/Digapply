@@ -10,6 +10,7 @@ public final class RequestAttribute {
     public static final String FACULTY = "faculty";
     public static final String FACULTY_SUBJECTS = "faculty_subjects";
     public static final String SUBJECTS = "subjects";
+    public static final String SUBJECT = "subject";
     public static final String PAGE = "page";
     public static final String NUMBER_OF_PAGES = "number_of_pages";
     public static final String ERROR_KEY = "error_key";
@@ -17,7 +18,7 @@ public final class RequestAttribute {
     public static final String TOTAL_SCORE = "total_score";
     public static final String APPLICATION = "application";
     public static final String APPLICATIONS = "applications";
-    public static final String SUBJECT = "subject";
+    public static final String USERS = "users";
 
     private RequestAttribute() {}
 }

@@ -1,6 +1,9 @@
 package by.epamtc.digapply.service;
 
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.entity.dto.UserDto;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -23,5 +26,7 @@ public interface UserService {
     boolean register(String firstName, String lastName, String email, String password) throws ServiceException;
 
     String getFullNameById(long userId) throws ServiceException;
+
+    List<UserDto> retrieveAllUsersAsDto() throws ServiceException;
 
 }

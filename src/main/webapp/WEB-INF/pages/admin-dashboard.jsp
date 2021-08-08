@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -22,7 +22,7 @@
             <div class="card">
                 <div class="card-body  d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.users-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-users"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=manage-users " class="btn btn-primary"><fmt:message key="dashboard.manage-users"/></a>
                 </div>
             </div>
         </div>

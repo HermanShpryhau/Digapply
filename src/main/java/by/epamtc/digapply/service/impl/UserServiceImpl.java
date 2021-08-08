@@ -2,9 +2,11 @@ package by.epamtc.digapply.service.impl;
 
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.DaoFactory;
+import by.epamtc.digapply.dao.RoleDao;
 import by.epamtc.digapply.dao.UserDao;
-import by.epamtc.digapply.entity.Role;
+import by.epamtc.digapply.entity.RoleEnum;
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.entity.dto.UserDto;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.validation.EntityValidator;
@@ -12,6 +14,9 @@ import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
@@ -68,7 +73,7 @@ public class UserServiceImpl implements UserService {
         user.setSurname(lastName);
         user.setEmail(email);
         user.setPassword(DigestUtils.sha256Hex(password));
-        user.setRoleId(Role.USER.getId());
+        user.setRoleId(RoleEnum.USER.getId());
         return user;
     }
 
@@ -90,5 +95,34 @@ public class UserServiceImpl implements UserService {
             logger.error("Unable to fetch user by id", e);
             throw new ServiceException("Unable to fetch user by id", e);
         }
+    }
+
+    @Override
+    public List<UserDto> retrieveAllUsersAsDto() throws ServiceException {
+        List<UserDto> dtos = new ArrayList<>();
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            List<User> users = userDao.findAll();
+            for (User user : users) {
+                dtos.add(buildUserDto(user));
+            }
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve all users.", e);
+            throw new ServiceException("Unable to retrieve all users.", e);
+        }
+        return dtos;
+    }
+
+    UserDto buildUserDto(User user) throws DaoException {
+        UserDto dto = new UserDto();
+        dto.setUserId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setPassword(user.getPassword());
+        dto.setName(user.getName());
+        dto.setSurname(user.getSurname());
+        dto.setRoleId(user.getRoleId());
+        RoleDao roleDao = DaoFactory.getInstance().getRoleDao();
+        dto.setRole(roleDao.findById(user.getRoleId()).getRoleName());
+        return dto;
     }
 }
