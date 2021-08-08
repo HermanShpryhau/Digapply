@@ -74,18 +74,19 @@ public class JdbcOperator<T extends Identifiable> {
      * Executes updates on DB.
      * @param query String containing SQL query.
      * @param parameters Parameters to insert into query.
+     * @return Either generated PK or number of affected rows.
      */
     public long executeUpdate(String query, Object... parameters) throws DaoException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(parameters);
             parameterSetter.setValues(statement);
-            statement.executeUpdate();
+            long rowsAffected = statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys != null &&generatedKeys.next()) {
+            if (generatedKeys != null && generatedKeys.next()) {
                 return generatedKeys.getLong(1);
             } else {
-                return NO_ID;
+                return rowsAffected;
             }
         } catch (SQLException e) {
             logger.error("Unable to execute update query.", e);
