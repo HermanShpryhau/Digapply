@@ -1,9 +1,6 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.DaoFactory;
-import by.epamtc.digapply.dao.RoleDao;
-import by.epamtc.digapply.dao.UserDao;
+import by.epamtc.digapply.dao.*;
 import by.epamtc.digapply.entity.RoleEnum;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.entity.dto.UserDto;
@@ -19,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger();
+    private static final int MINIMAL_AFFECTED_ROWS = 1;
 
     @Override
     public User login(String email, String password) throws ServiceException {
@@ -124,5 +122,17 @@ public class UserServiceImpl implements UserService {
         RoleDao roleDao = DaoFactory.getInstance().getRoleDao();
         dto.setRole(roleDao.findById(user.getRoleId()).getRoleName());
         return dto;
+    }
+
+    @Override
+    public boolean deleteUser(long id) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            long rowsAffected = userDao.removeById(id);
+            return rowsAffected < MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e){
+            logger.error("Unable to delete user from data source.", e);
+            throw new ServiceException("Unable to delete user from data source.", e);
+        }
     }
 }

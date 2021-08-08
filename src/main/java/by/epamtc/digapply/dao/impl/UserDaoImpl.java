@@ -65,7 +65,6 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public long removeById(long id) throws DaoException {
-        jdbcOperator.executeUpdate(DELETE_USER_QUERY, id);
-        return id;
+        return jdbcOperator.executeUpdate(DELETE_USER_QUERY, id);
     }
 }
