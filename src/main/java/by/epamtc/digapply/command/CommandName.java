@@ -38,6 +38,7 @@ public class CommandName {
     public static final String DELETE_SUBJECT_COMMAND = "delete-subject";
 
     public static final String SHOW_USERS_TABLE_COMMAND = "manage-users";
+    public static final String DELETE_USER_COMMAND = "delete-user";
 
     private CommandName() {}
 }

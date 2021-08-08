@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
             long rowsAffected = userDao.removeById(id);
-            return rowsAffected < MINIMAL_AFFECTED_ROWS;
+            return rowsAffected >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e){
             logger.error("Unable to delete user from data source.", e);
             throw new ServiceException("Unable to delete user from data source.", e);
