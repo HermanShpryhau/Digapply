@@ -1,7 +1,7 @@
 package by.epamtc.digapply.controller.filter;
 
 import by.epamtc.digapply.command.CommandFactory;
-import by.epamtc.digapply.entity.Role;
+import by.epamtc.digapply.entity.RoleEnum;
 import by.epamtc.digapply.command.SessionAttribute;
 import by.epamtc.digapply.command.CommandName;
 import by.epamtc.digapply.command.PagePath;
@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AuthorizationFilter implements Filter {
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
@@ -73,7 +72,7 @@ public class AuthorizationFilter implements Filter {
     }
 
     private void initCommands() {
-        authorizedCommands.put(Role.ADMIN.getId(), Arrays.asList(
+        authorizedCommands.put(RoleEnum.ADMIN.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
                 CommandName.HOME_COMMAND,
@@ -98,7 +97,7 @@ public class AuthorizationFilter implements Filter {
                 CommandName.UPDATE_SUBJECT_COMMAND,
                 CommandName.DELETE_SUBJECT_COMMAND
         ));
-        authorizedCommands.put(Role.USER.getId(), Arrays.asList(
+        authorizedCommands.put(RoleEnum.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
                 CommandName.HOME_COMMAND,
@@ -108,7 +107,7 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SUBMIT_APPLICATION_COMMAND,
                 CommandName.CANCEL_APPLICATION_COMMAND
         ));
-        authorizedCommands.put(Role.GUEST.getId(), Arrays.asList(
+        authorizedCommands.put(RoleEnum.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,
                 CommandName.SHOW_SIGN_IN_COMMAND,
                 CommandName.SIGNUP_COMMAND,
