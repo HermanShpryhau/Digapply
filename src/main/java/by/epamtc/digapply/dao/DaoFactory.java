@@ -8,6 +8,7 @@ public class DaoFactory {
     private final SubjectDao subjectDao = new SubjectDaoImpl();
     private final ApplicationDao applicationDao = new ApplicationDaoImpl();
     private final ResultDao resultDao = new ResultDaoImpl();
+    private final RoleDao roleDao = new RoleDaoImpl();
 
     private DaoFactory() {
     }
@@ -56,6 +57,14 @@ public class DaoFactory {
      */
     public ResultDao getResultDao() {
         return resultDao;
+    }
+
+    /**
+     * Gets implementation of {@link ResultDao}
+     * @return {@link RoleDao} implementation.
+     */
+    public RoleDao getRoleDao() {
+        return roleDao;
     }
 
     private static class Holder {
