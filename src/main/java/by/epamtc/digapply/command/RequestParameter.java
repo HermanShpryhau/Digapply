@@ -3,7 +3,7 @@ package by.epamtc.digapply.command;
 /**
  * Names of request parameters.
  */
-public class RequestParameter {
+public final class RequestParameter {
     public static final String COMMAND = "command";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";

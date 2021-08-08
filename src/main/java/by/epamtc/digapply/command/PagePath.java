@@ -3,7 +3,7 @@ package by.epamtc.digapply.command;
 /**
  * Paths and redirect requests to jsp pages.
  */
-public class PagePath {
+public final class PagePath {
     public static final String ERROR_404_PAGE = "WEB-INF/pages/error-404.jsp";
     public static final String ERROR_500_PAGE = "WEB-INF/pages/error-500.jsp";
     public static final String ERROR_PAGE = "WEB-INF/pages/error.jsp";

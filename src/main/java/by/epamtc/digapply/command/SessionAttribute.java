@@ -3,7 +3,7 @@ package by.epamtc.digapply.command;
 /**
  * Names of session attributes.
  */
-public class SessionAttribute {
+public final class SessionAttribute {
     public static final String ROLE = "role";
     public static final String USERNAME = "username";
     public static final String USER_ID = "user_id";

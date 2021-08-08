@@ -3,7 +3,7 @@ package by.epamtc.digapply.command;
 /**
  * Names of request attributes.
  */
-public class RequestAttribute {
+public final class RequestAttribute {
     public static final String ERROR_ATTRIBUTE = "error";
     public static final String BEST_FACULTIES = "best_faculties";
     public static final String FACULTIES = "faculties";

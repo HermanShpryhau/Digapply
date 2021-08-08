@@ -1,6 +1,9 @@
 package by.epamtc.digapply.dao.mapper;
 
-public class Column {
+/**
+ * Name of columns of DB tables.
+ */
+public final class Column {
     public static final String USER_ID = "user_id";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";

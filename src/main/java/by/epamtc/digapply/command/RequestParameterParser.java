@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RequestParameterParser {
+public final class RequestParameterParser {
     private static final String NUMBER_REGEX = "\\d+";
 
     public static final long INVALID_POSITIVE_LONG = -1L;
