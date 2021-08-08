@@ -6,12 +6,15 @@ import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
 
+import java.util.List;
+
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String SAVE_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, ?)";
-    private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=?";
-    private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM Users WHERE deleted=false";
+    private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=? AND deleted=false";
+    private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=? AND deleted=false";
     private static final String UPDATE_USER_QUERY = "UPDATE Users SET email=?, password=?, name=?, surname=?, role_id=? WHERE user_id=?";
-    private static final String DELETE_USER_QUERY = "DELETE FROM Users WHERE user_id=?";
+    private static final String DELETE_USER_QUERY = "UPDATE Users SET deleted=true WHERE user_id=?";
 
     public UserDaoImpl() {
         super(RowMapperFactory.getInstance().getUserRowMapper(), Table.USER_TABLE);
@@ -28,6 +31,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
                 entity.getSurname(),
                 entity.getRoleId()
         );
+    }
+
+    @Override
+    public List<User> findAll() throws DaoException {
+        return jdbcOperator.executeQuery(FIND_ALL_QUERY);
     }
 
     @Override
