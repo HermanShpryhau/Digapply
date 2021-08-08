@@ -27,5 +27,8 @@ public class Column {
     public static final String SCORE = "score";
     public static final String CERTIFICATE_ID = "certificate_id";
 
+    public static final String ROLE_ID = "role_id";
+    public static final String ROLE_NAME = "role_name";
+
     private Column() {}
 }
