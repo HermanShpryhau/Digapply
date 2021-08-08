@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class UpdateFacultyCommand implements Command {
-    private static final String HTML_TAG_SCRIPT = "\\<.*?\\>";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -54,16 +53,8 @@ public class UpdateFacultyCommand implements Command {
         updatedFaculty.setFacultyId(facultyId);
         updatedFaculty.setFacultyName(facultyName.orElse(null));
         updatedFaculty.setFacultyShortDescription(shortDescription.orElse(null));
-        updatedFaculty.setFacultyDescription(sanitizeString(facultyDescription));
+        updatedFaculty.setFacultyDescription(facultyDescription.orElse(null));
         updatedFaculty.setPlaces(places);
         return updatedFaculty;
-    }
-
-    private String sanitizeString(Optional<String> stringOptional) {
-        String sanitizedString = null;
-        if (stringOptional.isPresent()) {
-            sanitizedString = stringOptional.get().replaceAll(HTML_TAG_SCRIPT, "");
-        }
-        return sanitizedString;
     }
 }

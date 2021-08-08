@@ -42,5 +42,8 @@ public class PagePath {
 
     public static final String SUBJECT_FORM_PAGE = "WEB-INF/pages/subject-form.jsp";
 
+    public static final String USER_TABLE_PAGE = "WEB-INF/pages/user-table.jsp";
+    public static final String USER_TABLE_PAGE_REDIRECT = "/controller?command=manage-users";
+
     private PagePath() {}
 }

@@ -10,6 +10,7 @@ import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.validation.EntityValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -120,6 +121,7 @@ public class FacultyServiceImpl implements FacultyService {
     public boolean updateFaculty(Faculty faculty) throws ServiceException {
         if (isFacultyEntityValid(faculty)) {
             try {
+                sanitizeDescription(faculty);
                 facultyDao.update(faculty);
                 return true;
             } catch (DaoException e) {
@@ -138,12 +140,20 @@ public class FacultyServiceImpl implements FacultyService {
         }
 
         try {
+            sanitizeDescription(faculty);
             facultyDao.save(faculty, subjectIds);
             return faculty;
         } catch (DaoException e) {
             logger.error("Unable to save new faculty", e);
             throw new ServiceException("Unable to save new faculty", e);
         }
+    }
+
+    private void sanitizeDescription(Faculty faculty) {
+        String description = faculty.getFacultyDescription();
+        description = StringEscapeUtils.escapeEcmaScript(description);
+        description = StringEscapeUtils.escapeHtml4(description);
+        faculty.setFacultyDescription(description);
     }
 
     @Override
