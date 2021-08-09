@@ -13,7 +13,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String FIND_ALL_QUERY = "SELECT * FROM Users WHERE deleted=false";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=? AND deleted=false";
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=? AND deleted=false";
-    private static final String UPDATE_USER_QUERY = "UPDATE Users SET email=?, password=?, name=?, surname=?, role_id=? WHERE user_id=?";
+    private static final String UPDATE_USER_QUERY = "UPDATE Users SET email=?, password=?, name=?, surname=?, role_id=? WHERE user_id=? AND deleted=false";
     private static final String DELETE_USER_QUERY = "UPDATE Users SET deleted=true WHERE user_id=?";
 
     public UserDaoImpl() {
