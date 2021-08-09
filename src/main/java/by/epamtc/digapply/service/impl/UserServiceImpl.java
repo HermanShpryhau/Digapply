@@ -125,6 +125,39 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User retrieveUserById(long id) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.findById(id);
+        } catch (DaoException e) {
+            logger.error("Unable to fetch user by id.", e);
+            throw new ServiceException("Unable to fetch user by id.", e);
+        }
+    }
+
+    @Override
+    public boolean updateUserData(User user) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.update(user) >= MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e) {
+            logger.error("Unable to update user data.", e);
+            throw new ServiceException("Unable to update user data.", e);
+        }
+    }
+
+    @Override
+    public boolean giveAdminRights(long userId) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.updateUserRole(userId, RoleEnum.ADMIN.getId()) >= MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e) {
+            logger.error("Unable to update user role", e);
+            throw new ServiceException("Unable to update user role", e);
+        }
+    }
+
+    @Override
     public boolean deleteUser(long id) throws ServiceException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {

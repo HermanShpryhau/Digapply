@@ -20,7 +20,7 @@
             <h1>${sessionScope.username}</h1>
         </div>
         <div class="col text-end">
-            <a class="btn btn-outline-dark" href="#"><i class="bi bi-pencil-square"></i></a>
+            <a class="btn btn-outline-dark" href="/controller?command=edit-profile&id=${sessionScope.user_id}"><i class="bi bi-pencil-square"></i></a>
         </div>
     </div>
 

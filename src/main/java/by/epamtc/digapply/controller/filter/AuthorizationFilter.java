@@ -97,7 +97,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.UPDATE_SUBJECT_COMMAND,
                 CommandName.DELETE_SUBJECT_COMMAND,
                 CommandName.SHOW_USERS_TABLE_COMMAND,
-                CommandName.DELETE_USER_COMMAND
+                CommandName.DELETE_USER_COMMAND,
+                CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND
         ));
         authorizedCommands.put(RoleEnum.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
@@ -107,7 +108,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_FACULTY_COMMAND,
                 CommandName.NEW_APPLICATION_COMMAND,
                 CommandName.SUBMIT_APPLICATION_COMMAND,
-                CommandName.CANCEL_APPLICATION_COMMAND
+                CommandName.CANCEL_APPLICATION_COMMAND,
+                CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND
         ));
         authorizedCommands.put(RoleEnum.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,

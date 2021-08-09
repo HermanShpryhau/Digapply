@@ -39,6 +39,7 @@ public class CommandName {
 
     public static final String SHOW_USERS_TABLE_COMMAND = "manage-users";
     public static final String DELETE_USER_COMMAND = "delete-user";
+    public static final String SHOW_PROFILE_EDIT_FORM_COMMAND = "edit-profile";
 
     private CommandName() {}
 }

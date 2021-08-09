@@ -29,6 +29,12 @@ public interface UserService {
 
     List<UserDto> retrieveAllUsersAsDto() throws ServiceException;
 
+    User retrieveUserById(long id) throws ServiceException;
+
+    boolean updateUserData(User user) throws ServiceException;
+
+    boolean giveAdminRights(long userId) throws ServiceException;
+
     boolean deleteUser(long id) throws ServiceException;
 
 }

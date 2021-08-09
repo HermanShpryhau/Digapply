@@ -11,4 +11,12 @@ public interface UserDao extends Dao<User>{
      */
     User findByEmail(String email) throws DaoException;
 
+    /**
+     * Changes user's role id.
+     * @param userId ID of user to update.
+     * @param roleId ID of role to assign to user.
+     * @return Number of affected rows.
+     */
+    long updateUserRole(long userId, long roleId) throws DaoException;
+
 }

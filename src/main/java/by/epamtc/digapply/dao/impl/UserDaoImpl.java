@@ -13,7 +13,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String FIND_ALL_QUERY = "SELECT * FROM Users WHERE deleted=false";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=? AND deleted=false";
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=? AND deleted=false";
-    private static final String UPDATE_USER_QUERY = "UPDATE Users SET email=?, password=?, name=?, surname=?, role_id=? WHERE user_id=? AND deleted=false";
+    private static final String UPDATE_USER_QUERY = "UPDATE Users SET password=?, name=?, surname=? WHERE user_id=? AND deleted=false";
+    private static final String UPDATE_USER_ROLE_QUERY = "UPDATE Users SET role_id=? WHERE user_id=? AND deleted=false";
     private static final String DELETE_USER_QUERY = "UPDATE Users SET deleted=true WHERE user_id=?";
 
     public UserDaoImpl() {
@@ -51,16 +52,18 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public long update(User entity) throws DaoException {
         throwExceptionIfNull(entity);
-        jdbcOperator.executeUpdate(
+        return jdbcOperator.executeUpdate(
                 UPDATE_USER_QUERY,
-                entity.getEmail(),
                 entity.getPassword(),
                 entity.getName(),
                 entity.getSurname(),
-                entity.getRoleId(),
                 entity.getId()
         );
-        return entity.getId();
+    }
+
+    @Override
+    public long updateUserRole(long userId, long roleId) throws DaoException {
+        return jdbcOperator.executeUpdate(UPDATE_USER_ROLE_QUERY, roleId, userId);
     }
 
     @Override

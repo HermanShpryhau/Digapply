@@ -45,5 +45,8 @@ public final class PagePath {
     public static final String USER_TABLE_PAGE = "WEB-INF/pages/user-table.jsp";
     public static final String USER_TABLE_PAGE_REDIRECT = "/controller?command=manage-users";
 
+    public static final String PROFILE_EDIT_FORM_PAGE = "WEB-INF/pages/profile-edit-form.jsp";
+    public static final String PROFILE_EDIT_FORM_PAGE_REDIRECT = "/controller?command=edit-profile";
+
     private PagePath() {}
 }
