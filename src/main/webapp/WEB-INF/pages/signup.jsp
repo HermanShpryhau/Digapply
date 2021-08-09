@@ -23,12 +23,6 @@
         <div class="col-sm-6">
             <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-up"/></h1>
 
-            <c:if test="${requestScope.error != null}">
-                <div class="alert alert-danger fade show" role="alert">
-                    <fmt:message key="form.sign-up-error"/>
-                </div>
-            </c:if>
-
             <form action="${pageContext.request.contextPath}/controller?command=signup" method="post">
                 <div class="row mb-3">
                     <div class="col-sm mb-3">
