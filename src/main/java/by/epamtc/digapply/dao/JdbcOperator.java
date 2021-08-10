@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Executes queries for DAOs of entity.
+ * Executes JDBC operations for DAOs of entity.
  * @param <T> DAO entity's type.
  */
 public class JdbcOperator<T extends Identifiable> {
@@ -51,7 +51,6 @@ public class JdbcOperator<T extends Identifiable> {
             throw new DaoException("Unable to execute query.", e);
         } catch (ConnectionPoolException e) {
             logger.error("Unable to retrieve connection.", e);
-            // TODO Check if there is need to throw exception
             throw new DaoException("Unable to retrieve connection.", e);
         }
         return result;

@@ -6,6 +6,11 @@ import java.util.List;
 
 public interface ResultService {
 
-    List<ResultDto> retrieveResultsForApplication(long facultyId) throws ServiceException;
+    /**
+     * Retrieve list of subject DTOs for given application.
+     * @param applicationId ID of application.
+     * @return List of subject DTOs.
+     */
+    List<ResultDto> retrieveResultsForApplication(long applicationId) throws ServiceException;
 
 }
