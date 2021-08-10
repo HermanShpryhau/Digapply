@@ -22,14 +22,14 @@ public class UpdatePasswordCommand implements Command {
                     session.invalidate();
                     return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
                 } else {
-                    // TODO Set error data - invalid password.
+                    request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PASSWORD);
                     return Routing.ERROR;
                 }
             } catch (ServiceException e) {
                 return Routing.ERROR_500;
             }
         }
-        // TODO Set error data - invalid password.
+        request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PASSWORD);
         return Routing.ERROR;
     }
 }

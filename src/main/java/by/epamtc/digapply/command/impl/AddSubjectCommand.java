@@ -14,7 +14,7 @@ public class AddSubjectCommand implements Command {
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> subjectName = Optional.ofNullable(request.getParameter(RequestParameter.SUBJECT_NAME));
         if (!subjectName.isPresent()) {
-            // TODO Set error data - No subject name
+            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
             return Routing.ERROR;
         }
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
@@ -22,7 +22,7 @@ public class AddSubjectCommand implements Command {
             if (subjectService.saveSubject(subjectName.get())) {
                 return new Routing(PagePath.SUBJECT_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                // TODO Set error data - No subject name
+                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {

@@ -17,8 +17,7 @@ public class UpdateFacultyCommand implements Command {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            // TODO Set error data
-            return Routing.ERROR;
+            return Routing.ERROR_404;
         }
 
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
@@ -26,7 +25,7 @@ public class UpdateFacultyCommand implements Command {
         Optional<String> placesString = Optional.ofNullable(request.getParameter(RequestParameter.PLACES_COUNT));
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
-            // TODO Set error data
+            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
             return Routing.ERROR;
         }
 

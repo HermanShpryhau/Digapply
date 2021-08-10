@@ -22,7 +22,7 @@ public class DeleteSubjectCommand implements Command {
             subjectService.removeSubject(subjectId);
             return new Routing(PagePath.SUBJECT_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } catch (ServiceException e) {
-            // TODO set error data - can not delete this subject. Faculties may rely on it.
+            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.CANNOT_DELETE_SUBJECT);
             return Routing.ERROR;
         }
     }
