@@ -46,6 +46,9 @@ public class CommandFactory {
         commands.put(CommandName.UPDATE_PASSWORD_COMMAND, new UpdatePasswordCommand());
         commands.put(CommandName.GIVE_ADMIN_RIGHTS_COMMAND, new GiveAdminRightsCommand());
         commands.put(CommandName.REVOKE_ADMIN_RIGHTS_COMMAND, new RevokeAdminRightsCommand());
+        commands.put(CommandName.SHOW_ERROR_PAGE_COMMAND, new ShowErrorPageCommand());
+        commands.put(CommandName.SHOW_ERROR_404_PAGE_COMMAND, new ShowError404PageCommand());
+        commands.put(CommandName.SHOW_ERROR_500_PAGE_COMMAND, new ShowError500PageCommand());
     }
 
     /**

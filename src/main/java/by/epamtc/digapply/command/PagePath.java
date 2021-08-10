@@ -5,8 +5,11 @@ package by.epamtc.digapply.command;
  */
 public final class PagePath {
     public static final String ERROR_404_PAGE = "WEB-INF/pages/error-404.jsp";
+    public static final String ERROR_404_PAGE_REDIRECT = "/controller?command=error-404";
     public static final String ERROR_500_PAGE = "WEB-INF/pages/error-500.jsp";
+    public static final String ERROR_500_PAGE_REDIRECT = "/controller?command=error-500";
     public static final String ERROR_PAGE = "WEB-INF/pages/error.jsp";
+    public static final String ERROR_PAGE_REDIRECT = "/controller?command=error";
 
     public static final String HOME_PAGE = "WEB-INF/pages/home.jsp";
     public static final String HOME_PAGE_REDIRECT = "/controller?command=home";
