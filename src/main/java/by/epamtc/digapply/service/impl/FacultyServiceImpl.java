@@ -20,11 +20,9 @@ public class FacultyServiceImpl implements FacultyService {
     private static final Logger logger = LogManager.getLogger();
     private static final int BEST_FACULTIES_COUNT = 3;
 
-    private final FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
-    private final SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
-
     @Override
     public List<Faculty> retrieveBestFaculties() throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             return facultyDao.findBestFaculties(BEST_FACULTIES_COUNT);
         } catch (DaoException e) {
@@ -35,6 +33,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<Faculty> retrieveFacultiesByPage(long page, long elementsPerPage) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             return facultyDao.findAllOnPage(page, elementsPerPage);
         } catch (DaoException e) {
@@ -45,6 +44,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public long countPages(long elementsPerPage) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             long rowsCount = facultyDao.getRowsCount();
             long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
@@ -57,6 +57,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public Faculty retrieveFacultyById(long id) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             return facultyDao.findById(id);
         } catch (DaoException e) {
@@ -67,6 +68,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<Faculty> retrieveAllFaculties() throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             return facultyDao.findAll();
         } catch (DaoException e) {
@@ -77,6 +79,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             return facultyDao.findByPattern(pattern, page, elementsPerPage);
         } catch (DaoException e){
@@ -87,6 +90,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public long countPagesForSearchResult(String pattern, long elementsPerPage) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             long rowsCount = facultyDao.getRowsCountForSearch(pattern);
             long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
@@ -99,6 +103,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException {
+        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             return subjectDao.findSubjectsByFaculty(faculty.getId());
         } catch (DaoException e) {
@@ -109,6 +114,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException {
+        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             return subjectDao.findSubjectsByFaculty(facultyId);
         } catch (DaoException e) {
@@ -119,6 +125,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public boolean updateFaculty(Faculty faculty) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         if (isFacultyEntityValid(faculty)) {
             try {
                 sanitizeDescription(faculty);
@@ -139,6 +146,7 @@ public class FacultyServiceImpl implements FacultyService {
             return null;
         }
 
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             sanitizeDescription(faculty);
             facultyDao.save(faculty, subjectIds);
@@ -158,6 +166,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public boolean removeFacultyById(long facultyId) throws ServiceException {
+        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             facultyDao.removeById(facultyId);
             return true;
