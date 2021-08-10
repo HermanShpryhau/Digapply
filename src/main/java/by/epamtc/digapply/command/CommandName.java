@@ -44,6 +44,7 @@ public class CommandName {
     public static final String CHANGE_PASSWORD_COMMAND = "change-password";
     public static final String UPDATE_PASSWORD_COMMAND = "update-password";
     public static final String GIVE_ADMIN_RIGHTS_COMMAND = "give-admin-rights";
+    public static final String REVOKE_ADMIN_RIGHTS_COMMAND = "revoke-admin-rights";
 
     private CommandName() {}
 }
