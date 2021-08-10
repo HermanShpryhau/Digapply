@@ -48,5 +48,8 @@ public final class PagePath {
     public static final String PROFILE_EDIT_FORM_PAGE = "WEB-INF/pages/profile-edit-form.jsp";
     public static final String PROFILE_EDIT_FORM_PAGE_REDIRECT = "/controller?command=edit-profile";
 
+    public static final String CHANGE_PASSWORD_FORM_PAGE = "WEB-INF/pages/change-password-form.jsp";
+    public static final String CHANGE_PASSWORD_FORM_PAGE_REDIRECT = "/controller?command=change-password";
+
     private PagePath() {}
 }
