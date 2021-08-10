@@ -43,6 +43,7 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND, new ShowProfileEditFormCommand());
         commands.put(CommandName.UPDATE_PROFILE_COMMAND, new UpdateProfileCommand());
         commands.put(CommandName.CHANGE_PASSWORD_COMMAND, new ChangePasswordCommand());
+        commands.put(CommandName.UPDATE_PASSWORD_COMMAND, new UpdatePasswordCommand());
     }
 
     /**
