@@ -22,8 +22,8 @@
 
             <form action="${pageContext.request.contextPath}/controller?command=login" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label"><fmt:message key="form.email-address"/></label>
-                    <input name="email" type="email" class="form-control" id="exampleInputEmail1"
+                    <label for="emailInput" class="form-label"><fmt:message key="form.email-address"/></label>
+                    <input name="email" type="email" class="form-control" id="emailInput"
                            aria-describedby="emailHelp" placeholder="<fmt:message key="form.email-placeholder"/>">
                 </div>
                 <div class="mb-3">
