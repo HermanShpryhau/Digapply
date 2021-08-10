@@ -9,15 +9,13 @@ import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.validation.EntityValidator;
-import by.epamtc.digapply.service.validation.EntityValidatorFactory;
+import by.epamtc.digapply.service.validation.ValidatorFactory;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-/**
- * {@link FacultyService} implementation.
- */
 public class FacultyServiceImpl implements FacultyService {
     private static final Logger logger = LogManager.getLogger();
     private static final int BEST_FACULTIES_COUNT = 3;
@@ -68,6 +66,16 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public List<Faculty> retrieveAllFaculties() throws ServiceException {
+        try {
+            return facultyDao.findAll();
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve all faculties.", e);
+            throw new ServiceException("Unable to retrieve all faculties.", e);
+        }
+    }
+
+    @Override
     public List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException {
         try {
             return facultyDao.findByPattern(pattern, page, elementsPerPage);
@@ -100,10 +108,21 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException {
+        try {
+            return subjectDao.findSubjectsByFaculty(facultyId);
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve subjects by faculty id", e);
+            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
+        }
+    }
+
+    @Override
     public boolean updateFaculty(Faculty faculty) throws ServiceException {
         if (isFacultyEntityValid(faculty)) {
             try {
-                facultyDao.updateEntity(faculty);
+                sanitizeDescription(faculty);
+                facultyDao.update(faculty);
                 return true;
             } catch (DaoException e) {
                 logger.error("Unable to update faculty.", e);
@@ -121,12 +140,20 @@ public class FacultyServiceImpl implements FacultyService {
         }
 
         try {
+            sanitizeDescription(faculty);
             facultyDao.save(faculty, subjectIds);
             return faculty;
         } catch (DaoException e) {
             logger.error("Unable to save new faculty", e);
             throw new ServiceException("Unable to save new faculty", e);
         }
+    }
+
+    private void sanitizeDescription(Faculty faculty) {
+        String description = faculty.getFacultyDescription();
+        description = StringEscapeUtils.escapeEcmaScript(description);
+        description = StringEscapeUtils.escapeHtml4(description);
+        faculty.setFacultyDescription(description);
     }
 
     @Override
@@ -141,7 +168,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     private boolean isFacultyEntityValid(Faculty faculty) {
-        EntityValidator<Faculty> facultyEntityValidator = EntityValidatorFactory.getInstance().getFacultyEntityValidator();
+        EntityValidator<Faculty> facultyEntityValidator = ValidatorFactory.getInstance().getFacultyEntityValidator();
         return facultyEntityValidator.validate(faculty);
     }
 }

@@ -48,9 +48,9 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     }
 
     @Override
-    public void remove(T entity) throws DaoException {
+    public long remove(T entity) throws DaoException {
         throwExceptionIfNull(entity);
-        removeById(entity.getId());
+        return removeById(entity.getId());
     }
 
     protected void throwExceptionIfNull(Object o) throws DaoException {

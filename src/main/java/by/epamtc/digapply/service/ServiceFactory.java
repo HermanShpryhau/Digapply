@@ -1,8 +1,6 @@
 package by.epamtc.digapply.service;
 
-import by.epamtc.digapply.service.impl.FacultyServiceImpl;
-import by.epamtc.digapply.service.impl.SubjectServiceImpl;
-import by.epamtc.digapply.service.impl.UserServiceImpl;
+import by.epamtc.digapply.service.impl.*;
 
 /**
  * Thread-safe singleton Service implementations provider.
@@ -11,6 +9,8 @@ public class ServiceFactory {
     private final UserService userService = new UserServiceImpl();
     private final FacultyService facultyService = new FacultyServiceImpl();
     private final SubjectService subjectService = new SubjectServiceImpl();
+    private final ApplicationService applicationService = new ApplicationServiceImpl();
+    private final ResultService resultService = new ResultServiceImpl();
 
     private ServiceFactory() {
     }
@@ -45,6 +45,22 @@ public class ServiceFactory {
      */
     public SubjectService getSubjectService() {
         return subjectService;
+    }
+
+    /**
+     * Gets implementation of {@link ApplicationService}
+     * @return {@link ApplicationService} implementation.
+     */
+    public ApplicationService getApplicationService() {
+        return applicationService;
+    }
+
+    /**
+     * Gets implementation of {@link ResultService}
+     * @return {@link ResultService} implementation.
+     */
+    public ResultService getResultService() {
+        return resultService;
     }
 
     private static class Holder {

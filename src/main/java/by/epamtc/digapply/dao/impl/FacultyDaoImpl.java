@@ -7,9 +7,6 @@ import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Implementation of {@link FacultyDao} interface
- */
 public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     private static final String SAVE_FACULTY_QUERY = "INSERT INTO Faculties (faculty_id, faculty_name, faculty_short_description, faculty_description, places, is_application_closed) VALUES (0, ?, ?, ?, ?, ?)";
     private static final String ADD_SUBJECT_TO_FACULTY_QUERY = "INSERT INTO Faculties_has_Subjects (faculties_faculty_id, subjects_subject_id) VALUES ((SELECT faculty_id FROM Faculties WHERE faculty_name=?), ?)";
@@ -30,12 +27,12 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
-    public void save(Faculty entity) throws DaoException {
+    public long save(Faculty entity) throws DaoException {
         throw new DaoException("Unsupported operation for Faculties table.");
     }
 
     @Override
-    public void save(Faculty faculty, List<Long> subjectIds) throws DaoException {
+    public long save(Faculty faculty, List<Long> subjectIds) throws DaoException {
         throwExceptionIfNull(faculty);
         throwExceptionIfNull(subjectIds);
 
@@ -47,7 +44,7 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
             queries.add(new ParametrizedQuery(ADD_SUBJECT_TO_FACULTY_QUERY, addSubjectQueryParams));
         }
 
-        jdbcOperator.executeTransactionalUpdate(queries);
+        return jdbcOperator.executeTransactionalUpdate(queries);
     }
 
     @Override
@@ -69,7 +66,7 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
-    public void updateEntity(Faculty entity) throws DaoException {
+    public long update(Faculty entity) throws DaoException {
         throwExceptionIfNull(entity);
         jdbcOperator.executeUpdate(
                 UPDATE_FACULTY_QUERY,
@@ -80,11 +77,13 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
                 entity.isApplicationClosed(),
                 entity.getId()
         );
+        return entity.getId();
     }
 
     @Override
-    public void removeById(long id) throws DaoException {
+    public long removeById(long id) throws DaoException {
         jdbcOperator.executeUpdate(DELETE_FACULTY_QUERY, id);
+        return id;
     }
 
     @Override

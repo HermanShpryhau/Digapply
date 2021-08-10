@@ -1,23 +1,24 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.DaoFactory;
-import by.epamtc.digapply.dao.UserDao;
-import by.epamtc.digapply.entity.Role;
+import by.epamtc.digapply.dao.*;
+import by.epamtc.digapply.entity.RoleEnum;
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.entity.dto.UserDto;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.validation.EntityValidator;
-import by.epamtc.digapply.service.validation.EntityValidatorFactory;
+import by.epamtc.digapply.service.validation.impl.UserDataValidator;
+import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * {@link UserService} implementation.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
-    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger();
+    private static final int MINIMAL_AFFECTED_ROWS = 1;
 
     @Override
     public User login(String email, String password) throws ServiceException {
@@ -49,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean hasAdminRights(long userRoleId) {
+        return userRoleId == RoleEnum.ADMIN.getId();
+    }
+
+    @Override
     public boolean register(String firstName, String lastName, String email, String password) throws ServiceException {
         User user = buildUser(firstName, lastName, email, password);
         if (isUserEntityValid(user)) {
@@ -71,12 +77,142 @@ public class UserServiceImpl implements UserService {
         user.setSurname(lastName);
         user.setEmail(email);
         user.setPassword(DigestUtils.sha256Hex(password));
-        user.setRoleId(Role.USER.getId());
+        user.setRoleId(RoleEnum.USER.getId());
         return user;
     }
 
     private boolean isUserEntityValid(User user) {
-        EntityValidator<User> userEntityValidator = EntityValidatorFactory.getInstance().getUserDataValidator();
+        EntityValidator<User> userEntityValidator = ValidatorFactory.getInstance().getUserDataValidator();
         return userEntityValidator.validate(user);
+    }
+
+    @Override
+    public String getFullNameById(long userId) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            User user = userDao.findById(userId);
+            if (user == null) {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder(user.getName())
+                    .append(' ')
+                    .append(user.getSurname());
+            return sb.toString();
+        } catch (DaoException e) {
+            logger.error("Unable to fetch user by id", e);
+            throw new ServiceException("Unable to fetch user by id", e);
+        }
+    }
+
+    @Override
+    public List<UserDto> retrieveAllUsersAsDto() throws ServiceException {
+        List<UserDto> dtos = new ArrayList<>();
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            List<User> users = userDao.findAll();
+            for (User user : users) {
+                dtos.add(buildUserDto(user));
+            }
+        } catch (DaoException e) {
+            logger.error("Unable to retrieve all users.", e);
+            throw new ServiceException("Unable to retrieve all users.", e);
+        }
+        return dtos;
+    }
+
+    UserDto buildUserDto(User user) throws DaoException {
+        UserDto dto = new UserDto();
+        dto.setUserId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setPassword(user.getPassword());
+        dto.setName(user.getName());
+        dto.setSurname(user.getSurname());
+        dto.setRoleId(user.getRoleId());
+        RoleDao roleDao = DaoFactory.getInstance().getRoleDao();
+        dto.setRole(roleDao.findById(user.getRoleId()).getRoleName());
+        return dto;
+    }
+
+    @Override
+    public User retrieveUserById(long id) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.findById(id);
+        } catch (DaoException e) {
+            logger.error("Unable to fetch user by id.", e);
+            throw new ServiceException("Unable to fetch user by id.", e);
+        }
+    }
+
+    @Override
+    public boolean updateUserData(long userId, String firstName, String lastName) throws ServiceException {
+        User user = new User();
+        user.setUserId(userId);
+        user.setName(firstName);
+        user.setSurname(lastName);
+        EntityValidator<User> userDataValidator = UserDataValidator.builder().validateNameAndSurname().build();
+        if (userDataValidator.validate(user)) {
+            UserDao userDao = DaoFactory.getInstance().getUserDao();
+            try {
+                long affectedRows = userDao.update(user);
+                return affectedRows >= MINIMAL_AFFECTED_ROWS;
+            } catch (DaoException e) {
+                logger.error("Unable to update user data.", e);
+                throw new ServiceException("Unable to update user data.", e);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePassword(long userId, String password) throws ServiceException {
+        EntityValidator<User> userDataValidator = UserDataValidator.builder().validatePassword().build();
+        User user = new User();
+        user.setPassword(password);
+        if (userDataValidator.validate(user)) {
+            UserDao userDao = DaoFactory.getInstance().getUserDao();
+            try {
+                long affectedRows = userDao.updatePassword(userId, DigestUtils.sha256Hex(password));
+                return affectedRows >= MINIMAL_AFFECTED_ROWS;
+            } catch (DaoException e) {
+                logger.error("Unable to update user's password.", e);
+                throw new ServiceException("Unable to update user's password.", e);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean giveAdminRights(long userId) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.updateUserRole(userId, RoleEnum.ADMIN.getId()) >= MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e) {
+            logger.error("Unable to update user role", e);
+            throw new ServiceException("Unable to update user role", e);
+        }
+    }
+
+    @Override
+    public boolean revokeAdminRights(long userId) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.updateUserRole(userId, RoleEnum.USER.getId()) >= MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e) {
+            logger.error("Unable to update user role", e);
+            throw new ServiceException("Unable to update user role", e);
+        }
+    }
+
+    @Override
+    public boolean deleteUser(long id) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            long rowsAffected = userDao.removeById(id);
+            return rowsAffected >= MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e){
+            logger.error("Unable to delete user from data source.", e);
+            throw new ServiceException("Unable to delete user from data source.", e);
+        }
     }
 }

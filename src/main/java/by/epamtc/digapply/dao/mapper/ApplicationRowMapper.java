@@ -5,9 +5,6 @@ import by.epamtc.digapply.entity.Application;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * {@link RowMapper} implementation for Application entity.
- */
 public class ApplicationRowMapper implements RowMapper<Application> {
     @Override
     public Application map(ResultSet resultSet) throws SQLException {

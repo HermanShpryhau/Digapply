@@ -4,9 +4,6 @@ import by.epamtc.digapply.entity.Subject;
 
 import java.util.List;
 
-/**
- * Business logic connected with Subjects.
- */
 public interface SubjectService {
 
     /**
@@ -14,5 +11,13 @@ public interface SubjectService {
      * @return List of all subjects.
      */
     List<Subject> retrieveAllSubjects() throws ServiceException;
+
+    Subject retrieveSubjectById(long id) throws ServiceException;
+
+    boolean saveSubject(String subjectName) throws ServiceException;
+
+    boolean updateSubject(Subject subject) throws ServiceException;
+
+    boolean removeSubject(long id) throws ServiceException;
 
 }

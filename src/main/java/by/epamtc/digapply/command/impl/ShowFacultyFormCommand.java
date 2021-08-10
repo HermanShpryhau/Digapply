@@ -13,30 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Displays faculty attributes form
- */
 public class ShowFacultyFormCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
-        Optional<String> facultyIdParameter = Optional.ofNullable(request.getParameter(RequestParameter.ID));
-        if (facultyIdParameter.isPresent()) {
-            long facultyId = Long.parseLong(facultyIdParameter.get());
+        Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
+        long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
+        if (facultyId != RequestParameterParser.INVALID_POSITIVE_LONG) {
             FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
             try {
                 Faculty faculty = facultyService.retrieveFacultyById(facultyId);
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
             } catch (ServiceException e) {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_500;
             }
         }
+
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
             List<Subject> subjects = subjectService.retrieveAllSubjects();
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);
             return new Routing(PagePath.FACULTY_FORM_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
     }
 }

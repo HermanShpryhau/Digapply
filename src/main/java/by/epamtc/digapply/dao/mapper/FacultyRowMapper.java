@@ -5,9 +5,6 @@ import by.epamtc.digapply.entity.Faculty;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * {@link RowMapper} implementation for Faculty entity.
- */
 public class FacultyRowMapper implements RowMapper<Faculty> {
     @Override
     public Faculty map(ResultSet resultSet) throws SQLException {

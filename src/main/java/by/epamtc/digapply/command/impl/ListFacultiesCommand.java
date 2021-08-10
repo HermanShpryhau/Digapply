@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Shows paginated list of all faculties and faculties that comply to search pattern
- */
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long ELEMENTS_PER_PAGE = 4L;
@@ -32,7 +29,7 @@ public class ListFacultiesCommand implements Command {
             try {
                 pageNumber = Integer.parseInt(page.get());
             } catch (NumberFormatException e) {
-                return new Routing(PagePath.ERROR_404_PAGE, RoutingType.FORWARD);
+                return Routing.ERROR_404;
             }
         }
 
@@ -60,7 +57,7 @@ public class ListFacultiesCommand implements Command {
             }
         } catch (ServiceException e) {
             logger.error("Unable to retrieve list of faculties.", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         request.setAttribute(RequestAttribute.FACULTIES, facultyList);
         request.setAttribute(RequestAttribute.NUMBER_OF_PAGES, numberOfPages);

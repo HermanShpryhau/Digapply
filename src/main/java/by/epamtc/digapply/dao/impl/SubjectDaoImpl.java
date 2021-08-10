@@ -8,9 +8,6 @@ import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 
 import java.util.List;
 
-/**
- * Implementation of {@link SubjectDao} interface
- */
 public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     private static final String SAVE_SUBJECT_QUERY = "INSERT INTO Subjects (subject_id, subject_name) VALUES (0, ?)";
     private static final String FIND_SUBJECT_BY_ID_QUERY = "SELECT * FROM Subjects WHERE subject_id=?";
@@ -27,8 +24,8 @@ public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     }
 
     @Override
-    public void save(Subject entity) throws DaoException {
-        jdbcOperator.executeUpdate(SAVE_SUBJECT_QUERY, entity.getSubjectName());
+    public long save(Subject entity) throws DaoException {
+        return jdbcOperator.executeUpdate(SAVE_SUBJECT_QUERY, entity.getSubjectName());
     }
 
     @Override
@@ -37,17 +34,19 @@ public class SubjectDaoImpl extends AbstractDao<Subject> implements SubjectDao {
     }
 
     @Override
-    public void updateEntity(Subject entity) throws DaoException {
-        jdbcOperator.executeUpdate(UPDATE_SUBJECT_QUERY, entity.getSubjectName(), entity.getId());
-    }
-
-    @Override
-    public void removeById(long id) throws DaoException {
-        jdbcOperator.executeUpdate(DELETE_SUBJECT_BY_ID_QUERY, id);
-    }
-
-    @Override
     public List<Subject> findSubjectsByFaculty(long facultyId) throws DaoException {
         return jdbcOperator.executeQuery(FIND_SUBJECTS_BY_FACULTY_QUERY, facultyId);
+    }
+
+    @Override
+    public long update(Subject entity) throws DaoException {
+        jdbcOperator.executeUpdate(UPDATE_SUBJECT_QUERY, entity.getSubjectName(), entity.getId());
+        return entity.getId();
+    }
+
+    @Override
+    public long removeById(long id) throws DaoException {
+        jdbcOperator.executeUpdate(DELETE_SUBJECT_BY_ID_QUERY, id);
+        return id;
     }
 }

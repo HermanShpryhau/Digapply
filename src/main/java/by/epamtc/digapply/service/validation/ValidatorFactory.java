@@ -2,44 +2,35 @@ package by.epamtc.digapply.service.validation;
 
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.service.validation.impl.ApplicationFormDataValidatorImpl;
 import by.epamtc.digapply.service.validation.impl.FacultyEntityValidator;
 import by.epamtc.digapply.service.validation.impl.UserEntityValidator;
 
-/**
- * Thread-safe singleton EntityValidator implementations provider.
- */
-public class EntityValidatorFactory {
+public class ValidatorFactory {
     private final EntityValidator<User> userEntityValidator = new UserEntityValidator();
     private final EntityValidator<Faculty> facultyEntityValidator = new FacultyEntityValidator();
+    private final ApplicationFormDataValidator applicationFormDataValidator = new ApplicationFormDataValidatorImpl();
 
-    private EntityValidatorFactory() {
+    private ValidatorFactory() {
     }
 
-    /**
-     * Gets instance of {@link EntityValidatorFactory}.
-     * @return Instance of singleton.
-     */
-    public static EntityValidatorFactory getInstance() {
+    public static ValidatorFactory getInstance() {
         return Holder.INSTANCE;
     }
 
-    /**
-     * Gets implementation of {@link EntityValidator}
-     * @return {@link EntityValidator} implementation for {@link User} entities.
-     */
     public EntityValidator<User> getUserDataValidator() {
         return userEntityValidator;
     }
 
-    /**
-     * Gets implementation of {@link EntityValidator}
-     * @return {@link EntityValidator} implementation for {@link Faculty} entities.
-     */
     public EntityValidator<Faculty> getFacultyEntityValidator() {
         return facultyEntityValidator;
     }
 
+    public ApplicationFormDataValidator getApplicationFormDataValidator() {
+        return applicationFormDataValidator;
+    }
+
     private static class Holder {
-        static final EntityValidatorFactory INSTANCE = new EntityValidatorFactory();
+        static final ValidatorFactory INSTANCE = new ValidatorFactory();
     }
 }

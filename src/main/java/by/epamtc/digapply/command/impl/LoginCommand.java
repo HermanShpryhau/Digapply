@@ -14,12 +14,9 @@ import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Optional;
 
-/**
- * Performs user authentication against data submitted with sign in form
- */
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private static final String CONTROLLER_COMMAND = "/controller?command=";
+    private static final String CONTROLLER_COMMAND = "/controller?";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -28,7 +25,7 @@ public class LoginCommand implements Command {
         String email = request.getParameter(RequestParameter.EMAIL);
         if (email == null || request.getParameter((RequestParameter.PASSWORD)) == null) {
             request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_LOGIN_DATA);
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
@@ -38,16 +35,17 @@ public class LoginCommand implements Command {
             user = userService.login(email, String.valueOf(password));
         } catch (ServiceException e) {
             logger.error("Unable to test user sign in data.", e);
-            return new Routing(PagePath.ERROR_500_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR_500;
         }
         Arrays.fill(password, ' ');
         if (user != null) {
             String username = user.getName() + " " + user.getSurname();
+            session.setAttribute(SessionAttribute.USER_ID, user.getId());
             session.setAttribute(SessionAttribute.USERNAME, username);
             session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
         } else {
             request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_LOGIN_DATA);
-            return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
+            return Routing.ERROR;
         }
 
         Routing routing;

@@ -5,26 +5,24 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Opens and stores connections to database. Thread-safe.
- */
 public class ConnectionPool {
-    private static final int POOL_SIZE = 10;
+    private static final int DEFAULT_POOL_SIZE = 5;
     private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final String DB_URL_PROP = "db.url";
     private static final String DB_USER_PROP = "db.user";
     private static final String DB_PASSWORD_PROP = "db.password";
     private static final String DB_DRIVER_PROP = "db.jdbc-driver";
-
-    private BlockingQueue<PooledConnection> pool;
-    private BlockingQueue<PooledConnection> usedConnections;
+    private static final String DB_POOL_SIZE = "db.pool-size";
+    private int poolSize;
+    private BlockingQueue<ProxyConnection> pool;
+    private BlockingQueue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
     }
@@ -41,11 +39,12 @@ public class ConnectionPool {
             String dbUser = dbProperties.getProperty(DB_USER_PROP);
             String dbPassword = dbProperties.getProperty(DB_PASSWORD_PROP);
             Class.forName(dbProperties.getProperty(DB_DRIVER_PROP));
-            pool = new ArrayBlockingQueue<>(POOL_SIZE);
-            usedConnections = new ArrayBlockingQueue<>(POOL_SIZE);
-            for (int i = 0; i < POOL_SIZE; i++) {
+            poolSize = parsePoolSize(dbProperties);
+            pool = new ArrayBlockingQueue<>(poolSize);
+            usedConnections = new ArrayBlockingQueue<>(poolSize);
+            for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-                pool.add(new PooledConnection(connection));
+                pool.add(new ProxyConnection(connection));
             }
         } catch (IOException e) {
             logger.error("Unable to load DB properties!", e);
@@ -60,8 +59,17 @@ public class ConnectionPool {
         logger.info("Connection pool initialized.");
     }
 
+    private int parsePoolSize(Properties dbProperties) {
+        try {
+            return Integer.parseInt(dbProperties.getProperty(DB_POOL_SIZE));
+        } catch (NumberFormatException e) {
+            logger.warn("Invalid pool size property.", e);
+            return DEFAULT_POOL_SIZE;
+        }
+    }
+
     public Connection takeConnection() throws ConnectionPoolException {
-        PooledConnection connection;
+        ProxyConnection connection;
         try {
             connection = pool.take();
             usedConnections.put(connection);
@@ -77,7 +85,7 @@ public class ConnectionPool {
         if (connection != null) {
             usedConnections.remove(connection);
             try {
-                pool.put((PooledConnection) connection);
+                pool.put((ProxyConnection) connection);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.error("Unable to release connection to data source.", e);
@@ -88,10 +96,10 @@ public class ConnectionPool {
 
     public void dispose() throws ConnectionPoolException {
         try {
-            for (PooledConnection connection : pool) {
+            for (ProxyConnection connection : pool) {
                 connection.reallyClose();
             }
-            for (PooledConnection connection : usedConnections) {
+            for (ProxyConnection connection : usedConnections) {
                 connection.reallyClose();
             }
         } catch (SQLException e) {

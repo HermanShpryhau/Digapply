@@ -2,9 +2,6 @@ package by.epamtc.digapply.entity;
 
 import java.io.Serializable;
 
-/**
- * User entity.
- */
 public class User implements Serializable, Identifiable {
     private long userId;
     private String email;
@@ -98,13 +95,13 @@ public class User implements Serializable, Identifiable {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", roleId=" + roleId +
-                '}';
+        return new StringBuilder().append("User{")
+                .append("userId=").append(userId)
+                .append(", email='").append(email).append('\'')
+                .append(", password='").append(password).append('\'')
+                .append(", name='").append(name).append('\'')
+                .append(", surname='").append(surname)
+                .append('\'').append(", roleId=").append(roleId)
+                .append('}').toString();
     }
 }

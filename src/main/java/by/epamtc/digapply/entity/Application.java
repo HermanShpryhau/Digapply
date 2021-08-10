@@ -3,9 +3,6 @@ package by.epamtc.digapply.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Application entity.
- */
 public class Application  implements Serializable, Identifiable {
     private long applicationId;
     private long userId;
@@ -96,13 +93,14 @@ public class Application  implements Serializable, Identifiable {
 
     @Override
     public String toString() {
-        return "Application{" +
-                "applicationId=" + applicationId +
-                ", userId=" + userId +
-                ", facultyId=" + facultyId +
-                ", applyDate=" + applyDate +
-                ", isApproved=" + isApproved +
-                ", approveDate=" + approveDate +
-                '}';
+        return new StringBuilder()
+                .append("Application{")
+                .append("applicationId=").append(applicationId)
+                .append(", userId=").append(userId)
+                .append(", facultyId=").append(facultyId)
+                .append(", applyDate=").append(applyDate)
+                .append(", isApproved=").append(isApproved)
+                .append(", approveDate=").append(approveDate)
+                .append('}').toString();
     }
 }

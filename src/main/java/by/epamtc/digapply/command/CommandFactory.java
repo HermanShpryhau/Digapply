@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Thread-safe singleton {@link Command} implementations provider.
- */
 public class CommandFactory {
     private static final Map<String, Command> commands = new HashMap<>();
 
@@ -27,10 +24,32 @@ public class CommandFactory {
         commands.put(CommandName.ADD_FACULTY_COMMAND, new AddFacultyCommand());
         commands.put(CommandName.DELETE_FACULTY_COMMAND, new DeleteFacultyCommand());
         commands.put(CommandName.SHOW_DASHBOARD_COMMAND, new ShowDashboardCommand());
+        commands.put(CommandName.NEW_APPLICATION_COMMAND, new NewApplicationCommand());
+        commands.put(CommandName.SUBMIT_APPLICATION_COMMAND, new SubmitApplicationCommand());
+        commands.put(CommandName.SHOW_SIGNUP_COMMAND, new ShowSignUpCommand());
+        commands.put(CommandName.CANCEL_APPLICATION_COMMAND, new CancelApplicationCommand());
+        commands.put(CommandName.APPROVE_APPLICATION_COMMAND, new ApproveApplicationCommand());
+        commands.put(CommandName.SHOW_APPLICATIONS_TABLE_COMMAND, new ShowApplicationsTableCommand());
+        commands.put(CommandName.SHOW_APPLICATION_EDIT_FORM_COMMAND, new EditApplicationCommand());
+        commands.put(CommandName.UPDATE_APPLICATION_COMMAND, new UpdateApplicationCommand());
+        commands.put(CommandName.SHOW_SUBJECTS_TABLE_COMMAND, new ShowSubjectsTableCommand());
+        commands.put(CommandName.ADD_SUBJECT_COMMAND, new AddSubjectCommand());
+        commands.put(CommandName.NEW_SUBJECT_COMMAND, new NewSubjectCommand());
+        commands.put(CommandName.UPDATE_SUBJECT_COMMAND, new UpdateSubjectCommand());
+        commands.put(CommandName.EDIT_SUBJECT_COMMAND, new EditSubjectCommand());
+        commands.put(CommandName.DELETE_SUBJECT_COMMAND, new DeleteSubjectCommand());
+        commands.put(CommandName.SHOW_USERS_TABLE_COMMAND, new ShowUsersTableCommand());
+        commands.put(CommandName.DELETE_USER_COMMAND, new DeleteUserCommand());
+        commands.put(CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND, new ShowProfileEditFormCommand());
+        commands.put(CommandName.UPDATE_PROFILE_COMMAND, new UpdateProfileCommand());
+        commands.put(CommandName.CHANGE_PASSWORD_COMMAND, new ChangePasswordCommand());
+        commands.put(CommandName.UPDATE_PASSWORD_COMMAND, new UpdatePasswordCommand());
+        commands.put(CommandName.GIVE_ADMIN_RIGHTS_COMMAND, new GiveAdminRightsCommand());
+        commands.put(CommandName.REVOKE_ADMIN_RIGHTS_COMMAND, new RevokeAdminRightsCommand());
     }
 
     /**
-     * Gets instance of {@code CommandFactory}.
+     * Gets instance of {@link CommandFactory}.
      * @return Instance of singleton.
      */
     public static CommandFactory getInstance() {
@@ -45,6 +64,15 @@ public class CommandFactory {
      */
     public Command getCommand(String name) {
         return Optional.ofNullable(commands.get(name)).orElse(commands.get(CommandName.DEFAULT_COMMAND));
+    }
+
+    /**
+     * Checks if command with given name exists.
+     * @param commandName Name of command.
+     * @return Result of containsKey method called on commands map.
+     */
+    public boolean commandExists(String commandName) {
+        return commands.containsKey(commandName);
     }
 
     private static class Holder {

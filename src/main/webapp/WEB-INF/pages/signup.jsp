@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -13,7 +13,7 @@
     <title>Sign Up | Digapply</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 
@@ -23,25 +23,19 @@
         <div class="col-sm-6">
             <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-up"/></h1>
 
-            <c:if test="${requestScope.error != null}">
-                <div class="alert alert-danger fade show" role="alert">
-                    <fmt:message key="form.sign-up-error"/>
-                </div>
-            </c:if>
-
             <form action="${pageContext.request.contextPath}/controller?command=signup" method="post">
                 <div class="row mb-3">
                     <div class="col-sm mb-3">
                         <label for="first-name" class="form-label"><fmt:message key="form.firs-name"/></label>
                         <input type="text" id="first-name" name="first-name" class="form-control"
                                placeholder="<fmt:message key="form.firs-name"/>" required maxlength="45"
-                               pattern="\b[A-Z].*?\b">
+                               pattern="^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]$">
                     </div>
                     <div class="col-sm">
                         <label for="last-name" class="form-label"><fmt:message key="form.last-name"/></label>
                         <input type="text" id="last-name" name="last-name" class="form-control"
                                placeholder="<fmt:message key="form.last-name"/>" required maxlength="45"
-                               pattern="\b[A-Z].*?\b">
+                               pattern="^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]$">
                     </div>
                 </div>
 

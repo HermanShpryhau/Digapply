@@ -28,7 +28,7 @@
         </c:forEach>
     </ul>
 
-    <a class="btn btn-primary btn-lg mt-3" href="#">
+    <a class="btn btn-primary btn-lg mt-3" href="/controller?command=new-application&faculty-id=${faculty.facultyId}">
         <fmt:message key="home.apply-now"/>
     </a>
 

@@ -14,7 +14,7 @@ public interface Dao<T extends Identifiable> {
      * Saves entity to DB table.
      * @param entity Entity object to save.
      */
-    void save(T entity) throws DaoException;
+    long save(T entity) throws DaoException;
 
     /**
      * Fetches entity object from DB by ID.
@@ -47,18 +47,18 @@ public interface Dao<T extends Identifiable> {
      * Updates entity data in table.
      * @param entity Entity to update. Object must contain updated data.
      */
-    void updateEntity(T entity) throws DaoException;
+    long update(T entity) throws DaoException;
 
     /**
      * Deletes entity from table.
      * @param id id of entity to delete.
      */
-    void removeById(long id) throws DaoException;
+    long removeById(long id) throws DaoException;
 
     /**
      * Deletes given entity from table.
      * @param entity Entity to delete.
      */
-    void remove(T entity) throws DaoException;
+    long remove(T entity) throws DaoException;
 
 }

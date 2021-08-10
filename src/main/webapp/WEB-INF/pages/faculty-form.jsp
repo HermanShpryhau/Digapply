@@ -10,9 +10,9 @@
     <c:when test="${requestScope.faculty != null}">
         <c:set var="action" value="${pageContext.request.contextPath}/controller?command=update-faculty"/>
     </c:when>
-    <c:when test="${requestScope.faculty == null}">
+    <c:otherwise>
         <c:set var="action" value="${pageContext.request.contextPath}/controller?command=add-faculty"/>
-    </c:when>
+    </c:otherwise>
 </c:choose>
 
 <!doctype html>
@@ -93,9 +93,9 @@
         <c:when test="${requestScope.faculty != null}">
             <input type="submit" class="btn btn-primary" value="<fmt:message key="form.save-changes-btn"/>">
         </c:when>
-        <c:when test="${requestScope.faculty == null}">
+        <c:otherwise>
             <input type="submit" class="btn btn-primary" value="<fmt:message key="form.add-faculty-btn"/>">
-        </c:when>
+        </c:otherwise>
     </c:choose>
     </form>
 </div>
@@ -103,7 +103,11 @@
 <jsp:include page="components/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
-    let simplemde = new SimpleMDE({element: document.getElementById("faculty-description")});
+    let simplemde = new SimpleMDE({
+        element: document.getElementById("faculty-description"),
+        spellChecker: false,
+        status: false
+    });
     simplemde.value(`<c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyDescription}</c:if>`);
 </script>
 </body>

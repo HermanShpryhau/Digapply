@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -12,7 +12,7 @@
     <jsp:include page="components/head-links.jsp"/>
     <title><fmt:message key="dashboard.title"/></title>
 </head class="d-flex flex-column min-vh-100">
-<body>
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
@@ -22,7 +22,7 @@
             <div class="card">
                 <div class="card-body  d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.users-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-users"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=manage-users " class="btn btn-primary"><fmt:message key="dashboard.manage-users"/></a>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="card">
                 <div class="card-body d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.subject-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-subjects"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=manage-subjects" class="btn btn-primary"><fmt:message key="dashboard.manage-subjects"/></a>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="card">
                 <div class="card-body d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.applications-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-applications"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=manage-applications" class="btn btn-primary"><fmt:message key="dashboard.manage-applications"/></a>
                 </div>
             </div>
         </div>

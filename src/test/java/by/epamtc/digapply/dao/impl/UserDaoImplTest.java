@@ -85,7 +85,7 @@ class UserDaoImplTest {
         if (fromDB != null) {
             user.setUserId(fromDB.getUserId());
         }
-        userDao.updateEntity(user);
+        userDao.update(user);
         fromDB = userDao.findById(user.getId());
         assertEquals(user, fromDB);
     }

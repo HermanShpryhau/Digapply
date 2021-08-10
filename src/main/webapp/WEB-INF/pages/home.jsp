@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hermanshpryhau
-  Date: 7.07.21
-  Time: 11:21
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -28,12 +21,7 @@
         <div class="row mt-5">
             <div class="col-sm my-auto">
                 <h1 class="display-5 fw-bold"><fmt:message key="home.promo"/></h1>
-                <p class="fs-5 fs-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque molestiae
-                    voluptatibus in nesciunt harum voluptas incidunt qui, necessitatibus porro doloremque consequuntur
-                    quae adipisci excepturi saepe unde veniam asperiores similique maiores? Lorem, ipsum dolor sit amet
-                    consectetur adipisicing elit. Nostrum amet eligendi illo consectetur saepe et expedita, cum
-                    dignissimos, dolorum commodi fugit quisquam. Iure, maiores velit ipsum dicta placeat molestiae
-                    aliquam!</p>
+                <p class="fs-5 fs-normal"><fmt:message key="home.welcome"/></p>
             </div>
 
             <div class="col-sm">
@@ -42,7 +30,7 @@
         </div>
     </section>
 
-    <div class="container mt-5 " id="featured-3">
+    <div class="mt-5">
         <h2 class="border-bottom fw-bold"><fmt:message key="home.best-faculties"/></h2>
         <div class="row g-4 mt-1 row-cols-1 row-cols-lg-3">
             <c:forEach var="faculty" items="${requestScope.best_faculties}">

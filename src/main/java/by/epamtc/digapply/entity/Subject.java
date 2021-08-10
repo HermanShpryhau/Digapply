@@ -1,8 +1,5 @@
 package by.epamtc.digapply.entity;
 
-/**
- * Subject entity.
- */
 public class Subject implements Identifiable {
     private long subjectId;
     private String subjectName;
@@ -16,7 +13,7 @@ public class Subject implements Identifiable {
 
     @Override
     public long getId() {
-        return 0;
+        return subjectId;
     }
 
     public long getSubjectId() {
@@ -55,9 +52,9 @@ public class Subject implements Identifiable {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "subjectId=" + subjectId +
-                ", subjectName='" + subjectName + '\'' +
-                '}';
+        return new StringBuilder().append("Subject{")
+                .append("subjectId=").append(subjectId)
+                .append(", subjectName='").append(subjectName).append('\'')
+                .append('}').toString();
     }
 }

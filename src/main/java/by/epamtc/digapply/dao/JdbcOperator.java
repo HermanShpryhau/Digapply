@@ -7,10 +7,7 @@ import by.epamtc.digapply.dao.mapper.RowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +17,7 @@ import java.util.List;
  */
 public class JdbcOperator<T extends Identifiable> {
     private static final Logger logger = LogManager.getLogger();
+    public static final long NO_ID = -1L;
 
     /**
      * Entity row mapper.
@@ -76,13 +74,20 @@ public class JdbcOperator<T extends Identifiable> {
      * Executes updates on DB.
      * @param query String containing SQL query.
      * @param parameters Parameters to insert into query.
+     * @return Either generated PK or number of affected rows.
      */
-    public void executeUpdate(String query, Object... parameters) throws DaoException {
+    public long executeUpdate(String query, Object... parameters) throws DaoException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(parameters);
             parameterSetter.setValues(statement);
-            statement.executeUpdate();
+            long rowsAffected = statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys != null && generatedKeys.next()) {
+                return generatedKeys.getLong(1);
+            } else {
+                return rowsAffected;
+            }
         } catch (SQLException e) {
             logger.error("Unable to execute update query.", e);
             throw new DaoException("Unable to execute update query.", e);
@@ -95,14 +100,16 @@ public class JdbcOperator<T extends Identifiable> {
     /**
      * Executes several updates in transaction mode. If any of them fails to execute the changes are reverted.
      * @param queries List of queries that are to be executed as transaction.
+     * @return PK of row affected by first update/
      */
-    public void executeTransactionalUpdate(List<ParametrizedQuery> queries) throws DaoException {
+    public long executeTransactionalUpdate(List<ParametrizedQuery> queries) throws DaoException {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().takeConnection();
             connection.setAutoCommit(false);
-            executeUpdates(queries, connection);
+            long firstQueryGeneratedKey = executeUpdates(queries, connection);
             connection.commit();
+            return firstQueryGeneratedKey;
         } catch (SQLException e) {
             attemptRollback(connection);
             logger.error("Unable to execute update query.", e);
@@ -115,13 +122,21 @@ public class JdbcOperator<T extends Identifiable> {
         }
     }
 
-    private void executeUpdates(List<ParametrizedQuery> queries, Connection connection) throws SQLException {
+    private long executeUpdates(List<ParametrizedQuery> queries, Connection connection) throws SQLException {
+        long firstQueryGeneratedKey = NO_ID;
+        boolean idSet = false;
         for (ParametrizedQuery query : queries) {
             PreparedStatementParameterSetter parameterSetter = new PreparedStatementParameterSetter(query.getParams());
-            PreparedStatement statement = connection.prepareStatement(query.getQuery());
+            PreparedStatement statement = connection.prepareStatement(query.getQuery(), Statement.RETURN_GENERATED_KEYS);
             parameterSetter.setValues(statement);
             statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (!idSet && generatedKeys != null && generatedKeys.next()) {
+                firstQueryGeneratedKey = generatedKeys.getLong(1);
+                idSet = true;
+            }
         }
+        return firstQueryGeneratedKey;
     }
 
     private void attemptRollback(Connection connection) throws DaoException {

@@ -14,15 +14,15 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/jsp/error-404.jsp</location>
+        <location>/WEB-INF/pages/error-404.jsp</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/jsp/error-500.jsp</location>
+        <location>/WEB-INF/pages/error-500.jsp</location>
     </error-page>
     <error-page>
         <exception-type>java.lang.RuntimeException</exception-type>
-        <location>/WEB-INF/jsp/error-500.jsp</location>
+        <location>/WEB-INF/pages/error-500.jsp</location>
     </error-page>
 
     <servlet>
@@ -37,6 +37,19 @@
     <listener>
         <listener-class>by.epamtc.digapply.controller.listener.ConnectionPoolManager</listener-class>
     </listener>
+
+    <filter>
+        <filter-name>encoding</filter-name>
+        <filter-class>by.epamtc.digapply.controller.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>request-encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <filter>
         <filter-name>auth</filter-name>

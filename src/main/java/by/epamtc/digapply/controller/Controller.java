@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Controller of the web app.
- */
 public class Controller extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(Controller.class);
 
@@ -32,9 +29,8 @@ public class Controller extends HttpServlet {
 
     private static void processCommand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String commandName = request.getParameter(RequestParameter.COMMAND);
-        request.setCharacterEncoding("UTF-8");
-        if (commandName == null || "".equals(commandName)) {
-            request.getRequestDispatcher(PagePath.PROFILE_PAGE).forward(request, response);
+        if (commandName == null) {
+            request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
         }
 
         Command command = CommandFactory.getInstance().getCommand(commandName);
@@ -50,7 +46,6 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + page);
                 break;
             default:
-                logger.error("Unknown routing type!");
                 request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
         }
     }

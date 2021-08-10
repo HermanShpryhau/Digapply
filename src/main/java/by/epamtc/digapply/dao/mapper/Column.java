@@ -1,9 +1,9 @@
 package by.epamtc.digapply.dao.mapper;
 
 /**
- * Contains string constants that represent names columns of tables in DB.
+ * Name of columns of DB tables.
  */
-public class Column {
+public final class Column {
     public static final String USER_ID = "user_id";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
@@ -20,6 +20,18 @@ public class Column {
 
     public static final String SUBJECT_ID = "subject_id";
     public static final String SUBJECT_NAME = "subject_name";
+
+    public static final String APPLICATION_ID = "application_id";
+    public static final String APPLY_DATE = "apply_date";
+    public static final String APPROVED = "approved";
+    public static final String APPROVE_DATE = "approve_date";
+
+    public static final String RESULT_ID = "result_id";
+    public static final String SCORE = "score";
+    public static final String CERTIFICATE_ID = "certificate_id";
+
+    public static final String ROLE_ID = "role_id";
+    public static final String ROLE_NAME = "role_name";
 
     private Column() {}
 }
