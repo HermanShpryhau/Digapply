@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -13,7 +13,7 @@
   <title>${requestScope.user.name} ${requestScope.user.surname} | Digapply</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 
@@ -21,6 +21,8 @@
   <div class="row justify-content-center">
     <div>
       <h1 class="mt-5 fw-bold">Edit Profile</h1>
+
+      <a href="${pageContext.request.contextPath}/controller?command=change-password" class="mt-3 mb-3 btn btn-primary">Change Password</a>
 
       <form action="${pageContext.request.contextPath}/controller?command=update-profile" method="post">
         <input type="hidden" name="id" value="${requestScope.id}">
@@ -37,16 +39,6 @@
                    placeholder="<fmt:message key="form.last-name"/>" required maxlength="45"
                    pattern="\b[A-Z].*?\b">
           </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="email" class="form-label"><fmt:message key="form.email-address"/></label>
-          <input type="email" disabled class="form-control" name="email" id="email" value="${requestScope.user.name}" required>
-        </div>
-        <div class="mb-3">
-          <label for="password" class="form-label"><fmt:message key="form.password"/></label>
-          <input type="password" class="form-control" name="password" id="password" placeholder="Enter new password here to change it"
-                 minlength="8">
         </div>
         <div class="col-12">
           <button class="btn btn-primary" type="submit">Save Changes</button>

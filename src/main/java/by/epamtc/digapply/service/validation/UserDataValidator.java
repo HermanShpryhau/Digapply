@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserDataValidator implements EntityValidator<User> {
-    private static final String NAME_REGEX = "^([А-Я]{1}[а-яё]|[A-Z]{1}[a-z])$";
+    private static final String NAME_REGEX = "^([А-Я]{1}[а-яё]+|[A-Z]{1}[a-z]+)$";
     private static final String EMAIL_REGEX = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
     private static final int MINIMAL_PASSWORD_LENGTH = 8;
     private final Predicate<User> validationPredicate;
@@ -37,21 +37,21 @@ public class UserDataValidator implements EntityValidator<User> {
         public Builder validateNameAndSurname() {
             validationPredicate = validationPredicate
                     .and(u -> {
-                        Pattern emailPattern = Pattern.compile(NAME_REGEX);
+                        Pattern namePattern = Pattern.compile(NAME_REGEX);
                         String name = u.getName();
                         if (name == null) {
                             return false;
                         }
-                        Matcher matcher = emailPattern.matcher(name);
+                        Matcher matcher = namePattern.matcher(name);
                         return matcher.matches();
                     })
                     .and(u -> {
-                        Pattern emailPattern = Pattern.compile(NAME_REGEX);
+                        Pattern surnamePatter = Pattern.compile(NAME_REGEX);
                         String surname = u.getSurname();
                         if (surname == null) {
                             return false;
                         }
-                        Matcher matcher = emailPattern.matcher(surname);
+                        Matcher matcher = surnamePatter.matcher(surname);
                         return matcher.matches();
                     });
             return this;

@@ -7,6 +7,7 @@ import by.epamtc.digapply.entity.dto.UserDto;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.validation.EntityValidator;
+import by.epamtc.digapply.service.validation.UserDataValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
@@ -49,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean hasAdminRights(long userRoleId) {
+        return userRoleId == RoleEnum.ADMIN.getId();
+    }
+
+    @Override
     public boolean register(String firstName, String lastName, String email, String password) throws ServiceException {
         User user = buildUser(firstName, lastName, email, password);
         if (isUserEntityValid(user)) {
@@ -88,7 +94,10 @@ public class UserServiceImpl implements UserService {
             if (user == null) {
                 return null;
             }
-            return user.getName() + ' ' + user.getSurname();
+            StringBuilder sb = new StringBuilder(user.getName())
+                    .append(' ')
+                    .append(user.getSurname());
+            return sb.toString();
         } catch (DaoException e) {
             logger.error("Unable to fetch user by id", e);
             throw new ServiceException("Unable to fetch user by id", e);
@@ -136,14 +145,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserData(User user) throws ServiceException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
-        try {
-            return userDao.update(user) >= MINIMAL_AFFECTED_ROWS;
-        } catch (DaoException e) {
-            logger.error("Unable to update user data.", e);
-            throw new ServiceException("Unable to update user data.", e);
+    public boolean updateUserData(long userId, String firstName, String lastName) throws ServiceException {
+        User user = new User();
+        user.setUserId(userId);
+        user.setName(firstName);
+        user.setSurname(lastName);
+        EntityValidator<User> userDataValidator = UserDataValidator.builder().validateNameAndSurname().build();
+        if (userDataValidator.validate(user)) {
+            UserDao userDao = DaoFactory.getInstance().getUserDao();
+            try {
+                long affectedRows = userDao.update(user);
+                return affectedRows >= MINIMAL_AFFECTED_ROWS;
+            } catch (DaoException e) {
+                logger.error("Unable to update user data.", e);
+                throw new ServiceException("Unable to update user data.", e);
+            }
         }
+        return false;
+    }
+
+    @Override
+    public boolean updatePassword(long userId, String password) throws ServiceException {
+        EntityValidator<User> userDataValidator = UserDataValidator.builder().validatePassword().build();
+        User user = new User();
+        user.setPassword(password);
+        if (userDataValidator.validate(user)) {
+            UserDao userDao = DaoFactory.getInstance().getUserDao();
+            try {
+                long affectedRows = userDao.updatePassword(userId, DigestUtils.sha256Hex(password));
+                return affectedRows >= MINIMAL_AFFECTED_ROWS;
+            } catch (DaoException e) {
+                logger.error("Unable to update user's password.", e);
+                throw new ServiceException("Unable to update user's password.", e);
+            }
+        }
+        return false;
     }
 
     @Override

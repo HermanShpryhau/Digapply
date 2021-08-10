@@ -1,7 +1,6 @@
 package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
-import by.epamtc.digapply.entity.RoleEnum;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
@@ -16,7 +15,8 @@ public class ShowProfileEditFormCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        if (!hasAdminRights(session)) {
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        if (!userService.hasAdminRights((Long) session.getAttribute(SessionAttribute.ROLE))) {
             request.setAttribute(RequestAttribute.ID, session.getAttribute(SessionAttribute.USER_ID));
             return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE, RoutingType.FORWARD);
         }
@@ -28,7 +28,6 @@ public class ShowProfileEditFormCommand implements Command {
         }
         request.setAttribute(RequestAttribute.ID, userId);
 
-        UserService userService = ServiceFactory.getInstance().getUserService();
         try {
             User user = userService.retrieveUserById(userId);
             request.setAttribute(RequestAttribute.USER, user);
@@ -36,10 +35,5 @@ public class ShowProfileEditFormCommand implements Command {
         } catch (ServiceException e) {
             return Routing.ERROR_500;
         }
-    }
-
-    private boolean hasAdminRights(HttpSession session) {
-        long roleId = (Long) session.getAttribute(SessionAttribute.ROLE);
-        return roleId == RoleEnum.ADMIN.getId();
     }
 }

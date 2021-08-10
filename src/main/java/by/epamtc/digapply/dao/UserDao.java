@@ -12,6 +12,14 @@ public interface UserDao extends Dao<User>{
     User findByEmail(String email) throws DaoException;
 
     /**
+     * Updates user's password.
+     * @param userId ID of user to update.
+     * @param password New password value.
+     * @return Number of affected rows.
+     */
+    long updatePassword(long userId, String password) throws DaoException;
+
+    /**
      * Changes user's role id.
      * @param userId ID of user to update.
      * @param roleId ID of role to assign to user.

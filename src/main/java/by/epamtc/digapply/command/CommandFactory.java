@@ -41,6 +41,7 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_USERS_TABLE_COMMAND, new ShowUsersTableCommand());
         commands.put(CommandName.DELETE_USER_COMMAND, new DeleteUserCommand());
         commands.put(CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND, new ShowProfileEditFormCommand());
+        commands.put(CommandName.UPDATE_PROFILE_COMMAND, new UpdateProfileCommand());
     }
 
     /**

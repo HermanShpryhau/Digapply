@@ -16,6 +16,13 @@ public interface UserService {
     User login(String email, String password) throws ServiceException;
 
     /**
+     * Checks if user's role ID is ADMIN role ID.
+     * @param userRoleId Role ID to check.
+     * @return If given role ID is ADMIN role ID.
+     */
+    boolean hasAdminRights(long userRoleId);
+
+    /**
      * Register new user in system.
      * @param firstName First name of user.
      * @param lastName Last name of user.
@@ -31,7 +38,9 @@ public interface UserService {
 
     User retrieveUserById(long id) throws ServiceException;
 
-    boolean updateUserData(User user) throws ServiceException;
+    boolean updateUserData(long userId, String firstName, String lastName) throws ServiceException;
+
+    boolean updatePassword(long userId, String password) throws ServiceException;
 
     boolean giveAdminRights(long userId) throws ServiceException;
 

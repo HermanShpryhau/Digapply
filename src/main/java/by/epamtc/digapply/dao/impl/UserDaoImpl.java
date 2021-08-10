@@ -13,7 +13,8 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String FIND_ALL_QUERY = "SELECT * FROM Users WHERE deleted=false";
     private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=? AND deleted=false";
     private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=? AND deleted=false";
-    private static final String UPDATE_USER_QUERY = "UPDATE Users SET password=?, name=?, surname=? WHERE user_id=? AND deleted=false";
+    private static final String UPDATE_USER_QUERY = "UPDATE Users SET  name=?, surname=? WHERE user_id=? AND deleted=false";
+    private static final String UPDATE_PASSWORD_QUERY = "UPDATE Users SET password=? WHERE user_id=? AND deleted=false";
     private static final String UPDATE_USER_ROLE_QUERY = "UPDATE Users SET role_id=? WHERE user_id=? AND deleted=false";
     private static final String DELETE_USER_QUERY = "UPDATE Users SET deleted=true WHERE user_id=?";
 
@@ -54,10 +55,19 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         throwExceptionIfNull(entity);
         return jdbcOperator.executeUpdate(
                 UPDATE_USER_QUERY,
-                entity.getPassword(),
                 entity.getName(),
                 entity.getSurname(),
                 entity.getId()
+        );
+    }
+
+    @Override
+    public long updatePassword(long userId, String password) throws DaoException {
+        throwExceptionIfNull(password);
+        return jdbcOperator.executeUpdate(
+                UPDATE_PASSWORD_QUERY,
+                password,
+                userId
         );
     }
 
