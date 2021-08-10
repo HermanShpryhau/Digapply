@@ -44,6 +44,8 @@ public interface UserService {
 
     boolean giveAdminRights(long userId) throws ServiceException;
 
+    boolean revokeAdminRights(long userId) throws ServiceException;
+
     boolean deleteUser(long id) throws ServiceException;
 
 }

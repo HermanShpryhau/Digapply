@@ -194,6 +194,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean revokeAdminRights(long userId) throws ServiceException {
+        UserDao userDao = DaoFactory.getInstance().getUserDao();
+        try {
+            return userDao.updateUserRole(userId, RoleEnum.USER.getId()) >= MINIMAL_AFFECTED_ROWS;
+        } catch (DaoException e) {
+            logger.error("Unable to update user role", e);
+            throw new ServiceException("Unable to update user role", e);
+        }
+    }
+
+    @Override
     public boolean deleteUser(long id) throws ServiceException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {

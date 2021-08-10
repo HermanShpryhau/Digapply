@@ -46,10 +46,10 @@
                         <td class="text-center">
                             <c:choose>
                                 <c:when test="${user.roleId == 1}">
-                                    <span class="text-success"><i class="bi bi-check-circle-fill"></i></span>
+                                    <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=revoke-admin-rights&id=${user.userId}"><i class="bi bi-x-circle-fill"></i></a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a class="text-warning" href="${pageContext.request.contextPath}/controller?command=make-admin&id=${user.userId}"><i class="bi bi-arrow-up-circle-fill"></i></a>
+                                    <a class="text-warning" href="${pageContext.request.contextPath}/controller?command=give-admin-rights&id=${user.userId}"><i class="bi bi-arrow-up-circle-fill"></i></a>
                                 </c:otherwise>
                             </c:choose>
                         </td>

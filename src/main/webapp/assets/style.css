@@ -3,3 +3,5 @@
 * {
     font-family: 'Yandex Sans Text', Arial, sans-serif;
 }
+
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }

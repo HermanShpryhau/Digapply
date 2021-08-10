@@ -44,6 +44,7 @@ public class CommandFactory {
         commands.put(CommandName.UPDATE_PROFILE_COMMAND, new UpdateProfileCommand());
         commands.put(CommandName.CHANGE_PASSWORD_COMMAND, new ChangePasswordCommand());
         commands.put(CommandName.UPDATE_PASSWORD_COMMAND, new UpdatePasswordCommand());
+        commands.put(CommandName.GIVE_ADMIN_RIGHTS_COMMAND, new GiveAdminRightsCommand());
     }
 
     /**

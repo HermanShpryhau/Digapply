@@ -101,7 +101,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND,
                 CommandName.UPDATE_PROFILE_COMMAND,
                 CommandName.CHANGE_PASSWORD_COMMAND,
-                CommandName.UPDATE_PASSWORD_COMMAND
+                CommandName.UPDATE_PASSWORD_COMMAND,
+                CommandName.GIVE_ADMIN_RIGHTS_COMMAND
         ));
         authorizedCommands.put(RoleEnum.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
