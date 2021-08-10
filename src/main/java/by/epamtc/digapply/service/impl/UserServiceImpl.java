@@ -7,7 +7,7 @@ import by.epamtc.digapply.entity.dto.UserDto;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.validation.EntityValidator;
-import by.epamtc.digapply.service.validation.UserDataValidator;
+import by.epamtc.digapply.service.validation.impl.UserDataValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;

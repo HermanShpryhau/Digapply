@@ -9,9 +9,11 @@ public class UserEntityValidator implements EntityValidator<User> {
         if (entity.getId() < 0 || entity.getRoleId() < 1) {
             return false;
         }
-        return entity.getName() != null &&
-               entity.getSurname() != null &&
-               entity.getEmail() != null &&
-               entity.getPassword() != null;
+        EntityValidator<User> userDataValidator = UserDataValidator.builder()
+                .validateNameAndSurname()
+                .validateEmail()
+                .validatePassword()
+                .build();
+        return userDataValidator.validate(entity);
     }
 }
