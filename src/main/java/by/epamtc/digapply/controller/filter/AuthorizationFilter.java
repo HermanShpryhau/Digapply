@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class AuthorizationFilter implements Filter {
     private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
@@ -40,7 +43,7 @@ public class AuthorizationFilter implements Filter {
         String command = request.getParameter("command");
         CommandFactory commandFactory = CommandFactory.getInstance();
         if (!commandFactory.commandExists(command)) {
-            request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);
+            response.sendRedirect(PagePath.ERROR_404_PAGE_REDIRECT);
             return;
         }
         if (!authorizedCommands.get(roleId).contains(command)) {
@@ -103,7 +106,10 @@ public class AuthorizationFilter implements Filter {
                 CommandName.CHANGE_PASSWORD_COMMAND,
                 CommandName.UPDATE_PASSWORD_COMMAND,
                 CommandName.GIVE_ADMIN_RIGHTS_COMMAND,
-                CommandName.REVOKE_ADMIN_RIGHTS_COMMAND
+                CommandName.REVOKE_ADMIN_RIGHTS_COMMAND,
+                CommandName.SHOW_ERROR_404_PAGE_COMMAND,
+                CommandName.SHOW_ERROR_500_PAGE_COMMAND,
+                CommandName.SHOW_ERROR_PAGE_COMMAND
         ));
         authorizedCommands.put(RoleEnum.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
@@ -117,7 +123,10 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_PROFILE_EDIT_FORM_COMMAND,
                 CommandName.UPDATE_PROFILE_COMMAND,
                 CommandName.CHANGE_PASSWORD_COMMAND,
-                CommandName.UPDATE_PASSWORD_COMMAND
+                CommandName.UPDATE_PASSWORD_COMMAND,
+                CommandName.SHOW_ERROR_404_PAGE_COMMAND,
+                CommandName.SHOW_ERROR_500_PAGE_COMMAND,
+                CommandName.SHOW_ERROR_PAGE_COMMAND
         ));
         authorizedCommands.put(RoleEnum.GUEST.getId(), Arrays.asList(
                 CommandName.LOGIN_COMMAND,
@@ -126,7 +135,10 @@ public class AuthorizationFilter implements Filter {
                 CommandName.HOME_COMMAND,
                 CommandName.LIST_FACULTIES_COMMAND,
                 CommandName.SHOW_FACULTY_COMMAND,
-                CommandName.SHOW_SIGNUP_COMMAND
+                CommandName.SHOW_SIGNUP_COMMAND,
+                CommandName.SHOW_ERROR_404_PAGE_COMMAND,
+                CommandName.SHOW_ERROR_500_PAGE_COMMAND,
+                CommandName.SHOW_ERROR_PAGE_COMMAND
         ));
     }
 }

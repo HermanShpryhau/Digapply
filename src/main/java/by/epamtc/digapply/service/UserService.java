@@ -32,20 +32,62 @@ public interface UserService {
      */
     boolean register(String firstName, String lastName, String email, String password) throws ServiceException;
 
+    /**
+     * Retrieve full name of user by ID.
+     * @param userId User ID.
+     * @return Full name of user.
+     */
     String getFullNameById(long userId) throws ServiceException;
 
+    /**
+     * Retrieve a list of all users as DTO.
+     * @return List of users as DTOs.
+     */
     List<UserDto> retrieveAllUsersAsDto() throws ServiceException;
 
+    /**
+     * Retrieve user entity by ID.
+     * @param id ID of user.
+     * @return User entity.
+     */
     User retrieveUserById(long id) throws ServiceException;
 
+    /**
+     * Update user's first and last name.
+     * @param userId ID of user.
+     * @param firstName New first name.
+     * @param lastName New last name.
+     * @return {@code true} if user was updated successfully, {@code false} otherwise.
+     */
     boolean updateUserData(long userId, String firstName, String lastName) throws ServiceException;
 
+    /**
+     * Update user's password
+     * @param userId ID of user.
+     * @param password Unhashed password.
+     * @return {@code true} if user was updated successfully, {@code false} otherwise.
+     */
     boolean updatePassword(long userId, String password) throws ServiceException;
 
+    /**
+     * Assign admin rights to user.
+     * @param userId ID of user.
+     * @return {@code true} if role was updated successfully, {@code false} otherwise.
+     */
     boolean giveAdminRights(long userId) throws ServiceException;
 
+    /**
+     * Revoke admin rights from user.
+     * @param userId ID of user.
+     * @return {@code true} if role was updated successfully, {@code false} otherwise.
+     */
     boolean revokeAdminRights(long userId) throws ServiceException;
 
+    /**
+     * Delete user from data source
+     * @param id ID of user.
+     * @return {@code true} if user was deleted successfully, {@code false} otherwise.
+     */
     boolean deleteUser(long id) throws ServiceException;
 
 }

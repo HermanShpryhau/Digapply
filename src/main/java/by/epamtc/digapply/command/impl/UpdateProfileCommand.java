@@ -34,14 +34,14 @@ public class UpdateProfileCommand implements Command {
                 if (userService.updateUserData(userId, firstName.get(), lastName.get())) {
                     return routeByRights(hasAdminRights);
                 } else {
-                    // TODO Set error data - invalid name, surname.
+                    request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
                     return Routing.ERROR;
                 }
             } catch (ServiceException e) {
                 return Routing.ERROR_500;
             }
         } else {
-            // TODO Set error data - invalid name, surname.
+            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
             return Routing.ERROR;
         }
     }
