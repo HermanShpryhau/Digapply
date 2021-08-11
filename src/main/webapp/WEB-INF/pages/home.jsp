@@ -51,7 +51,7 @@
         <div class="col-lg-6 mx-auto">
             <p class="mb-4 fs-3 fs-normal"><fmt:message key="home.dont-miss-text"/></p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a href="#">
+                <a href="${pageContext.request.contextPath}/controller?command=list-faculties">
                     <button type="button" class="btn btn-primary btn-lg px-4 gap-3"><fmt:message
                             key="home.apply-now"/></button>
                 </a>

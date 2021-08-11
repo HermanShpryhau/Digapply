@@ -30,7 +30,7 @@
             <div class="card">
                 <div class="card-body d-grid gap-2">
                     <h5 class="card-title"><fmt:message key="dashboard.faculties-actions"/></h5>
-                    <a href="#" class="btn btn-primary"><fmt:message key="dashboard.manage-faculties"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=list-faculties" class="btn btn-primary"><fmt:message key="dashboard.manage-faculties"/></a>
                 </div>
             </div>
         </div>
