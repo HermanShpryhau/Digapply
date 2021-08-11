@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -9,7 +9,7 @@
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>Accepted Applications | Digapply</title>
+    <title><fmt:message key="application.accepted-applications"/> | Digapply</title>
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
@@ -22,7 +22,7 @@
     <div class="min-vh-100">
         <div class="h-100 w-100 overflow-auto">
             <table class="table table-striped">
-                <caption>Accepted Applications</caption>
+                <caption><fmt:message key="application.accepted-applications"/></caption>
                 <thead>
                 <tr>
                     <th scope="col">ID</th>

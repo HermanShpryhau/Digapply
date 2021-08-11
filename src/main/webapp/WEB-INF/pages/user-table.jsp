@@ -9,29 +9,28 @@
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>User Management | Digapply</title>
+    <title><fmt:message key="user.user-management"/> | Digapply</title>
 </head>
 <body>
 <jsp:include page="components/header.jsp"/>
 <div class="container">
     <h1 class="mt-5 mb-3">
-        User Management
+        <fmt:message key="user.user-management"/>
     </h1>
     <div class="vh-100">
         <div class="h-100 w-100 overflow-auto">
             <table class="table table-hover table-striped">
-                <caption>Users table</caption>
+                <caption><fmt:message key="user.user-table"/></caption>
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">email</th>
-                    <th scope="col" >Password Hash</th>
-                    <th scope="col">Name</th>
-                    <th scope="col" >Surname</th>
-                    <th scope="col" >Role</th>
-                    <th class="text-center" scope="col" >Admin Rights</th>
-                    <th scope="col" >Edit</th>
-                    <th scope="col" >Delete</th>
+                    <th scope="col"><fmt:message key="user.email"/></th>
+                    <th scope="col"><fmt:message key="user.name"/></th>
+                    <th scope="col" ><fmt:message key="user.surname"/></th>
+                    <th scope="col" ><fmt:message key="user.role"/></th>
+                    <th class="text-center" scope="col" ><fmt:message key="user.admin-rights"/></th>
+                    <th scope="col" ><fmt:message key="user.edit"/></th>
+                    <th scope="col" ><fmt:message key="user.delete"/></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,7 +38,6 @@
                     <tr>
                         <th scope="col">${user.userId}</th>
                         <td>${user.email}</td>
-                        <td>${user.password}</td>
                         <td>${user.name}</td>
                         <td>${user.surname}</td>
                         <td>${user.role}</td>
@@ -54,10 +52,10 @@
                             </c:choose>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/controller?command=edit-profile&id=${user.userId}">Edit</a>
+                            <a href="${pageContext.request.contextPath}/controller?command=edit-profile&id=${user.userId}"><fmt:message key="user.edit"/></a>
                         </td>
                         <td>
-                            <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=delete-user&id=${user.userId}">Delete</a>
+                            <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=delete-user&id=${user.userId}"><fmt:message key="user.delete"/></a>
                         </td>
                     </tr>
                 </c:forEach>
