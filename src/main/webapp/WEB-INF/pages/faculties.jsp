@@ -79,6 +79,10 @@
                             </div>
                         </div>
                     </div>
+                    <a href="${pageContext.request.contextPath}/controller?command=close-application&id=${faculty.facultyId}"
+                       class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-check-square"></i></i> <fmt:message key="faculty.close-application"/>
+                    </a>
                 </c:if>
             </div>
         </div>

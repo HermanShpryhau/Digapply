@@ -37,4 +37,11 @@ public interface ApplicationDao extends Dao<Application> {
      */
     long update(long id, List<Result> results) throws DaoException;
 
+    /**
+     * Add applications to list of accepted applications.
+     * @param applications List of applications.
+     * @return ID of first accepted application.
+     */
+    long acceptApplications(List<Application> applications) throws DaoException;
+
 }

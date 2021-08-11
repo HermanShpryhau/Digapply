@@ -109,7 +109,8 @@ public class AuthorizationFilter implements Filter {
                 CommandName.REVOKE_ADMIN_RIGHTS_COMMAND,
                 CommandName.SHOW_ERROR_404_PAGE_COMMAND,
                 CommandName.SHOW_ERROR_500_PAGE_COMMAND,
-                CommandName.SHOW_ERROR_PAGE_COMMAND
+                CommandName.SHOW_ERROR_PAGE_COMMAND,
+                CommandName.CLOSE_APPLICATION_COMMAND
         ));
         authorizedCommands.put(RoleEnum.USER.getId(), Arrays.asList(
                 CommandName.LOGOUT_COMMAND,

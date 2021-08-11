@@ -19,6 +19,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     private static final String FIND_APPLICATIONS_BY_FACULTY_QUERY = "SELECT * FROM Applications WHERE faculty_id=?";
     private static final String UPDATE_APPLICATION_QUERY = "UPDATE Applications SET user_id=?, faculty_id=?, apply_date=?, approved=?, approve_date=? WHERE application_id=?";
     private static final String UPDATE_RESULT_QUERY = "UPDATE Results SET score=?, certificate_id=? WHERE application_id=? AND subject_id=?";
+    private static final String ACCEPT_APPLICATION_QUERY = "INSERT INTO Accepted_students (accepted_id, application_id) VALUES (0, ?)";
     private static final String DELETE_APPLICATION_QUERY = "DELETE FROM Applications  WHERE application_id=?";
 
     public ApplicationDaoImpl() {
@@ -91,6 +92,16 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
         }
         jdbcOperator.executeTransactionalUpdate(transactionQueries);
         return id;
+    }
+
+    @Override
+    public long acceptApplications(List<Application> applications) throws DaoException {
+        List<ParametrizedQuery> transactionQueries = new ArrayList<>();
+        for (Application application : applications) {
+            ParametrizedQuery query = new ParametrizedQuery(ACCEPT_APPLICATION_QUERY, new Object[]{application.getId()});
+            transactionQueries.add(query);
+        }
+        return jdbcOperator.executeTransactionalUpdate(transactionQueries);
     }
 
     @Override

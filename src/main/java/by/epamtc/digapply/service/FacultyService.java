@@ -1,11 +1,21 @@
 package by.epamtc.digapply.service;
 
+import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.entity.dto.ApplicationDto;
 
 import java.util.List;
 
 public interface FacultyService {
+
+    /**
+     * Saves faculty and it's required subjects to data source.
+     * @param faculty Faculty entity to save.
+     * @param subjectIds List of required subject IDs.
+     * @return Saved faculty.
+     */
+    Faculty saveFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException;
 
     /**
      * Retrieves best faculties.
@@ -79,13 +89,7 @@ public interface FacultyService {
      */
     boolean updateFaculty(Faculty faculty) throws ServiceException;
 
-    /**
-     * Saves faculty and it's required subjects to data source.
-     * @param faculty Faculty entity to save.
-     * @param subjectIds List of required subject IDs.
-     * @return Saved faculty.
-     */
-    Faculty saveFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException;
+    List<ApplicationDto> closeApplication(long facultyId) throws ServiceException;
 
     /**
      * Deletes given faulty from data source
