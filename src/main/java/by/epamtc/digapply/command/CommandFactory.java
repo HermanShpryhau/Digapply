@@ -50,6 +50,7 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_ERROR_404_PAGE_COMMAND, new ShowError404PageCommand());
         commands.put(CommandName.SHOW_ERROR_500_PAGE_COMMAND, new ShowError500PageCommand());
         commands.put(CommandName.CLOSE_APPLICATION_COMMAND, new CloseApplicationCommand());
+        commands.put(CommandName.SHOW_ACCEPTED_APPLICATIONS_TABLE_COMMAND, new ShowAcceptedApplicationsTableCommand());
     }
 
     /**

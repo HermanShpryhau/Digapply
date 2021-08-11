@@ -30,6 +30,13 @@ public interface ApplicationDao extends Dao<Application> {
     List<Application> findByFacultyId(long facultyId) throws DaoException;
 
     /**
+     * Find all accepted applications for given faculty.
+     * @param facultyId ID of faculty.
+     * @return List of accepted applications for the faculty,
+     */
+    List<Application> findAcceptedByFacultyId(long facultyId) throws DaoException;
+
+    /**
      * Update results in an applicaiton.
      * @param id ID of application.
      * @param results List of updated results.

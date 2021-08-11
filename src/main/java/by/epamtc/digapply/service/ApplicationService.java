@@ -53,6 +53,13 @@ public interface ApplicationService {
     List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException;
 
     /**
+     * Retrieve all accepted applications for given faculty.
+     * @param facultyId ID of faculty
+     * @return List of accepted applications for faculty/
+     */
+    List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) throws ServiceException;
+
+    /**
      * Retrieve application as DTO by ID.
      * @param id ID of application.
      * @return Application DTO with given ID.

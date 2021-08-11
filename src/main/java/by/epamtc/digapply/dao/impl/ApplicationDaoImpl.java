@@ -17,6 +17,7 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     private static final String FIND_APPLICATION_BY_ID_QUERY = "SELECT * FROM Applications WHERE application_id=?";
     private static final String FIND_APPLICATION_BY_USER_QUERY = "SELECT * FROM Applications WHERE user_id=?";
     private static final String FIND_APPLICATIONS_BY_FACULTY_QUERY = "SELECT * FROM Applications WHERE faculty_id=?";
+    private static final String FIND_ACCEPTED_BY_FACULTY_QUERY = "SELECT * FROM Applications JOIN Accepted_students A_s on Applications.application_id = A_s.application_id WHERE Applications.faculty_id=?";
     private static final String UPDATE_APPLICATION_QUERY = "UPDATE Applications SET user_id=?, faculty_id=?, apply_date=?, approved=?, approve_date=? WHERE application_id=?";
     private static final String UPDATE_RESULT_QUERY = "UPDATE Results SET score=?, certificate_id=? WHERE application_id=? AND subject_id=?";
     private static final String ACCEPT_APPLICATION_QUERY = "INSERT INTO Accepted_students (accepted_id, application_id) VALUES (0, ?)";
@@ -66,6 +67,11 @@ public class ApplicationDaoImpl extends AbstractDao<Application> implements Appl
     @Override
     public List<Application> findByFacultyId(long facultyId) throws DaoException {
         return jdbcOperator.executeQuery(FIND_APPLICATIONS_BY_FACULTY_QUERY, facultyId);
+    }
+
+    @Override
+    public List<Application> findAcceptedByFacultyId(long facultyId) throws DaoException {
+        return jdbcOperator.executeQuery(FIND_ACCEPTED_BY_FACULTY_QUERY, facultyId);
     }
 
     @Override
