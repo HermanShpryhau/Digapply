@@ -9,6 +9,13 @@ import java.util.Map;
 public interface ApplicationService {
 
     /**
+     * Covert list of application entities to application DTOs.
+     * @param applications List of application entities.
+     * @return List application DTOs.
+     */
+    List<ApplicationDto> convertToDto(List<Application> applications) throws ServiceException;
+
+    /**
      * Save application and results to data source
      * @param userId ID of applicant user.
      * @param facultyId ID of faculty.
@@ -44,6 +51,13 @@ public interface ApplicationService {
      * @return List of applications for faculty.
      */
     List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException;
+
+    /**
+     * Retrieve all accepted applications for given faculty.
+     * @param facultyId ID of faculty
+     * @return List of accepted applications for faculty/
+     */
+    List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) throws ServiceException;
 
     /**
      * Retrieve application as DTO by ID.

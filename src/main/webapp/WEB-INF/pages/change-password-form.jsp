@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -9,7 +9,7 @@
 <html>
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>Change Password | Digapply</title>
+    <title><fmt:message key="profile.change-password"/> | Digapply</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
@@ -18,14 +18,14 @@
     <div class="row justify-content-center">
         <div class="col"></div>
         <div class="col-6">
-            <h1 class="mt-5 fw-bold">Change Password</h1>
+            <h1 class="mt-5 fw-bold"><fmt:message key="profile.change-password"/></h1>
 
             <form action="${pageContext.request.contextPath}/controller?command=update-password" method="post">
                 <div class="mb-3">
                     <label for="passwordInput" class="form-label"><fmt:message key="form.password"/></label>
                     <input name="password" type="password" class="form-control" id="passwordInput" placeholder="<fmt:message key="form.password"/>">
                 </div>
-                <button type="submit" class="btn btn-primary">Change Password</button>
+                <button type="submit" class="btn btn-primary"><fmt:message key="profile.change-password"/></button>
             </form>
         </div>
         <div class="col"></div>

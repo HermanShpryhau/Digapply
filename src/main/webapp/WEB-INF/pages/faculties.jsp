@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
@@ -79,6 +79,20 @@
                             </div>
                         </div>
                     </div>
+                    <c:choose>
+                        <c:when test="${faculty.applicationClosed}">
+                            <a href="${pageContext.request.contextPath}/controller?command=accepted-applications&id=${faculty.facultyId}"
+                               class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-eye"></i> <fmt:message key="faculty.view-accepted"/>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/controller?command=close-application&id=${faculty.facultyId}"
+                               class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-check-square"></i> <fmt:message key="faculty.close-application"/>
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </c:if>
             </div>
         </div>

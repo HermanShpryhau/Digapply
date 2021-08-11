@@ -54,5 +54,7 @@ public final class PagePath {
     public static final String CHANGE_PASSWORD_FORM_PAGE = "WEB-INF/pages/change-password-form.jsp";
     public static final String CHANGE_PASSWORD_FORM_PAGE_REDIRECT = "/controller?command=change-password";
 
+    public static final String ACCEPTED_APPLICATIONS_TABLE = "WEB-INF/pages/accepted-applications-table.jsp";
+
     private PagePath() {}
 }

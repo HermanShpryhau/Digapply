@@ -38,11 +38,6 @@
                             <fmt:message key="header.faculties"/>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <fmt:message key="header.apply-now"/>
-                        </a>
-                    </li>
                 </ul>
 
                 <div class="d-flex">

@@ -1,8 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="dap" uri="digapplytags" %>
+
 <footer class="footer mt-auto py-3">
     <div class="container text-center text-lg-start text-muted">
         <hr class="dropdown-divider">
-        <p> © 2021 Copyright: Herman Shpryhau</p>
+        <dap:copyright date="2021" author="Herman Shpryhau" statementOfRights="All rights reserved."/>
     </div>
 </footer>
 

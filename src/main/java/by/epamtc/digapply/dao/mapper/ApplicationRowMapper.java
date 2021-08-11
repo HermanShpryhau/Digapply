@@ -9,12 +9,12 @@ public class ApplicationRowMapper implements RowMapper<Application> {
     @Override
     public Application map(ResultSet resultSet) throws SQLException {
         Application application = new Application();
-        application.setApplicationId(resultSet.getInt("application_id"));
-        application.setUserId(resultSet.getInt("user_id"));
-        application.setFacultyId(resultSet.getInt("faculty_id"));
-        application.setApplyDate(resultSet.getTimestamp("apply_date"));
-        application.setApproved(resultSet.getBoolean("approved"));
-        application.setApproveDate(resultSet.getTimestamp("approve_date"));
+        application.setApplicationId(resultSet.getLong(Column.APPLICATION_ID));
+        application.setUserId(resultSet.getLong(Column.USER_ID));
+        application.setFacultyId(resultSet.getLong(Column.FACULTY_ID));
+        application.setApplyDate(resultSet.getTimestamp(Column.APPLY_DATE));
+        application.setApproved(resultSet.getBoolean(Column.APPROVED));
+        application.setApproveDate(resultSet.getTimestamp(Column.APPROVE_DATE));
         return application;
     }
 }

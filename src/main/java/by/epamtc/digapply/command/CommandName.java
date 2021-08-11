@@ -25,6 +25,8 @@ public class CommandName {
     public static final String UPDATE_FACULTY_COMMAND = "update-faculty";
     public static final String ADD_FACULTY_COMMAND = "add-faculty";
     public static final String DELETE_FACULTY_COMMAND = "delete-faculty";
+    public static final String CLOSE_APPLICATION_COMMAND = "close-application";
+    public static final String SHOW_ACCEPTED_APPLICATIONS_TABLE_COMMAND = "accepted-applications";
 
     public static final String NEW_APPLICATION_COMMAND = "new-application";
     public static final String SUBMIT_APPLICATION_COMMAND = "submit-application";

@@ -1,6 +1,10 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.dao.*;
+import by.epamtc.digapply.dao.DaoFactory;
+import by.epamtc.digapply.dao.DaoException;
+import by.epamtc.digapply.dao.ApplicationDao;
+import by.epamtc.digapply.dao.FacultyDao;
+import by.epamtc.digapply.dao.ResultDao;
 import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Result;
 import by.epamtc.digapply.entity.dto.ApplicationDto;
@@ -21,6 +25,15 @@ public class ApplicationServiceImpl implements ApplicationService {
     private static final Logger logger = LogManager.getLogger();
     private static final String SCORE_PREFIX = "sid-";
     private static final String CERTIFICATE_ID_PREFIX = "cid-";
+
+    @Override
+    public List<ApplicationDto> convertToDto(List<Application> applications) throws ServiceException {
+        List<ApplicationDto> dtos = new ArrayList<>();
+        for (Application application : applications) {
+            dtos.add(buildApplicationDto(application));
+        }
+        return dtos;
+    }
 
     @Override
     public boolean hasApplication(long userId) throws ServiceException {
@@ -57,6 +70,18 @@ public class ApplicationServiceImpl implements ApplicationService {
         } catch (DaoException e) {
             logger.error("Unable to fetch applications by faculty id.", e);
             throw new ServiceException("Unable to fetch applications by faculty id.", e);
+        }
+    }
+
+    @Override
+    public List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) throws ServiceException {
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
+        try {
+            List<Application> acceptedApplications = applicationDao.findAcceptedByFacultyId(facultyId);
+            return convertToDto(acceptedApplications);
+        } catch (DaoException e) {
+            logger.error("Unable to fetch accepted applications for faculty.", e);
+            throw new ServiceException("Unable to fetch accepted applications for faculty.", e);
         }
     }
 
