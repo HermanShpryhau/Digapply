@@ -2,15 +2,13 @@ package by.epamtc.digapply.service;
 
 import by.epamtc.digapply.service.impl.*;
 
-/**
- * Thread-safe singleton Service implementations provider.
- */
 public class ServiceFactory {
     private final UserService userService = new UserServiceImpl();
     private final FacultyService facultyService = new FacultyServiceImpl();
     private final SubjectService subjectService = new SubjectServiceImpl();
     private final ApplicationService applicationService = new ApplicationServiceImpl();
     private final ResultService resultService = new ResultServiceImpl();
+    private final MailService mailService = new MailServiceImpl();
 
     private ServiceFactory() {
     }
@@ -61,6 +59,14 @@ public class ServiceFactory {
      */
     public ResultService getResultService() {
         return resultService;
+    }
+
+    /**
+     * Gets implementation of {@link MailService}
+     * @return {@link MailService} implementation.
+     */
+    public MailService getMailService() {
+        return mailService;
     }
 
     private static class Holder {

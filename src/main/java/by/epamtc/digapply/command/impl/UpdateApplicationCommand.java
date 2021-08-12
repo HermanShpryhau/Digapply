@@ -4,6 +4,8 @@ import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class UpdateApplicationCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> applicationIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
@@ -35,6 +39,7 @@ public class UpdateApplicationCommand implements Command {
             applicationService.updateApplication(applicationId, scores, certificates);
             return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } catch (ServiceException e) {
+            logger.error("Unable to update results for application {}. {}", applicationId, e.getMessage());
             return Routing.ERROR_500;
         }
     }

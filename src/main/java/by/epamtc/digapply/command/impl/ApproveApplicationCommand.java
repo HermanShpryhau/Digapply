@@ -2,14 +2,19 @@ package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ApplicationService;
+import by.epamtc.digapply.service.MailService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class ApproveApplicationCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> applicationIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
@@ -20,11 +25,15 @@ public class ApproveApplicationCommand implements Command {
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             if (applicationService.approveApplication(applicationId)) {
+                MailService mailService = ServiceFactory.getInstance().getMailService();
+                String sessionLocale = (String) request.getSession().getAttribute(SessionAttribute.LOCALE);
+                mailService.sendApplicationApprovalMessage(applicationId, sessionLocale);
                 return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 return Routing.ERROR_404;
             }
         } catch (ServiceException e) {
+            logger.error("unable tp approve application id: {}. {}", applicationId, e.getMessage());
             return Routing.ERROR_500;
         }
     }

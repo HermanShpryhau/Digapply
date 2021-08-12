@@ -22,7 +22,7 @@ public class ShowSubjectsTableCommand implements Command {
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);
             return new Routing(PagePath.SUBJECT_TABLE_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
-            logger.error("Unable to retrieve all subjects.", e);
+            logger.error("Unable to retrieve all subjects. {}", e.getMessage());
             return Routing.ERROR_500;
         }
     }

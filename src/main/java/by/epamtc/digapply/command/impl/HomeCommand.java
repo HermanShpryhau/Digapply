@@ -18,11 +18,11 @@ public class HomeCommand implements Command {
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
-        List<Faculty> bestFaculties = null;
+        List<Faculty> bestFaculties;
         try {
             bestFaculties = facultyService.retrieveBestFaculties();
         } catch (ServiceException e) {
-            logger.error("Unable to retrieve best faculties", e);
+            logger.error("Unable to retrieve best faculties. {}", e.getMessage());
             return Routing.ERROR_500;
         }
         request.setAttribute(RequestAttribute.BEST_FACULTIES, bestFaculties);

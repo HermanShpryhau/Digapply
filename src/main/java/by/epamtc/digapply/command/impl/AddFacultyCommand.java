@@ -44,7 +44,7 @@ public class AddFacultyCommand implements Command {
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {
-            logger.error("Unable to save faculty.", e);
+            logger.error("Unable to save faculty. {}", e.getMessage());
             return Routing.ERROR_500;
         }
     }

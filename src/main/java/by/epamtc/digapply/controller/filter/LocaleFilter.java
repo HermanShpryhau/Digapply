@@ -3,11 +3,7 @@ package by.epamtc.digapply.controller.filter;
 import by.epamtc.digapply.command.RequestParameter;
 import by.epamtc.digapply.command.SessionAttribute;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.ServletException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

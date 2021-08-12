@@ -47,10 +47,10 @@ public class JdbcOperator<T extends Identifiable> {
                 result.add(entity);
             }
         } catch (SQLException e) {
-            logger.error("Unable to execute query.", e);
+            logger.error("Unable to execute query. {}", e.getMessage());
             throw new DaoException("Unable to execute query.", e);
         } catch (ConnectionPoolException e) {
-            logger.error("Unable to retrieve connection.", e);
+            logger.error("Unable to retrieve connection. {}", e.getMessage());
             throw new DaoException("Unable to retrieve connection.", e);
         }
         return result;
@@ -88,10 +88,10 @@ public class JdbcOperator<T extends Identifiable> {
                 return rowsAffected;
             }
         } catch (SQLException e) {
-            logger.error("Unable to execute update query.", e);
+            logger.error("Unable to execute update query. {}", e.getMessage());
             throw new DaoException("Unable to execute update query.", e);
         } catch (ConnectionPoolException e) {
-            logger.error("Unable to retrieve connection.", e);
+            logger.error("Unable to retrieve connection. {}", e.getMessage());
             throw new DaoException("Unable to retrieve connection.", e);
         }
     }
@@ -111,10 +111,10 @@ public class JdbcOperator<T extends Identifiable> {
             return firstQueryGeneratedKey;
         } catch (SQLException e) {
             attemptRollback(connection);
-            logger.error("Unable to execute update query.", e);
+            logger.error("Unable to execute update query. {}", e.getMessage());
             throw new DaoException("Unable to execute update query.", e);
         } catch (ConnectionPoolException e) {
-            logger.error("Unable to retrieve connection.", e);
+            logger.error("Unable to retrieve connection. {}", e.getMessage());
             throw new DaoException("Unable to retrieve connection.", e);
         } finally {
             attemptConnectionRelease(connection);
@@ -153,7 +153,7 @@ public class JdbcOperator<T extends Identifiable> {
                 connection.setAutoCommit(true);
                 connection.close();
             } catch (SQLException e) {
-                logger.error("Unable to return connection to connection pool.", e);
+                logger.error("Unable to return connection to connection pool. {}", e.getMessage());
                 throw new DaoException("Unable to return connection to connection pool.", e);
             }
         }

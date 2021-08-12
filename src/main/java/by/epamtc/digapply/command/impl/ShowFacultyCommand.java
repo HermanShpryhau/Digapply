@@ -37,7 +37,7 @@ public class ShowFacultyCommand implements Command {
                 return Routing.ERROR_404;
             }
         } catch (ServiceException e) {
-            logger.error("Unable to retrieve faculty", e);
+            logger.error("Unable to retrieve faculty {}. {}", facultyId, e.getMessage());
             return Routing.ERROR_500;
         }
 

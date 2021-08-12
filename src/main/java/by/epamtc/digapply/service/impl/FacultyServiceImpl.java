@@ -6,8 +6,8 @@ import by.epamtc.digapply.entity.dto.ApplicationDto;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.ApplicationService;
-import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
+import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.validation.EntityValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
@@ -38,8 +38,8 @@ public class FacultyServiceImpl implements FacultyService {
             facultyDao.save(faculty, subjectIds);
             return faculty;
         } catch (DaoException e) {
-            logger.error("Unable to save new faculty", e);
-            throw new ServiceException("Unable to save new faculty", e);
+            logger.error("Unable to save new faculty. {}", e.getMessage());
+            throw new ServiceException("Unable to save new faculty.", e);
         }
     }
 
@@ -49,7 +49,7 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findBestFaculties(BEST_FACULTIES_COUNT);
         } catch (DaoException e) {
-            logger.error("Unable to retrieve best faculties.", e);
+            logger.error("Unable to retrieve best faculties. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve best faculties.", e);
         }
     }
@@ -60,7 +60,7 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findAllOnPage(page, elementsPerPage);
         } catch (DaoException e) {
-            logger.error("Unable to retrieve faculties by page.", e);
+            logger.error("Unable to retrieve faculties by page. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve faculties by page.", e);
         }
     }
@@ -73,7 +73,7 @@ public class FacultyServiceImpl implements FacultyService {
             long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
             return (rowsCount / elementsPerPage) + leftover;
         } catch (DaoException e) {
-            logger.error("Unable to retrieve rows count.", e);
+            logger.error("Unable to retrieve rows count. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve rows count.", e);
         }
     }
@@ -84,7 +84,7 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findById(id);
         } catch (DaoException e) {
-            logger.error("Unable to retrieve faculty by ID.", e);
+            logger.error("Unable to retrieve faculty by ID. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve faculty by ID.", e);
         }
     }
@@ -95,7 +95,7 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findAll();
         } catch (DaoException e) {
-            logger.error("Unable to retrieve all faculties.", e);
+            logger.error("Unable to retrieve all faculties. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve all faculties.", e);
         }
     }
@@ -106,8 +106,8 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return facultyDao.findByPattern(pattern, page, elementsPerPage);
         } catch (DaoException e){
-            logger.error("Unable to search faculties by pattern in name", e);
-            throw new ServiceException("Unable to search faculties by pattern in name", e);
+            logger.error("Unable to search faculties by pattern in name. {}", e.getMessage());
+            throw new ServiceException("Unable to search faculties by pattern in name.", e);
         }
     }
 
@@ -119,8 +119,8 @@ public class FacultyServiceImpl implements FacultyService {
             long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
             return (rowsCount / elementsPerPage) + leftover;
         } catch (DaoException e) {
-            logger.error("Unable to retrieve count of rows that satisfy search pattern", e);
-            throw new ServiceException("Unable to retrieve count of rows that satisfy search pattern", e);
+            logger.error("Unable to retrieve count of rows that satisfy search pattern. {}", e.getMessage());
+            throw new ServiceException("Unable to retrieve count of rows that satisfy search pattern.", e);
         }
     }
 
@@ -130,8 +130,8 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return subjectDao.findSubjectsByFaculty(faculty.getId());
         } catch (DaoException e) {
-            logger.error("Unable to retrieve subjects by faculty id", e);
-            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
+            logger.error("Unable to retrieve subjects by faculty id. {}", e.getMessage());
+            throw new ServiceException("Unable to retrieve subjects by faculty id.", e);
         }
     }
 
@@ -141,8 +141,8 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             return subjectDao.findSubjectsByFaculty(facultyId);
         } catch (DaoException e) {
-            logger.error("Unable to retrieve subjects by faculty id", e);
-            throw new ServiceException("Unable to retrieve subjects by faculty id", e);
+            logger.error("Unable to retrieve subjects by faculty id. {}", e.getMessage());
+            throw new ServiceException("Unable to retrieve subjects by faculty id.", e);
         }
     }
 
@@ -155,7 +155,7 @@ public class FacultyServiceImpl implements FacultyService {
                 facultyDao.update(faculty);
                 return true;
             } catch (DaoException e) {
-                logger.error("Unable to update faculty.", e);
+                logger.error("Unable to update faculty. {}", e.getMessage());
                 throw new ServiceException("Unable to update faculty.", e);
             }
         } else {
@@ -185,7 +185,7 @@ public class FacultyServiceImpl implements FacultyService {
                 return null;
             }
         } catch (DaoException e) {
-            logger.error("Unable to fetch faculty by id.", e);
+            logger.error("Unable to fetch faculty by id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch faculty by id.", e);
         }
 
@@ -209,7 +209,7 @@ public class FacultyServiceImpl implements FacultyService {
             applicationDao.acceptApplications(acceptedApplications);
             return applicationService.convertToDto(acceptedApplications);
         } catch (DaoException e) {
-            logger.error("Unable to accept applications.", e);
+            logger.error("Unable to accept applications. {}", e.getMessage());
             throw new ServiceException("Unable to accept applications.", e);
         }
     }
@@ -221,7 +221,7 @@ public class FacultyServiceImpl implements FacultyService {
             facultyDao.removeById(facultyId);
             return true;
         } catch (DaoException e) {
-            logger.error("Unable to remove faculty by id.", e);
+            logger.error("Unable to remove faculty by id. {}", e.getMessage());
             throw new ServiceException("Unable to remove faculty by id.", e);
         }
     }

@@ -56,7 +56,7 @@ public class ListFacultiesCommand implements Command {
                 facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
             }
         } catch (ServiceException e) {
-            logger.error("Unable to retrieve list of faculties.", e);
+            logger.error("Unable to retrieve list of faculties. {}", e.getMessage());
             return Routing.ERROR_500;
         }
         request.setAttribute(RequestAttribute.FACULTIES, facultyList);

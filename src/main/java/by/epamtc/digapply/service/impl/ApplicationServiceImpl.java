@@ -41,7 +41,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         try {
             return applicationDao.findByUserId(userId) != null;
         } catch (DaoException e) {
-            logger.error("Unable to fetch application by user id.", e);
+            logger.error("Unable to fetch application by user id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch application by user id.", e);
         }
     }
@@ -52,7 +52,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         try {
             return applicationDao.findByUserId(userId);
         } catch (DaoException e) {
-            logger.error("Unable to fetch application by user id.", e);
+            logger.error("Unable to fetch application by user id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch application by user id.", e);
         }
     }
@@ -68,7 +68,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
             return dtos;
         } catch (DaoException e) {
-            logger.error("Unable to fetch applications by faculty id.", e);
+            logger.error("Unable to fetch applications by faculty id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch applications by faculty id.", e);
         }
     }
@@ -80,7 +80,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             List<Application> acceptedApplications = applicationDao.findAcceptedByFacultyId(facultyId);
             return convertToDto(acceptedApplications);
         } catch (DaoException e) {
-            logger.error("Unable to fetch accepted applications for faculty.", e);
+            logger.error("Unable to fetch accepted applications for faculty. {}", e.getMessage());
             throw new ServiceException("Unable to fetch accepted applications for faculty.", e);
         }
     }
@@ -96,8 +96,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 dtos.add(buildApplicationDto(application));
             }
         } catch (DaoException e) {
-            logger.error("Unable to retrieve all applications", e);
-            throw new ServiceException("Unable to retrieve all applications", e);
+            logger.error("Unable to retrieve all applications. {}", e.getMessage());
+            throw new ServiceException("Unable to retrieve all applications.", e);
         }
 
         return dtos;
@@ -110,7 +110,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             Application application = applicationDao.findById(id);
             return buildApplicationDto(application);
         } catch (DaoException e) {
-            logger.error("Unable to fetch application by id.", e);
+            logger.error("Unable to fetch application by id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch application by id.", e);
         }
     }
@@ -140,7 +140,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         try {
             return facultyDao.findById(facultyId).getFacultyName();
         } catch (DaoException e) {
-            logger.error("Unable to fetch faculty by id.", e);
+            logger.error("Unable to fetch faculty by id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch faculty by id.", e);
         }
     }
@@ -165,7 +165,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             }
             return total;
         } catch (DaoException e) {
-            logger.error("Unable to fetch results for application id.", e);
+            logger.error("Unable to fetch results for application id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch results for application id.", e);
         }
     }
@@ -181,7 +181,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             applicationDao.remove(application);
             return true;
         } catch (DaoException e) {
-            logger.error("Unable to remove application from DB.", e);
+            logger.error("Unable to remove application from DB. {}", e.getMessage());
             throw new ServiceException("Unable to remove application from DB.", e);
         }
     }
@@ -199,7 +199,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             applicationDao.update(application);
             return true;
         } catch (DaoException e) {
-            logger.error("Unable to approve application.", e);
+            logger.error("Unable to approve application. {}", e.getMessage());
             throw new ServiceException("Unable to approve application.", e);
         }
     }
@@ -217,7 +217,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         try {
             applicationDao.save(application, results);
         } catch (DaoException e) {
-            logger.error("Unable to save application to data source", e);
+            logger.error("Unable to save application to data source {}", e.getMessage());
             throw new ServiceException("Unable to save application to data source", e);
         }
 
@@ -237,7 +237,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             applicationDao.update(applicationId, results);
             return true;
         } catch (DaoException e) {
-            logger.error("Unable to update application results.", e);
+            logger.error("Unable to update application results. {}", e.getMessage());
             throw new ServiceException("Unable to update application results.", e);
         }
     }
@@ -263,8 +263,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             try {
                 scoreValue = Integer.parseInt(score.getValue());
             } catch (NumberFormatException e) {
-                logger.error("Invalid score value", e);
-                throw new ServiceException("Invalid score value", e);
+                logger.error("Invalid score value. {}", e.getMessage());
+                throw new ServiceException("Invalid score value.", e);
             }
             Result result = buildResult(score.getKey(), scoreValue, certificateId);
             resultList.add(result);
@@ -288,7 +288,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 long id = Long.parseLong(entry.getKey());
                 result.put(id, entry.getValue());
             } catch (NumberFormatException e) {
-                logger.error("Invalid id string.", e);
+                logger.error("Invalid id string. {}", e.getMessage());
                 throw new ServiceException("Invalid id string.", e);
             }
         }

@@ -4,6 +4,8 @@ import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SubmitApplicationCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_ID));
@@ -41,6 +45,7 @@ public class SubmitApplicationCommand implements Command {
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {
+            logger.error("Unable to save application to DB. {}", e.getMessage());
             return Routing.ERROR_500;
         }
     }

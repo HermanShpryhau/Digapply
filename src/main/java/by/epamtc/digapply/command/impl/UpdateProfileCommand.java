@@ -4,6 +4,8 @@ import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class UpdateProfileCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -38,6 +42,7 @@ public class UpdateProfileCommand implements Command {
                     return Routing.ERROR;
                 }
             } catch (ServiceException e) {
+                logger.error("Unable to update user {} data. {}", userId, e.getMessage());
                 return Routing.ERROR_500;
             }
         } else {

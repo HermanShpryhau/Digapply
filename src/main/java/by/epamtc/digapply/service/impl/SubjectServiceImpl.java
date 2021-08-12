@@ -16,7 +16,8 @@ import java.util.regex.Pattern;
 public class SubjectServiceImpl implements SubjectService {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_SUBJECT_ID = 0;
-    private static final Pattern subjectNamePattern = Pattern.compile("[A-z0-9\'\\\"\\-\\.,\\s]+");
+    private static final long MINIMAL_AFFECTED_ROWS = 1L;
+    private static final Pattern subjectNamePattern = Pattern.compile("^[A-z0-9 .\"'\\-]+$");
 
     @Override
     public List<Subject> retrieveAllSubjects() throws ServiceException {
@@ -24,8 +25,8 @@ public class SubjectServiceImpl implements SubjectService {
         try {
             return subjectDao.findAll();
         } catch (DaoException e) {
-            logger.error("Unable to retrieve all subjects", e);
-            throw new ServiceException("Unable to retrieve all subjects", e);
+            logger.error("Unable to retrieve all subjects. {}", e.getMessage());
+            throw new ServiceException("Unable to retrieve all subjects.", e);
         }
     }
 
@@ -35,7 +36,7 @@ public class SubjectServiceImpl implements SubjectService {
         try {
             return subjectDao.findById(id);
         } catch (DaoException e) {
-            logger.error("Unable to retrieve subject by id.", e);
+            logger.error("Unable to retrieve subject by id. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve subject by id.", e);
         }
     }
@@ -55,7 +56,7 @@ public class SubjectServiceImpl implements SubjectService {
             subjectDao.save(subject);
             return true;
         } catch (DaoException e) {
-            logger.error("Unable to save subject to data source.", e);
+            logger.error("Unable to save subject to data source. {}", e.getMessage());
             throw new ServiceException("Unable to save subject to data source.", e);
         }
     }
@@ -73,7 +74,7 @@ public class SubjectServiceImpl implements SubjectService {
             subjectDao.update(subject);
             return true;
         } catch (DaoException e) {
-            logger.error("Unable to update subject.", e);
+            logger.error("Unable to update subject. {}", e.getMessage());
             throw new ServiceException("Unable to update subject.", e);
         }
     }
@@ -87,10 +88,10 @@ public class SubjectServiceImpl implements SubjectService {
     public boolean removeSubject(long id) throws ServiceException {
         SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
-            subjectDao.removeById(id);
-            return true;
+            long affectedRows = subjectDao.removeById(id);
+            return affectedRows >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
-            logger.error("Unable to delete subject.", e);
+            logger.error("Unable to delete subject. {}", e.getMessage());
             throw new ServiceException("Unable to delete subject.", e);
         }
     }
