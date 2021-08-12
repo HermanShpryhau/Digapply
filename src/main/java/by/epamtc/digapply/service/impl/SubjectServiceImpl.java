@@ -16,7 +16,8 @@ import java.util.regex.Pattern;
 public class SubjectServiceImpl implements SubjectService {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_SUBJECT_ID = 0;
-    private static final Pattern subjectNamePattern = Pattern.compile("[A-z0-9\'\\\"\\-\\.,\\s]+");
+    private static final long MINIMAL_AFFECTED_ROWS = 1L;
+    private static final Pattern subjectNamePattern = Pattern.compile("^[A-z0-9 .\"'\\-]+$");
 
     @Override
     public List<Subject> retrieveAllSubjects() throws ServiceException {
@@ -87,8 +88,8 @@ public class SubjectServiceImpl implements SubjectService {
     public boolean removeSubject(long id) throws ServiceException {
         SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
-            subjectDao.removeById(id);
-            return true;
+            long affectedRows = subjectDao.removeById(id);
+            return affectedRows >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
             logger.error("Unable to delete subject. {}", e.getMessage());
             throw new ServiceException("Unable to delete subject.", e);

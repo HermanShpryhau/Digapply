@@ -26,7 +26,7 @@ public class DeleteSubjectCommand implements Command {
             if (subjectService.removeSubject(subjectId)) {
                 return new Routing(PagePath.SUBJECT_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                // TODO Set error data - no such subject.
+                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.NO_SUCH_SUBJECT);
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {

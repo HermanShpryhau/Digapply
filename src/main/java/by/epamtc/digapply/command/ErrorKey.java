@@ -14,6 +14,7 @@ public final class ErrorKey {
     public static final String INVALID_PASSWORD = "error.invalid-password";
     public static final String INVALID_NAME = "error.invalid-name";
     public static final String NO_SUCH_FACULTY = "error.no-such-faculty";
+    public static final String NO_SUCH_SUBJECT = "error.no-such-subject";
 
     private ErrorKey() {}
 }
