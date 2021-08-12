@@ -5,12 +5,16 @@ import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.SubjectService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class EditSubjectCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> subjectIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
@@ -24,6 +28,7 @@ public class EditSubjectCommand implements Command {
             request.setAttribute(RequestAttribute.SUBJECT, subject);
             return new Routing(PagePath.SUBJECT_FORM_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
+            logger.error("Unable to retrieve subject {} from DB. {}", subjectId, e.getMessage());
             return Routing.ERROR_500;
         }
     }

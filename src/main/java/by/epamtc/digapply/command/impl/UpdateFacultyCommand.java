@@ -5,12 +5,15 @@ import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public class UpdateFacultyCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -32,7 +35,7 @@ public class UpdateFacultyCommand implements Command {
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
         Optional<String> facultyDescription = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
 
-        Faculty updatedFaculty = buildFaculty(facultyId, facultyName, places, shortDescription, facultyDescription);
+        Faculty updatedFaculty = buildFacultyEntity(facultyId, facultyName, places, shortDescription, facultyDescription);
 
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
@@ -43,11 +46,12 @@ public class UpdateFacultyCommand implements Command {
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {
+            logger.error("Unable to update faculty {} data. {}", facultyId, e.getMessage());
             return Routing.ERROR_500;
         }
     }
 
-    private Faculty buildFaculty(long facultyId, Optional<String> facultyName, int places, Optional<String> shortDescription, Optional<String> facultyDescription) {
+    private Faculty buildFacultyEntity(long facultyId, Optional<String> facultyName, int places, Optional<String> shortDescription, Optional<String> facultyDescription) {
         Faculty updatedFaculty = new Faculty();
         updatedFaculty.setFacultyId(facultyId);
         updatedFaculty.setFacultyName(facultyName.orElse(null));

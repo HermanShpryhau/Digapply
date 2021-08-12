@@ -5,6 +5,8 @@ import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class ShowProfileEditFormCommand implements Command {
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
@@ -33,6 +37,7 @@ public class ShowProfileEditFormCommand implements Command {
             request.setAttribute(RequestAttribute.USER, user);
             return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE, RoutingType.FORWARD);
         } catch (ServiceException e) {
+            logger.error("Unable to retrieve user {} data. {}", userId, e.getMessage());
             return Routing.ERROR_500;
         }
     }

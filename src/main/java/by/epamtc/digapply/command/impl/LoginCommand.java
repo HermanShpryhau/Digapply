@@ -36,7 +36,7 @@ public class LoginCommand implements Command {
         try {
             user = userService.login(email, String.valueOf(password));
         } catch (ServiceException e) {
-            logger.error("Unable to test user sign in data.", e);
+            logger.error("Unable to test user sign in data. {}", e.getMessage());
             return Routing.ERROR_500;
         }
         Arrays.fill(password, ' ');
