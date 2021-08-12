@@ -7,6 +7,6 @@
     <title>Digapply | Index</title>
 </head>
 <body>
-    <jstl:redirect url="/controller?command=home" />
+    <jstl:redirect url="/controller?command=home&locale=${initParam.defaulLocale}" />
 </body>
 </html>

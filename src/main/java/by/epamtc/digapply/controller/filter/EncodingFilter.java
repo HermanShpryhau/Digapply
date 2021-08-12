@@ -4,11 +4,12 @@ import javax.servlet.*;
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {
+    private static final String REQUEST_ENCODING_PARAM = "request-encoding";
     private String encoding;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        encoding = filterConfig.getInitParameter("request-encoding");
+        encoding = filterConfig.getInitParameter(REQUEST_ENCODING_PARAM);
     }
 
     @Override

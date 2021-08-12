@@ -12,6 +12,11 @@
         <param-value>labels</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>defaultLocale</param-name>
+        <param-value>ru</param-value>
+    </context-param>
+
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/pages/error-404.jsp</location>

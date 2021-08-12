@@ -2,6 +2,7 @@ package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.service.ApplicationService;
+import by.epamtc.digapply.service.MailService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 
@@ -20,6 +21,9 @@ public class ApproveApplicationCommand implements Command {
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             if (applicationService.approveApplication(applicationId)) {
+                MailService mailService = ServiceFactory.getInstance().getMailService();
+                String sessionLocale = (String) request.getSession().getAttribute(SessionAttribute.LOCALE);
+                mailService.sendApplicationApprovalMessage(applicationId, sessionLocale);
                 return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 return Routing.ERROR_404;

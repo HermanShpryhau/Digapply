@@ -13,6 +13,7 @@ public final class ErrorKey {
     public static final String INVALID_APPLICATION_DATA = "error.invalid-application-data";
     public static final String INVALID_PASSWORD = "error.invalid-password";
     public static final String INVALID_NAME = "error.invalid-name";
+    public static final String NO_SUCH_FACULTY = "error.no-such-faculty";
 
     private ErrorKey() {}
 }

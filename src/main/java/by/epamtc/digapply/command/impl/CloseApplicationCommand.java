@@ -3,6 +3,7 @@ package by.epamtc.digapply.command.impl;
 import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.entity.dto.ApplicationDto;
 import by.epamtc.digapply.service.FacultyService;
+import by.epamtc.digapply.service.MailService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 
@@ -24,13 +25,22 @@ public class CloseApplicationCommand implements Command {
         try {
             List<ApplicationDto> acceptedApplications = facultyService.closeApplication(facultyId);
             if (acceptedApplications == null) {
-                // TODO Set error data - no such faulty
+                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.NO_SUCH_FACULTY);
                 return Routing.ERROR;
             }
+            String locale = (String) request.getSession().getAttribute(SessionAttribute.LOCALE);
+            sendAcceptanceEmails(acceptedApplications, locale);
             request.setAttribute(RequestAttribute.APPLICATIONS, acceptedApplications);
             return new Routing(PagePath.ACCEPTED_APPLICATIONS_TABLE, RoutingType.FORWARD);
         } catch (ServiceException e) {
             return Routing.ERROR_500;
+        }
+    }
+
+    void sendAcceptanceEmails(List<ApplicationDto> applications, String locale) throws ServiceException {
+        MailService mailService = ServiceFactory.getInstance().getMailService();
+        for (ApplicationDto application : applications) {
+            mailService.sendApplicationAcceptedMessage(application.getApplicationId(), locale);
         }
     }
 }
