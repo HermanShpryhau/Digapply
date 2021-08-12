@@ -36,7 +36,7 @@ public class CopyrightTag extends TagSupport {
             JspWriter out = pageContext.getOut();
             out.write(copyrightNotice);
         } catch (IOException e) {
-            logger.error("Unable to write to output stream.", e);
+            logger.error("Unable to write to output stream. {}", e.getMessage());
             throw new JspException("Unable to write to output stream.", e);
         }
         return SKIP_BODY;

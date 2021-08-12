@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
                 user = userFromDB;
             }
         } catch (DaoException e) {
-            logger.error("Unable to retrieve user from DB.", e);
+            logger.error("Unable to retrieve user from DB. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve user from DB.", e);
         }
 
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             try {
                 userDao.save(user);
             } catch (DaoException e) {
-                logger.error("Unable to save new user to Data Source.", e);
+                logger.error("Unable to save new user to Data Source. {}", e.getMessage());
                 throw new ServiceException("Unable to save new user to Data Source.", e);
             }
             return true;
@@ -99,8 +99,8 @@ public class UserServiceImpl implements UserService {
                     .append(user.getSurname());
             return sb.toString();
         } catch (DaoException e) {
-            logger.error("Unable to fetch user by id", e);
-            throw new ServiceException("Unable to fetch user by id", e);
+            logger.error("Unable to fetch user by id. {}", e.getMessage());
+            throw new ServiceException("Unable to fetch user by id.", e);
         }
     }
 
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
                 dtos.add(buildUserDto(user));
             }
         } catch (DaoException e) {
-            logger.error("Unable to retrieve all users.", e);
+            logger.error("Unable to retrieve all users. {}", e.getMessage());
             throw new ServiceException("Unable to retrieve all users.", e);
         }
         return dtos;
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.findById(id);
         } catch (DaoException e) {
-            logger.error("Unable to fetch user by id.", e);
+            logger.error("Unable to fetch user by id. {}", e.getMessage());
             throw new ServiceException("Unable to fetch user by id.", e);
         }
     }
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
                 long affectedRows = userDao.update(user);
                 return affectedRows >= MINIMAL_AFFECTED_ROWS;
             } catch (DaoException e) {
-                logger.error("Unable to update user data.", e);
+                logger.error("Unable to update user data. {}", e.getMessage());
                 throw new ServiceException("Unable to update user data.", e);
             }
         }
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
                 long affectedRows = userDao.updatePassword(userId, DigestUtils.sha256Hex(password));
                 return affectedRows >= MINIMAL_AFFECTED_ROWS;
             } catch (DaoException e) {
-                logger.error("Unable to update user's password.", e);
+                logger.error("Unable to update user's password. {}", e.getMessage());
                 throw new ServiceException("Unable to update user's password.", e);
             }
         }
@@ -188,8 +188,8 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.updateUserRole(userId, RoleEnum.ADMIN.getId()) >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
-            logger.error("Unable to update user role", e);
-            throw new ServiceException("Unable to update user role", e);
+            logger.error("Unable to update user role. {}", e.getMessage());
+            throw new ServiceException("Unable to update user role.", e);
         }
     }
 
@@ -199,8 +199,8 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.updateUserRole(userId, RoleEnum.USER.getId()) >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
-            logger.error("Unable to update user role", e);
-            throw new ServiceException("Unable to update user role", e);
+            logger.error("Unable to update user role. {}", e.getMessage());
+            throw new ServiceException("Unable to update user role.", e);
         }
     }
 
@@ -211,7 +211,7 @@ public class UserServiceImpl implements UserService {
             long rowsAffected = userDao.removeById(id);
             return rowsAffected >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e){
-            logger.error("Unable to delete user from data source.", e);
+            logger.error("Unable to delete user from data source. {}", e.getMessage());
             throw new ServiceException("Unable to delete user from data source.", e);
         }
     }

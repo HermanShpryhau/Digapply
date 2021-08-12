@@ -27,7 +27,7 @@ public class ResultServiceImpl implements ResultService {
                 dtos.add(buildResultDto(result));
             }
         } catch (DaoException e) {
-            logger.error("Unable to fetch results for application.", e);
+            logger.error("Unable to fetch results for application. {}", e.getMessage());
             throw new ServiceException("Unable to fetch results for application.", e);
         }
         return dtos;
