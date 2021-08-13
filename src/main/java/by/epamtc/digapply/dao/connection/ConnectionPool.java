@@ -39,7 +39,7 @@ public class ConnectionPool {
             String dbUser = dbProperties.getProperty(DB_USER_PROP);
             String dbPassword = dbProperties.getProperty(DB_PASSWORD_PROP);
             Class.forName(dbProperties.getProperty(DB_DRIVER_PROP));
-            poolSize = parsePoolSize(dbProperties);
+            poolSize = parsePoolSizeProperty(dbProperties);
             pool = new ArrayBlockingQueue<>(poolSize);
             usedConnections = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
@@ -59,7 +59,7 @@ public class ConnectionPool {
         logger.info("Connection pool initialized.");
     }
 
-    private int parsePoolSize(Properties dbProperties) {
+    private int parsePoolSizeProperty(Properties dbProperties) {
         try {
             return Integer.parseInt(dbProperties.getProperty(DB_POOL_SIZE));
         } catch (NumberFormatException e) {
