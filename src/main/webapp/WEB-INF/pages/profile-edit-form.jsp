@@ -31,14 +31,14 @@
                 <input type="hidden" name="id" value="${requestScope.id}">
                 <div class="row mb-3">
                     <div class="col-sm mb-3">
-                        <label for="first-name" class="form-label"><fmt:message key="form.firs-name"/></label>
+                        <label for="first-name" class="form-label"><fmt:message key="form.firs-name"/>*</label>
                         <input type="text" id="first-name" name="first-name" class="form-control"
                                value="${requestScope.user.name}"
                                placeholder="<fmt:message key="form.firs-name"/>" required maxlength="45"
                                pattern="\b[A-Z].*?\b">
                     </div>
                     <div class="col-sm">
-                        <label for="last-name" class="form-label"><fmt:message key="form.last-name"/></label>
+                        <label for="last-name" class="form-label"><fmt:message key="form.last-name"/>*</label>
                         <input type="text" id="last-name" name="last-name" class="form-control"
                                value="${requestScope.user.surname}"
                                placeholder="<fmt:message key="form.last-name"/>" required maxlength="45"
