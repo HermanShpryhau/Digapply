@@ -4,12 +4,14 @@ import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.validation.impl.ApplicationFormDataValidatorImpl;
 import by.epamtc.digapply.service.validation.impl.FacultyEntityValidator;
+import by.epamtc.digapply.service.validation.impl.SubjectFormDataValidatorImpl;
 import by.epamtc.digapply.service.validation.impl.UserEntityValidator;
 
 public class ValidatorFactory {
     private final EntityValidator<User> userEntityValidator = new UserEntityValidator();
     private final EntityValidator<Faculty> facultyEntityValidator = new FacultyEntityValidator();
     private final ApplicationFormDataValidator applicationFormDataValidator = new ApplicationFormDataValidatorImpl();
+    private final SubjectFormDataValidator subjectFormDataValidator = new SubjectFormDataValidatorImpl();
 
     private ValidatorFactory() {
     }
@@ -28,6 +30,10 @@ public class ValidatorFactory {
 
     public ApplicationFormDataValidator getApplicationFormDataValidator() {
         return applicationFormDataValidator;
+    }
+
+    public SubjectFormDataValidator getSubjectFormDataValidator() {
+        return subjectFormDataValidator;
     }
 
     private static class Holder {
