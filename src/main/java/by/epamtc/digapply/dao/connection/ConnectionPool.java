@@ -39,7 +39,7 @@ public class ConnectionPool {
             String dbUser = dbProperties.getProperty(DB_USER_PROP);
             String dbPassword = dbProperties.getProperty(DB_PASSWORD_PROP);
             Class.forName(dbProperties.getProperty(DB_DRIVER_PROP));
-            poolSize = parsePoolSize(dbProperties);
+            poolSize = parsePoolSizeProperty(dbProperties);
             pool = new ArrayBlockingQueue<>(poolSize);
             usedConnections = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
@@ -47,23 +47,23 @@ public class ConnectionPool {
                 pool.add(new ProxyConnection(connection));
             }
         } catch (IOException e) {
-            logger.error("Unable to load DB properties!", e);
-            throw new ConnectionPoolException("Unable to load DB properties!", e);
+            logger.error("Unable to load DB properties. {}", e.getMessage());
+            throw new ConnectionPoolException("Unable to load DB properties.", e);
         } catch (SQLException e) {
-            logger.error("Unable to connect to DB!", e);
-            throw new ConnectionPoolException("Unable to connect to DB!", e);
+            logger.error("Unable to connect to DB. {}", e.getMessage());
+            throw new ConnectionPoolException("Unable to connect to DB.", e);
         } catch (ClassNotFoundException e) {
-            logger.error("MySQL JDBC driver not found!", e);
-            throw new ConnectionPoolException("MySQL JDBC driver not found!", e);
+            logger.error("MySQL JDBC driver not found. {}", e.getMessage());
+            throw new ConnectionPoolException("MySQL JDBC driver not found.", e);
         }
         logger.info("Connection pool initialized.");
     }
 
-    private int parsePoolSize(Properties dbProperties) {
+    private int parsePoolSizeProperty(Properties dbProperties) {
         try {
             return Integer.parseInt(dbProperties.getProperty(DB_POOL_SIZE));
         } catch (NumberFormatException e) {
-            logger.warn("Invalid pool size property.", e);
+            logger.warn("Invalid pool size property. {}", e.getMessage());
             return DEFAULT_POOL_SIZE;
         }
     }
@@ -72,10 +72,10 @@ public class ConnectionPool {
         ProxyConnection connection;
         try {
             connection = pool.take();
-            usedConnections.put(connection);
+            usedConnections.offer(connection);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            logger.error("Unable to retrieve connection to data source.", e);
+            logger.warn("Unable to retrieve connection from data source. {}", e.getMessage());
             throw new ConnectionPoolException("Unable to retrieve connection to data source.", e);
         }
         return connection;
@@ -88,7 +88,7 @@ public class ConnectionPool {
                 pool.put((ProxyConnection) connection);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                logger.error("Unable to release connection to data source.", e);
+                logger.error("Unable to release connection to data source. {}", e.getMessage());
                 throw new ConnectionPoolException("Unable to release connection to data source.", e);
             }
         }

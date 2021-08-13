@@ -50,9 +50,9 @@
             <input type="hidden" name="id" value="${requestScope.subject.id}">
         </c:if>
         <div class="mb-3">
-            <label for="subject-name" class="form-label"><fmt:message key="subject.subject-name"/></label>
+            <label for="subject-name" class="form-label"><fmt:message key="subject.subject-name"/>*</label>
             <br/>
-            <input type="text" id="subject-name" name="subject-name" maxlength="45"
+            <input type="text" id="subject-name" name="subject-name" maxlength="45" pattern="^[A-Za-z0-9 \'\.]+$"
             <c:if test="${requestScope.subject != null}">value="${requestScope.subject.subjectName}"</c:if>>
         </div>
         <c:choose>

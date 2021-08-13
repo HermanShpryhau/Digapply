@@ -165,9 +165,17 @@ public class FacultyServiceImpl implements FacultyService {
 
     private void sanitizeDescription(Faculty faculty) {
         String description = faculty.getFacultyDescription();
+        description = escapeHtmlAndJs(description);
+        faculty.setFacultyDescription(description);
+        String shortDescription = faculty.getFacultyShortDescription();
+        shortDescription = escapeHtmlAndJs(shortDescription);
+        faculty.setFacultyShortDescription(shortDescription);
+    }
+
+    private String escapeHtmlAndJs(String description) {
         description = StringEscapeUtils.escapeEcmaScript(description);
         description = StringEscapeUtils.escapeHtml4(description);
-        faculty.setFacultyDescription(description);
+        return description;
     }
 
     @Override

@@ -12,9 +12,7 @@
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
-<noscript class="nojs">
-    <h1>You have to enable JavaScript in your browser to continue working with the Digapply app.</h1>
-</noscript>
+
 <header>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container">

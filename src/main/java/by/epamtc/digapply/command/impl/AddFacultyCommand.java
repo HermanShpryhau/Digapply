@@ -25,7 +25,7 @@ public class AddFacultyCommand implements Command {
         Optional<String> placesString = Optional.ofNullable(request.getParameter(RequestParameter.PLACES_COUNT));
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
-            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PLACES_COUNT);
+            request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_PLACES_COUNT);
             return Routing.ERROR;
         }
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
@@ -40,7 +40,7 @@ public class AddFacultyCommand implements Command {
             if (faculty != null) {
                 return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
+                request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {

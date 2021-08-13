@@ -27,7 +27,7 @@ public class RevokeAdminRightsCommand implements Command {
             if (userService.revokeAdminRights(userId)) {
                 return new Routing(PagePath.USER_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.NO_SUCH_USER);
+                request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.NO_SUCH_USER);
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {

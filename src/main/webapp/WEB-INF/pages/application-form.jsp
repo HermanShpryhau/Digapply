@@ -29,11 +29,11 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="sid-${subject.subjectId}" class="form-label"><fmt:message key="application.score"/></label>
+                        <label for="sid-${subject.subjectId}" class="form-label"><fmt:message key="application.score"/>*</label>
                         <input required min="0" type="number" class="form-control" id="sid-${subject.subjectId}" name="sid-${subject.subjectId}" placeholder="Score">
                     </div>
                     <div class="col">
-                        <label for="cid-${subject.subjectId}" class="form-label"><fmt:message key="application.certificate-id"/></label>
+                        <label for="cid-${subject.subjectId}" class="form-label"><fmt:message key="application.certificate-id"/>*</label>
                         <input required maxlength="9" minlength="9" pattern="^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$" type="text" class="form-control" id="cid-${subject.subjectId}" name="cid-${subject.subjectId}" placeholder="A1B2-C3D4" aria-label="Last name">
                     </div>
                 </div>

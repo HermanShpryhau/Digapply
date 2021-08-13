@@ -6,6 +6,8 @@ import by.epamtc.digapply.dao.SubjectDao;
 import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.SubjectService;
+import by.epamtc.digapply.service.validation.SubjectFormDataValidator;
+import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +19,6 @@ public class SubjectServiceImpl implements SubjectService {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_SUBJECT_ID = 0;
     private static final long MINIMAL_AFFECTED_ROWS = 1L;
-    private static final Pattern subjectNamePattern = Pattern.compile("^[A-z0-9 .\"'\\-]+$");
 
     @Override
     public List<Subject> retrieveAllSubjects() throws ServiceException {
@@ -43,13 +44,11 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public boolean saveSubject(String subjectName) throws ServiceException {
-        if (subjectName == null) {
+        SubjectFormDataValidator validator = ValidatorFactory.getInstance().getSubjectFormDataValidator();
+        if (subjectName == null || !validator.validate(subjectName)) {
             return false;
         }
-        Matcher subjectNameMatcher = subjectNamePattern.matcher(subjectName);
-        if (!subjectNameMatcher.matches()) {
-            return false;
-        }
+
         SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             Subject subject = new Subject(NEW_SUBJECT_ID, subjectName);
@@ -63,12 +62,11 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public boolean updateSubject(Subject subject) throws ServiceException {
-        if (subject == null) {
+        SubjectFormDataValidator validator = ValidatorFactory.getInstance().getSubjectFormDataValidator();
+        if (subject == null || !validator.validate(subject.getSubjectName())) {
             return false;
         }
-        if (!isSubjectNameValid(subject)) {
-            return false;
-        }
+
         SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             subjectDao.update(subject);
@@ -77,11 +75,6 @@ public class SubjectServiceImpl implements SubjectService {
             logger.error("Unable to update subject. {}", e.getMessage());
             throw new ServiceException("Unable to update subject.", e);
         }
-    }
-
-    private boolean isSubjectNameValid(Subject subject) {
-        Matcher subjectNameMatcher = subjectNamePattern.matcher(subject.getSubjectName());
-        return subjectNameMatcher.matches();
     }
 
     @Override
