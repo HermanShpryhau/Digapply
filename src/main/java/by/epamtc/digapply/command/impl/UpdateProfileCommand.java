@@ -38,7 +38,7 @@ public class UpdateProfileCommand implements Command {
                 if (userService.updateUserData(userId, firstName.get(), lastName.get())) {
                     return routeByRights(hasAdminRights);
                 } else {
-                    request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
+                    request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
                     return Routing.ERROR;
                 }
             } catch (ServiceException e) {
@@ -46,7 +46,7 @@ public class UpdateProfileCommand implements Command {
                 return Routing.ERROR_500;
             }
         } else {
-            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
+            request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
             return Routing.ERROR;
         }
     }

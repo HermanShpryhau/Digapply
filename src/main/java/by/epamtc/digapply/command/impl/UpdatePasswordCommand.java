@@ -26,7 +26,7 @@ public class UpdatePasswordCommand implements Command {
                     session.invalidate();
                     return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
                 } else {
-                    request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PASSWORD);
+                    request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_PASSWORD);
                     return Routing.ERROR;
                 }
             } catch (ServiceException e) {
@@ -34,7 +34,7 @@ public class UpdatePasswordCommand implements Command {
                 return Routing.ERROR_500;
             }
         }
-        request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_PASSWORD);
+        request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_PASSWORD);
         return Routing.ERROR;
     }
 }

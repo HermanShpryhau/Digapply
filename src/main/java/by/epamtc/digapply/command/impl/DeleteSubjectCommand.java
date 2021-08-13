@@ -26,12 +26,12 @@ public class DeleteSubjectCommand implements Command {
             if (subjectService.removeSubject(subjectId)) {
                 return new Routing(PagePath.SUBJECT_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
-                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.NO_SUCH_SUBJECT);
+                request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.NO_SUCH_SUBJECT);
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {
             logger.error("Unable to delete subject {} from DB. {}", subjectId, e.getMessage());
-            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.CANNOT_DELETE_SUBJECT);
+            request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.CANNOT_DELETE_SUBJECT);
             return Routing.ERROR;
         }
     }

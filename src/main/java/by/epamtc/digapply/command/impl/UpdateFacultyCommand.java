@@ -28,7 +28,7 @@ public class UpdateFacultyCommand implements Command {
         Optional<String> placesString = Optional.ofNullable(request.getParameter(RequestParameter.PLACES_COUNT));
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
-            request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
+            request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
             return Routing.ERROR;
         }
 
@@ -42,7 +42,7 @@ public class UpdateFacultyCommand implements Command {
             if (facultyService.updateFaculty(updatedFaculty)) {
                 return new Routing(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId, RoutingType.REDIRECT);
             } else {
-                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
+                request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
                 return Routing.ERROR;
             }
         } catch (ServiceException e) {

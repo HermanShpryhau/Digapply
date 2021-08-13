@@ -29,7 +29,7 @@ public class CloseApplicationCommand implements Command {
         try {
             List<ApplicationDto> acceptedApplications = facultyService.closeApplication(facultyId);
             if (acceptedApplications == null) {
-                request.setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.NO_SUCH_FACULTY);
+                request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.NO_SUCH_FACULTY);
                 return Routing.ERROR;
             }
             String locale = (String) request.getSession().getAttribute(SessionAttribute.LOCALE);
