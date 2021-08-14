@@ -90,6 +90,7 @@ public class Result implements Identifiable, Serializable {
                 .append(", score=").append(score)
                 .append(", certificateId='")
                 .append(certificateId).append('\'')
-                .append('}').toString();
+                .append('}')
+                .toString();
     }
 }

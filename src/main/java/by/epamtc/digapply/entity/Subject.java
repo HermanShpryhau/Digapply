@@ -57,6 +57,7 @@ public class Subject implements Identifiable, Serializable {
         return new StringBuilder().append("Subject{")
                 .append("subjectId=").append(subjectId)
                 .append(", subjectName='").append(subjectName).append('\'')
-                .append('}').toString();
+                .append('}')
+                .toString();
     }
 }

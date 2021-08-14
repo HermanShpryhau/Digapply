@@ -101,6 +101,7 @@ public class Application  implements Identifiable, Serializable {
                 .append(", applyDate=").append(applyDate)
                 .append(", isApproved=").append(isApproved)
                 .append(", approveDate=").append(approveDate)
-                .append('}').toString();
+                .append('}')
+                .toString();
     }
 }

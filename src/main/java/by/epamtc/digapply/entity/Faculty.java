@@ -100,6 +100,7 @@ public class Faculty implements Identifiable, Serializable {
                 .append(", facultyDescription='").append(facultyDescription).append('\'')
                 .append(", places=").append(places)
                 .append(", isApplicationClosed=").append(isApplicationClosed)
-                .append('}').toString();
+                .append('}')
+                .toString();
     }
 }
