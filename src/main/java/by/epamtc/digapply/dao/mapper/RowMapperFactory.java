@@ -1,7 +1,6 @@
 package by.epamtc.digapply.dao.mapper;
 
 import by.epamtc.digapply.dao.DaoFactory;
-import by.epamtc.digapply.dao.RoleDao;
 import by.epamtc.digapply.entity.*;
 
 public class RowMapperFactory {
@@ -10,7 +9,6 @@ public class RowMapperFactory {
     private final RowMapper<Subject> subjectRowMapper = new SubjectRowMapper();
     private final RowMapper<Application> applicationRowMapper = new ApplicationRowMapper();
     private final RowMapper<Result> resultRowMapper = new ResultRowMapper();
-    private final RowMapper<Role> roleRowMapper = new RoleRowMapper();
 
     /**
      * Gets instance of {@link DaoFactory}.
@@ -58,14 +56,6 @@ public class RowMapperFactory {
      */
     public RowMapper<Result> getResultRowMapper() {
         return resultRowMapper;
-    }
-
-    /**
-     * Gets implementation of {@link RowMapper}
-     * @return {@link RowMapper} implementation for {@link Role} entities.
-     */
-    public RowMapper<Role> getRoleRowMapper() {
-        return roleRowMapper;
     }
 
     private static class Holder {

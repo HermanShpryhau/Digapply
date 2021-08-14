@@ -1,6 +1,7 @@
 package by.epamtc.digapply.service;
 
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.entity.dto.UserDto;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public interface UserService {
 
     /**
      * Checks if user's role ID is ADMIN role ID.
-     * @param userRoleId Role ID to check.
+     * @param role Role  to check.
      * @return If given role ID is ADMIN role ID.
      */
-    boolean hasAdminRights(long userRoleId);
+    boolean hasAdminRights(UserRole role);
 
     /**
      * Register new user in system.

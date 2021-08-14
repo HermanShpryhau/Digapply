@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
+<%@ page import="by.epamtc.digapply.entity.UserRole" %>
+
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
@@ -43,7 +45,7 @@
                         <td>${user.role}</td>
                         <td class="text-center">
                             <c:choose>
-                                <c:when test="${user.roleId == 1}">
+                                <c:when test="${user.role == UserRole.ADMIN}">
                                     <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=revoke-admin-rights&id=${user.userId}"><i class="bi bi-x-circle-fill"></i></a>
                                 </c:when>
                                 <c:otherwise>

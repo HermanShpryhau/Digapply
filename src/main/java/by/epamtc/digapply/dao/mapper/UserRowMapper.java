@@ -1,5 +1,6 @@
 package by.epamtc.digapply.dao.mapper;
 
+import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.entity.User;
 
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ public class UserRowMapper implements RowMapper<User> {
         user.setPassword(resultSet.getString(Column.USER_PASSWORD));
         user.setName(resultSet.getString(Column.USER_NAME));
         user.setSurname(resultSet.getString(Column.USER_SURNAME));
+        user.setRole(UserRole.valueOf(resultSet.getString(Column.ROLE_NAME).toUpperCase()));
         user.setRoleId(resultSet.getLong(Column.USER_ROLE));
         return user;
     }
