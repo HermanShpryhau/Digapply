@@ -15,6 +15,7 @@ public final class ErrorKey {
     public static final String INVALID_NAME = "error.invalid-name";
     public static final String NO_SUCH_FACULTY = "error.no-such-faculty";
     public static final String NO_SUCH_SUBJECT = "error.no-such-subject";
+    public static final String APPLICATION_CLOSED = "error.application-closed";
 
     private ErrorKey() {}
 }

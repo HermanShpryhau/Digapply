@@ -40,6 +40,10 @@ public class NewApplicationCommand implements Command {
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
             Faculty faculty = facultyService.retrieveFacultyById(facultyId);
+            if (faculty.isApplicationClosed()) {
+                session.setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.APPLICATION_CLOSED);
+                return Routing.ERROR;
+            }
             List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(facultyId);
             request.setAttribute(RequestAttribute.FACULTY, faculty);
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);
