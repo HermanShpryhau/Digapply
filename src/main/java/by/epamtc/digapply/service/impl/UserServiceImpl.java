@@ -1,6 +1,7 @@
 package by.epamtc.digapply.service.impl;
 
 import by.epamtc.digapply.dao.*;
+import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.RoleEnum;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.entity.dto.UserDto;
@@ -207,7 +208,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteUser(long id) throws ServiceException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
+        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
+            Application application = applicationDao.findByUserId(id);
+            if (application != null) {
+                applicationDao.remove(application);
+            }
             long rowsAffected = userDao.removeById(id);
             return rowsAffected >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e){
