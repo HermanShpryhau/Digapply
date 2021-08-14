@@ -2,7 +2,7 @@ package by.epamtc.digapply.service.impl;
 
 import by.epamtc.digapply.dao.*;
 import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.RoleEnum;
+import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.entity.dto.UserDto;
 import by.epamtc.digapply.service.ServiceException;
@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean hasAdminRights(long userRoleId) {
-        return userRoleId == RoleEnum.ADMIN.getId();
+    public boolean hasAdminRights(UserRole role) {
+        return role == UserRole.ADMIN;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
         user.setSurname(lastName);
         user.setEmail(email);
         user.setPassword(DigestUtils.sha256Hex(password));
-        user.setRoleId(RoleEnum.USER.getId());
+        user.setRole(UserRole.USER);
         return user;
     }
 
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         return dtos;
     }
 
-    UserDto buildUserDto(User user) throws DaoException {
+    private UserDto buildUserDto(User user) {
         UserDto dto = new UserDto();
         dto.setUserId(user.getId());
         dto.setEmail(user.getEmail());
@@ -129,8 +129,7 @@ public class UserServiceImpl implements UserService {
         dto.setName(user.getName());
         dto.setSurname(user.getSurname());
         dto.setRoleId(user.getRoleId());
-        RoleDao roleDao = DaoFactory.getInstance().getRoleDao();
-        dto.setRole(roleDao.findById(user.getRoleId()).getRoleName());
+        dto.setRole(user.getRole().name());
         return dto;
     }
 
@@ -187,7 +186,7 @@ public class UserServiceImpl implements UserService {
     public boolean giveAdminRights(long userId) throws ServiceException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
-            return userDao.updateUserRole(userId, RoleEnum.ADMIN.getId()) >= MINIMAL_AFFECTED_ROWS;
+            return userDao.updateUserRole(userId, UserRole.ADMIN) >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
             logger.error("Unable to update user role. {}", e.getMessage());
             throw new ServiceException("Unable to update user role.", e);
@@ -198,7 +197,7 @@ public class UserServiceImpl implements UserService {
     public boolean revokeAdminRights(long userId) throws ServiceException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
-            return userDao.updateUserRole(userId, RoleEnum.USER.getId()) >= MINIMAL_AFFECTED_ROWS;
+            return userDao.updateUserRole(userId, UserRole.USER) >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
             logger.error("Unable to update user role. {}", e.getMessage());
             throw new ServiceException("Unable to update user role.", e);

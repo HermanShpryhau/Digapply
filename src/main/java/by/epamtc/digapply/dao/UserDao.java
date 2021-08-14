@@ -1,6 +1,7 @@
 package by.epamtc.digapply.dao;
 
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.entity.UserRole;
 
 public interface UserDao extends Dao<User>{
 
@@ -22,9 +23,9 @@ public interface UserDao extends Dao<User>{
     /**
      * Changes user's role id.
      * @param userId ID of user to update.
-     * @param roleId ID of role to assign to user.
+     * @param role Role to assign to user.
      * @return Number of affected rows.
      */
-    long updateUserRole(long userId, long roleId) throws DaoException;
+    long updateUserRole(long userId, UserRole role) throws DaoException;
 
 }

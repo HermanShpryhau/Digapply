@@ -2,12 +2,13 @@ package by.epamtc.digapply.entity;
 
 import java.io.Serializable;
 
-public class User implements Serializable, Identifiable {
+public class User implements Identifiable, Serializable {
     private long userId;
     private String email;
     private String password;
     private String name;
     private String surname;
+    private UserRole role;
     private long roleId;
 
     public User() {
@@ -53,6 +54,14 @@ public class User implements Serializable, Identifiable {
         this.surname = surname;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public long getRoleId() {
         return roleId;
     }
@@ -69,8 +78,7 @@ public class User implements Serializable, Identifiable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
-        if (!(o.getClass().equals(getClass()))) return false;
+        if (o == null || !(o.getClass().equals(getClass()))) return false;
 
         User other = (User) o;
 
@@ -79,7 +87,8 @@ public class User implements Serializable, Identifiable {
         if (!email.equals(other.email)) return false;
         if (!password.equals(other.password)) return false;
         if (!name.equals(other.name)) return false;
-        return surname.equals(other.surname);
+        if (!surname.equals(other.surname)) return false;
+        return role == other.role;
     }
 
     @Override
@@ -89,6 +98,7 @@ public class User implements Serializable, Identifiable {
         result = 31 * result + password.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + surname.hashCode();
+        result = 31 * result + role.hashCode();
         result = 31 * result + (int) (roleId ^ (roleId >>> 32));
         return result;
     }
@@ -100,8 +110,10 @@ public class User implements Serializable, Identifiable {
                 .append(", email='").append(email).append('\'')
                 .append(", password='").append(password).append('\'')
                 .append(", name='").append(name).append('\'')
-                .append(", surname='").append(surname)
-                .append('\'').append(", roleId=").append(roleId)
-                .append('}').toString();
+                .append(", surname='").append(surname).append('\'')
+                .append(", role=").append(role)
+                .append(", roleId=").append(roleId)
+                .append('}')
+                .toString();
     }
 }

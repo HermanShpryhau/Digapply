@@ -9,14 +9,14 @@ import java.util.Map;
 public interface ApplicationService {
 
     /**
-     * Covert list of application entities to application DTOs.
+     * Coverts list of application entities to application DTOs.
      * @param applications List of application entities.
      * @return List application DTOs.
      */
     List<ApplicationDto> convertToDto(List<Application> applications) throws ServiceException;
 
     /**
-     * Save application and results to data source
+     * Saves application and results to data source
      * @param userId ID of applicant user.
      * @param facultyId ID of faculty.
      * @param scores Map containing IDs of subjects and relevant scores.
@@ -26,55 +26,55 @@ public interface ApplicationService {
     boolean saveApplication(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException;
 
     /**
-     * Check if given user has already applied.
+     * Checks if given user has already applied.
      * @param userId ID of user.
      * @return {@code true} if user has already applied, {@code false} otherwise.
      */
     boolean hasApplication(long userId) throws ServiceException;
 
     /**
-     * Retrieve all application entities as DTOs.
+     * Retrieves all application entities as DTOs.
      * @return List of application DTOs.
      */
     List<ApplicationDto> retrieveAllApplicationsDto() throws ServiceException;
 
     /**
-     * Retrieve application by user ID.
+     * Retrieves application by user ID.
      * @param userId ID of user.
      * @return Application of given user.
      */
     Application retrieveApplicationByUserId(long userId) throws ServiceException;
 
     /**
-     * Retrieve all applications for given faculty.
+     * Retrieves all applications for given faculty.
      * @param facultyId ID of faculty.
      * @return List of applications for faculty.
      */
     List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException;
 
     /**
-     * Retrieve all accepted applications for given faculty.
+     * Retrieves all accepted applications for given faculty.
      * @param facultyId ID of faculty
      * @return List of accepted applications for faculty/
      */
     List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) throws ServiceException;
 
     /**
-     * Retrieve application as DTO by ID.
+     * Retrieves application as DTO by ID.
      * @param id ID of application.
      * @return Application DTO with given ID.
      */
     ApplicationDto retrieveApplicationDtoById(long id) throws ServiceException;
 
     /**
-     * Calculate sum of all results for application.
+     * Calculates sum of all results for application.
      * @param applicationId ID of applicaiton.
      * @return Sum of result scores.
      */
     int calculateTotalScore(long applicationId) throws ServiceException;
 
     /**
-     * Cancel application of user.
+     * Cancels application of user.
      * @param userId ID of user.
      * @return {@code true} if application was canceled successfully, {@code false} otherwise.
      */

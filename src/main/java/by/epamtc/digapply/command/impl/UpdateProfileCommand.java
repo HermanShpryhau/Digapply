@@ -1,6 +1,7 @@
 package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
+import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.UserService;
@@ -20,7 +21,7 @@ public class UpdateProfileCommand implements Command {
         HttpSession session = request.getSession();
         UserService userService = ServiceFactory.getInstance().getUserService();
         long userId;
-        boolean hasAdminRights = userService.hasAdminRights((Long) session.getAttribute(SessionAttribute.ROLE));
+        boolean hasAdminRights = userService.hasAdminRights((UserRole) session.getAttribute(SessionAttribute.ROLE));
         if (!hasAdminRights) {
             userId = (Long) session.getAttribute(SessionAttribute.USER_ID);
         } else {

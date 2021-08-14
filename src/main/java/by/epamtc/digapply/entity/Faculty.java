@@ -1,6 +1,8 @@
 package by.epamtc.digapply.entity;
 
-public class Faculty implements Identifiable{
+import java.io.Serializable;
+
+public class Faculty implements Identifiable, Serializable {
     private long facultyId;
     private String facultyName;
     private String facultyShortDescription;
@@ -9,11 +11,6 @@ public class Faculty implements Identifiable{
     private boolean isApplicationClosed;
 
     public Faculty() {}
-
-    @Override
-    public long getId() {
-        return facultyId;
-    }
 
     public long getFacultyId() {
         return facultyId;
@@ -64,6 +61,11 @@ public class Faculty implements Identifiable{
     }
 
     @Override
+    public long getId() {
+        return facultyId;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Faculty)) return false;
@@ -98,6 +100,7 @@ public class Faculty implements Identifiable{
                 .append(", facultyDescription='").append(facultyDescription).append('\'')
                 .append(", places=").append(places)
                 .append(", isApplicationClosed=").append(isApplicationClosed)
-                .append('}').toString();
+                .append('}')
+                .toString();
     }
 }

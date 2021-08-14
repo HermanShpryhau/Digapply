@@ -9,7 +9,7 @@
 <html lang="en">
 
 <head>
-    <jsp:include page="components/head-links.jsp"/>
+    <%@ include file="components/head-tags.jsp" %>
     <title>${requestScope.user.name} ${requestScope.user.surname} | Digapply</title>
 </head>
 

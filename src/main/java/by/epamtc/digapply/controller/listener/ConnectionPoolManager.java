@@ -16,7 +16,7 @@ public class ConnectionPoolManager implements ServletContextListener {
         try {
             ConnectionPool.getInstance().initialize();
         } catch (ConnectionPoolException e) {
-            logger.error("Unable to initialize connection pool.", e);
+            logger.error("Unable to initialize connection pool. {}", e.getMessage());
             throw new RuntimeException("Unable to initialize connection pool.", e);
         }
     }
@@ -26,7 +26,7 @@ public class ConnectionPoolManager implements ServletContextListener {
         try {
             ConnectionPool.getInstance().dispose();
         } catch (ConnectionPoolException e) {
-            logger.error("Unable to dispose connection pool.", e);
+            logger.error("Unable to dispose connection pool. {}", e.getMessage());
             throw new RuntimeException("Unable to dispose connection pool.", e);
         }
     }

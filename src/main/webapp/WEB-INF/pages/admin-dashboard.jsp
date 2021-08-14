@@ -9,7 +9,7 @@
 
 <html>
 <head>
-    <jsp:include page="components/head-links.jsp"/>
+    <%@ include file="components/head-tags.jsp" %>
     <title><fmt:message key="dashboard.title"/></title>
 </head class="d-flex flex-column min-vh-100">
 <body class="d-flex flex-column min-vh-100">

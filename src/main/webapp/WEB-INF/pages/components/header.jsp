@@ -1,14 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hermanshpryhau
-  Date: 7.07.21
-  Time: 17:37
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
+<%@ page import="by.epamtc.digapply.entity.UserRole" %>
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
@@ -70,7 +64,7 @@
                                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=profile">
                                             <fmt:message key="header.profile"/>
                                         </a></li>
-                                        <c:if test="${sessionScope.role == 1}">
+                                        <c:if test="${sessionScope.role == UserRole.ADMIN}">
                                             <li>
                                                 <a href="${pageContext.request.contextPath}/controller?command=dashboard" class="dropdown-item">
                                                     <fmt:message key="header.dashboard"/>

@@ -8,7 +8,7 @@
 <!doctype html>
 <html>
 <head>
-    <jsp:include page="components/head-links.jsp"/>
+    <%@ include file="components/head-tags.jsp" %>
     <title><fmt:message key="profile.change-password"/> | Digapply</title>
 </head>
 <body class="d-flex flex-column min-vh-100">

@@ -44,7 +44,7 @@ public class LoginCommand implements Command {
             String username = user.getName() + " " + user.getSurname();
             session.setAttribute(SessionAttribute.USER_ID, user.getId());
             session.setAttribute(SessionAttribute.USERNAME, username);
-            session.setAttribute(SessionAttribute.ROLE, user.getRoleId());
+            session.setAttribute(SessionAttribute.ROLE, user.getRole());
             String currentLocale = (String) session.getAttribute(SessionAttribute.LOCALE);
             if (currentLocale == null) {
                 ServletContext context = request.getServletContext();

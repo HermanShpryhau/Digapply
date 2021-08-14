@@ -2,14 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
+<%@ page import="by.epamtc.digapply.entity.UserRole" %>
+
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 <!doctype html>
 <html>
 <head>
-    <jsp:include page="components/head-links.jsp"/>
-    <title>Faculties | Digapply</title>
+    <%@ include file="components/head-tags.jsp" %>
+    <title><fmt:message key="header.faculties"/> | Digapply</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
@@ -17,7 +19,7 @@
 <div class="container">
     <h1 class="mt-5 mb-3"><fmt:message key="faculty.our-faculties"/></h1>
     <div class="row justify-content-sm-between mt-3 mb-2">
-        <c:if test="${sessionScope.role == 1}">
+        <c:if test="${sessionScope.role == UserRole.ADMIN}">
             <div class="col-sm mb-3 d-sm-flex d-grid gap-2">
                 <a href="${pageContext.request.contextPath}/controller?command=edit-faculty" class="btn btn-success">
                     <i class="bi bi-plus-lg"></i> <fmt:message key="faculty.new-faculty"/>
@@ -44,7 +46,7 @@
                    class="card-link">
                     <fmt:message key="faculty.read-more"/>
                 </a>
-                <c:if test="${sessionScope.role == 1}">
+                <c:if test="${sessionScope.role == UserRole.ADMIN}">
                     <br/>
                     <a href="${pageContext.request.contextPath}/controller?command=edit-faculty&id=${faculty.facultyId}"
                        class="btn btn-outline-primary btn-sm">

@@ -23,7 +23,7 @@ public class ProxyConnection implements Connection {
         try {
             pool.releaseConnection(this);
         } catch (ConnectionPoolException e) {
-            logger.error("Unable to release connection.", e);
+            logger.error("Unable to release connection. {}", e.getMessage());
         }
     }
 

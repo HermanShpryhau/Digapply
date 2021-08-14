@@ -7,7 +7,7 @@ import java.util.List;
 public interface ResultDao extends Dao<Result> {
 
     /**
-     * Find all results for given application.
+     * Finds all results for given application.
      * @param applicationId ID of application.
      * @return List of results for application.
      */

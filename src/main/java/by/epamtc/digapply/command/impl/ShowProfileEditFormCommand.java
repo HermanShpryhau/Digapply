@@ -2,6 +2,7 @@ package by.epamtc.digapply.command.impl;
 
 import by.epamtc.digapply.command.*;
 import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.UserService;
@@ -20,7 +21,7 @@ public class ShowProfileEditFormCommand implements Command {
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         UserService userService = ServiceFactory.getInstance().getUserService();
-        if (!userService.hasAdminRights((Long) session.getAttribute(SessionAttribute.ROLE))) {
+        if (!userService.hasAdminRights((UserRole) session.getAttribute(SessionAttribute.ROLE))) {
             request.setAttribute(RequestAttribute.ID, session.getAttribute(SessionAttribute.USER_ID));
             return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE, RoutingType.FORWARD);
         }

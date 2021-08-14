@@ -1,7 +1,7 @@
 package by.epamtc.digapply.controller.filter;
 
 import by.epamtc.digapply.command.CommandFactory;
-import by.epamtc.digapply.entity.RoleEnum;
+import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.command.SessionAttribute;
 import by.epamtc.digapply.command.CommandName;
 import by.epamtc.digapply.command.PagePath;
@@ -16,13 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class AuthorizationFilter implements Filter {
-    private final Map<Long, List<String>> authorizedCommands = new HashMap<>();
+    private final Map<UserRole, List<String>> authorizedCommands = new EnumMap<>(UserRole.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -35,9 +32,9 @@ public class AuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
-        Long roleId = (Long) session.getAttribute(SessionAttribute.ROLE);
-        if (roleId == null) {
-            roleId = 3L;
+        UserRole role = (UserRole) session.getAttribute(SessionAttribute.ROLE);
+        if (role == null) {
+            role = UserRole.GUEST;
         }
 
         String command = request.getParameter("command");
@@ -46,7 +43,7 @@ public class AuthorizationFilter implements Filter {
             response.sendRedirect(PagePath.ERROR_404_PAGE_REDIRECT);
             return;
         }
-        if (!authorizedCommands.get(roleId).contains(command)) {
+        if (!authorizedCommands.get(role).contains(command)) {
             String requestParameters = buildRequestParametersString(request);
             session.setAttribute(SessionAttribute.PREVIOUS_COMMAND, requestParameters);
             request.getRequestDispatcher(PagePath.LOGIN_PAGE).forward(request, response);
@@ -75,7 +72,7 @@ public class AuthorizationFilter implements Filter {
     }
 
     private void initCommands() {
-        authorizedCommands.put(RoleEnum.ADMIN.getId(), Arrays.asList(
+        authorizedCommands.put(UserRole.ADMIN, Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
                 CommandName.HOME_COMMAND,
@@ -113,7 +110,7 @@ public class AuthorizationFilter implements Filter {
                 CommandName.CLOSE_APPLICATION_COMMAND,
                 CommandName.SHOW_ACCEPTED_APPLICATIONS_TABLE_COMMAND
         ));
-        authorizedCommands.put(RoleEnum.USER.getId(), Arrays.asList(
+        authorizedCommands.put(UserRole.USER, Arrays.asList(
                 CommandName.LOGOUT_COMMAND,
                 CommandName.PROFILE_COMMAND,
                 CommandName.HOME_COMMAND,
@@ -130,7 +127,7 @@ public class AuthorizationFilter implements Filter {
                 CommandName.SHOW_ERROR_500_PAGE_COMMAND,
                 CommandName.SHOW_ERROR_PAGE_COMMAND
         ));
-        authorizedCommands.put(RoleEnum.GUEST.getId(), Arrays.asList(
+        authorizedCommands.put(UserRole.GUEST, Arrays.asList(
                 CommandName.LOGIN_COMMAND,
                 CommandName.SHOW_SIGN_IN_COMMAND,
                 CommandName.SIGNUP_COMMAND,

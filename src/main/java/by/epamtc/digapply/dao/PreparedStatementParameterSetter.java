@@ -14,7 +14,7 @@ public class PreparedStatementParameterSetter {
     }
 
     /**
-     * inserts parameters into prepared statement.
+     * Inserts parameters into prepared statement.
      * @param statement Statement to insert parameters to.
      */
     public void setValues(PreparedStatement statement) throws SQLException {

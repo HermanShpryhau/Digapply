@@ -5,17 +5,18 @@ import by.epamtc.digapply.dao.UserDao;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
+import by.epamtc.digapply.entity.UserRole;
 
 import java.util.List;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
-    private static final String SAVE_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, ?)";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM Users WHERE deleted=false";
-    private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users WHERE user_id=? AND deleted=false";
-    private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users WHERE email=? AND deleted=false";
+    private static final String SAVE_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, 2)";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM Users JOIN Roles R on R.role_id = Users.role_id WHERE deleted=false";
+    private static final String FIND_USER_BY_ID_QUERY = "SELECT * FROM Users JOIN Roles R on R.role_id = Users.role_id WHERE user_id=? AND deleted=false";
+    private static final String FIND_USER_BY_EMAIL_QUERY = "SELECT * FROM Users JOIN Roles R on R.role_id = Users.role_id WHERE email=? AND deleted=false";
     private static final String UPDATE_USER_QUERY = "UPDATE Users SET  name=?, surname=? WHERE user_id=? AND deleted=false";
     private static final String UPDATE_PASSWORD_QUERY = "UPDATE Users SET password=? WHERE user_id=? AND deleted=false";
-    private static final String UPDATE_USER_ROLE_QUERY = "UPDATE Users SET role_id=? WHERE user_id=? AND deleted=false";
+    private static final String UPDATE_USER_ROLE_QUERY = "UPDATE Users SET role_id=(SELECT role_id FROM Roles WHERE role_name=?) WHERE user_id=? AND deleted=false";
     private static final String DELETE_USER_QUERY = "UPDATE Users SET deleted=true WHERE user_id=?";
 
     public UserDaoImpl() {
@@ -30,8 +31,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
                 entity.getEmail(),
                 entity.getPassword(),
                 entity.getName(),
-                entity.getSurname(),
-                entity.getRoleId()
+                entity.getSurname()
         );
     }
 
@@ -72,8 +72,13 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public long updateUserRole(long userId, long roleId) throws DaoException {
-        return jdbcOperator.executeUpdate(UPDATE_USER_ROLE_QUERY, roleId, userId);
+    public long updateUserRole(long userId, UserRole role) throws DaoException {
+        throwExceptionIfNull(role);
+        return jdbcOperator.executeUpdate(
+                UPDATE_USER_ROLE_QUERY,
+                role.name(),
+                userId
+        );
     }
 
     @Override

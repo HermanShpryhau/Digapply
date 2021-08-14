@@ -53,29 +53,14 @@ public class CommandFactory {
         commands.put(CommandName.SHOW_ACCEPTED_APPLICATIONS_TABLE_COMMAND, new ShowAcceptedApplicationsTableCommand());
     }
 
-    /**
-     * Gets instance of {@link CommandFactory}.
-     * @return Instance of singleton.
-     */
     public static CommandFactory getInstance() {
         return Holder.INSTANCE;
     }
 
-    /**
-     * Gets {@link Command} implementation for given name.
-     * If there is no implementation for this name, default command will be returned.
-     * @param name String containing command name passed as parameter to controller
-     * @return Command implementation instance.
-     */
     public Command getCommand(String name) {
         return Optional.ofNullable(commands.get(name)).orElse(commands.get(CommandName.DEFAULT_COMMAND));
     }
 
-    /**
-     * Checks if command with given name exists.
-     * @param commandName Name of command.
-     * @return Result of containsKey method called on commands map.
-     */
     public boolean commandExists(String commandName) {
         return commands.containsKey(commandName);
     }

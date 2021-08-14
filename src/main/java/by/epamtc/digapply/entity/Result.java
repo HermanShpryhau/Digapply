@@ -2,7 +2,7 @@ package by.epamtc.digapply.entity;
 
 import java.io.Serializable;
 
-public class Result implements Serializable, Identifiable{
+public class Result implements Identifiable, Serializable {
     private long resultId;
     private long applicationId;
     private long subjectId;
@@ -10,11 +10,6 @@ public class Result implements Serializable, Identifiable{
     private String certificateId;
 
     public Result() {
-    }
-
-    @Override
-    public long getId() {
-        return resultId;
     }
 
     public long getResultId() {
@@ -72,6 +67,11 @@ public class Result implements Serializable, Identifiable{
     }
 
     @Override
+    public long getId() {
+        return resultId;
+    }
+
+    @Override
     public int hashCode() {
         int result = (int) (resultId ^ (resultId >>> 32));
         result = 31 * result + (int) (applicationId ^ (applicationId >>> 32));
@@ -90,6 +90,7 @@ public class Result implements Serializable, Identifiable{
                 .append(", score=").append(score)
                 .append(", certificateId='")
                 .append(certificateId).append('\'')
-                .append('}').toString();
+                .append('}')
+                .toString();
     }
 }
