@@ -10,7 +10,7 @@
 
 <head>
     <jsp:include page="components/head-links.jsp"/>
-    <title>Home | Digapply</title>
+    <title><fmt:message key="header.home"/> | Digapply</title>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -63,5 +63,4 @@
 <jsp:include page="components/footer.jsp"/>
 
 </body>
-
 </html>

@@ -28,10 +28,16 @@
         </c:forEach>
     </ul>
 
-    <a class="btn btn-primary btn-lg mt-3" href="/controller?command=new-application&faculty-id=${faculty.facultyId}">
-        <fmt:message key="home.apply-now"/>
-    </a>
-
+    <c:choose>
+        <c:when test="${faculty.applicationClosed}">
+            <fmt:message key="faculty.application-closed"/>
+        </c:when>
+        <c:otherwise>
+            <a class="btn btn-primary btn-lg mt-3" href="${pageContext.request.contextPath}/controller?command=new-application&faculty-id=${faculty.facultyId}">
+                <fmt:message key="home.apply-now"/>
+            </a>
+        </c:otherwise>
+    </c:choose>
 </div>
 
 <jsp:include page="components/footer.jsp"/>

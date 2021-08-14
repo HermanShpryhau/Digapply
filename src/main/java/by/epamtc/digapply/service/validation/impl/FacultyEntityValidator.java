@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FacultyEntityValidator implements EntityValidator<Faculty> {
-    private static final String FACULTY_NAME_REGEX = "^[A-Za-z0-9 '.]+$";
+    private static final String FACULTY_NAME_REGEX = "^[A-Za-zА-Яа-яёЁ0-9 '.]+$";
 
     @Override
     public boolean validate(Faculty entity) {

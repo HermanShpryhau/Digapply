@@ -11,7 +11,7 @@ import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.validation.EntityValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
-import org.apache.commons.text.StringEscapeUtils;
+import com.google.common.html.HtmlEscapers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -165,17 +165,16 @@ public class FacultyServiceImpl implements FacultyService {
 
     private void sanitizeDescription(Faculty faculty) {
         String description = faculty.getFacultyDescription();
-        description = escapeHtmlAndJs(description);
+        description = escapeHtml(description);
         faculty.setFacultyDescription(description);
         String shortDescription = faculty.getFacultyShortDescription();
-        shortDescription = escapeHtmlAndJs(shortDescription);
+        shortDescription = escapeHtml(shortDescription);
         faculty.setFacultyShortDescription(shortDescription);
     }
 
-    private String escapeHtmlAndJs(String description) {
-        description = StringEscapeUtils.escapeEcmaScript(description);
-        description = StringEscapeUtils.escapeHtml4(description);
-        return description;
+    private String escapeHtml(String content) {
+        content = HtmlEscapers.htmlEscaper().escape(content);
+        return content;
     }
 
     @Override
