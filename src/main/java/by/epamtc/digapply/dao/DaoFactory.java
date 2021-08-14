@@ -12,48 +12,24 @@ public class DaoFactory {
     private DaoFactory() {
     }
 
-    /**
-     * Gets instance of {@link DaoFactory}.
-     * @return Instance of singleton.
-     */
     public static DaoFactory getInstance() {
         return Holder.INSTANCE;
     }
 
-    /**
-     * Gets implementation of {@link UserDao}
-     * @return {@link UserDao} implementation.
-     */
     public UserDao getUserDao() {
         return userDao;
     }
 
-    /**
-     * Gets implementation of {@link FacultyDao}
-     * @return {@link FacultyDao} implementation.
-     */
     public FacultyDao getFacultyDao() {
         return facultyDao;
     }
 
-    /**
-     * Gets implementation of {@link SubjectDao}
-     * @return {@link SubjectDao} implementation.
-     */
     public SubjectDao getSubjectDao() { return subjectDao; }
 
-    /**
-     * Gets implementation of {@link ApplicationDao}
-     * @return {@link ApplicationDao} implementation.
-     */
     public ApplicationDao getApplicationDao() {
         return applicationDao;
     }
 
-    /**
-     * Gets implementation of {@link ResultDao}
-     * @return {@link ResultDao} implementation.
-     */
     public ResultDao getResultDao() {
         return resultDao;
     }

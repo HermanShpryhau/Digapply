@@ -1,5 +1,8 @@
 package by.epamtc.digapply.service.validation;
 
+/**
+ * Validates subject data submitted via HTML form.
+ */
 public interface SubjectFormDataValidator {
 
     /**

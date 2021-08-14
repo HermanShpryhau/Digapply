@@ -7,7 +7,7 @@ import java.util.List;
 public interface ResultService {
 
     /**
-     * Retrieve list of subject DTOs for given application.
+     * Retrieves list of subject DTOs for given application.
      * @param applicationId ID of application.
      * @return List of subject DTOs.
      */

@@ -2,6 +2,9 @@ package by.epamtc.digapply.service.validation;
 
 import java.util.Map;
 
+/**
+ * Validates application data submitted via HTML form.
+ */
 public interface ApplicationFormDataValidator {
 
     /**
