@@ -3,7 +3,7 @@ package by.epamtc.digapply.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Application  implements Serializable, Identifiable {
+public class Application  implements Identifiable, Serializable {
     private long applicationId;
     private long userId;
     private long facultyId;

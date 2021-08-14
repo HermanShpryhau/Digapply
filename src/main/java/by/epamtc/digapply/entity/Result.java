@@ -2,7 +2,7 @@ package by.epamtc.digapply.entity;
 
 import java.io.Serializable;
 
-public class Result implements Serializable, Identifiable{
+public class Result implements Identifiable, Serializable {
     private long resultId;
     private long applicationId;
     private long subjectId;
@@ -10,11 +10,6 @@ public class Result implements Serializable, Identifiable{
     private String certificateId;
 
     public Result() {
-    }
-
-    @Override
-    public long getId() {
-        return resultId;
     }
 
     public long getResultId() {
@@ -69,6 +64,11 @@ public class Result implements Serializable, Identifiable{
         if (subjectId != result.subjectId) return false;
         if (score != result.score) return false;
         return certificateId.equals(result.certificateId);
+    }
+
+    @Override
+    public long getId() {
+        return resultId;
     }
 
     @Override

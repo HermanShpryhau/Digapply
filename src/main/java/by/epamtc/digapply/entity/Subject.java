@@ -1,6 +1,8 @@
 package by.epamtc.digapply.entity;
 
-public class Subject implements Identifiable {
+import java.io.Serializable;
+
+public class Subject implements Identifiable, Serializable {
     private long subjectId;
     private String subjectName;
 
@@ -9,11 +11,6 @@ public class Subject implements Identifiable {
     public Subject(long subjectId, String subjectName) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
-    }
-
-    @Override
-    public long getId() {
-        return subjectId;
     }
 
     public long getSubjectId() {
@@ -30,6 +27,11 @@ public class Subject implements Identifiable {
 
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
+    }
+
+    @Override
+    public long getId() {
+        return subjectId;
     }
 
     @Override
