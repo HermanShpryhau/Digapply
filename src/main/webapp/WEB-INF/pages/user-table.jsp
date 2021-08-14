@@ -10,7 +10,7 @@
 <!doctype html>
 <html>
 <head>
-    <jsp:include page="components/head-links.jsp"/>
+    <%@ include file="components/head-tags.jsp" %>
     <title><fmt:message key="user.user-management"/> | Digapply</title>
 </head>
 <body>

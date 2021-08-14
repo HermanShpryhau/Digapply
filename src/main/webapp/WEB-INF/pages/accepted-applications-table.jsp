@@ -8,7 +8,7 @@
 <!doctype html>
 <html>
 <head>
-    <jsp:include page="components/head-links.jsp"/>
+    <%@ include file="components/head-tags.jsp" %>
     <title><fmt:message key="application.accepted-applications"/> | Digapply</title>
 </head>
 <body>
