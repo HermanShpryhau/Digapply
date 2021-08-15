@@ -23,6 +23,6 @@ public interface ApplicationFormDataValidator {
      * @param certificateIds Map containing IDs of subjects and relevant certificate IDs.
      * @return {@code true} if data is valid, {@code false} otherwise.
      */
-    boolean validate(Map<String, String> scores, Map<String, String> certificateIds);
+    boolean validateScoreMaps(Map<String, String> scores, Map<String, String> certificateIds);
 
 }
