@@ -227,7 +227,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public boolean updateApplication(long applicationId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
         ApplicationFormDataValidator validator = ValidatorFactory.getInstance().getApplicationFormDataValidator();
-        if (!validator.validate(scores, certificateIds)) {
+        if (!validator.validateScoreMaps(scores, certificateIds)) {
             return false;
         }
 
