@@ -15,9 +15,7 @@ public class ApplicationFormDataValidatorImpl implements ApplicationFormDataVali
     public boolean validate(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) {
         return isIdValid(userId) &&
                 isIdValid(facultyId) &&
-                areScoresValid(scores) &&
-                areCertificateIdsValid(certificateIds) &&
-                ofEqualSize(scores, certificateIds);
+                validateScoreMaps(scores, certificateIds);
     }
 
     @Override
