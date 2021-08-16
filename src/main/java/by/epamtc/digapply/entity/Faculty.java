@@ -93,7 +93,8 @@ public class Faculty implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Faculty{")
+        return new StringBuilder(getClass().getSimpleName())
+                .append("{")
                 .append("facultyId=").append(facultyId)
                 .append(", facultyName='").append(facultyName).append('\'')
                 .append(", facultyShortDescription='").append(facultyShortDescription).append('\'')

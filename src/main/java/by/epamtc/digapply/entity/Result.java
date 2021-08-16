@@ -83,7 +83,8 @@ public class Result implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Result{")
+        return new StringBuilder(getClass().getSimpleName())
+                .append("{")
                 .append("resultId=").append(resultId)
                 .append(", applicationId=").append(applicationId)
                 .append(", subjectId=").append(subjectId)

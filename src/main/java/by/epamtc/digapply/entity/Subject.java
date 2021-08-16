@@ -54,7 +54,8 @@ public class Subject implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Subject{")
+        return new StringBuilder(getClass().getSimpleName())
+                .append("{")
                 .append("subjectId=").append(subjectId)
                 .append(", subjectName='").append(subjectName).append('\'')
                 .append('}')

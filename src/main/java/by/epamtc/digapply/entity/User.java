@@ -105,7 +105,8 @@ public class User implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("User{")
+        return new StringBuilder(getClass().getSimpleName())
+                .append("{")
                 .append("userId=").append(userId)
                 .append(", email='").append(email).append('\'')
                 .append(", password='").append(password).append('\'')
