@@ -13,6 +13,9 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationFormDataValidatorImplTest {
+    private static final long VALID_ID = 2L;
+    private static final long INVALID_ID = -2L;
+    
     private static ApplicationFormDataValidator validator;
     private static Map<String, String> validScores;
     private static Map<String, String> validCertificateIds;
@@ -47,7 +50,7 @@ class ApplicationFormDataValidatorImplTest {
 
         invalidKeyValueScores = new HashMap<>();
         invalidKeyValueScores.put("bid3", "10bc");
-        invalidKeyValueScores.put("abc", "1,2.3");
+        invalidKeyValueScores.put("abc", "VALID_ID,2.3");
 
         invalidKeyCertificateIds = new HashMap<>();
         invalidKeyCertificateIds.put("abc-123", "A2A4-BWZY");
@@ -71,61 +74,71 @@ class ApplicationFormDataValidatorImplTest {
 
     @Test
     void validateAllValidDataTest() {
-        assertTrue(validator.validate(1, 1, validScores, validCertificateIds));
+        assertTrue(validator.validate(VALID_ID, VALID_ID, validScores, validCertificateIds));
     }
 
     @Test
     void validateInvalidScoreKeysTest() {
-        assertFalse(validator.validate(1, 1, invalidKeyScores, validCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, invalidKeyScores, validCertificateIds));
     }
 
     @Test
     void validateInvalidScoreValuesTest() {
-        assertFalse(validator.validate(1, 1, nonNumericScores, validCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, nonNumericScores, validCertificateIds));
     }
 
     @Test
     void validateInvalidScoreDataTest() {
-        assertFalse(validator.validate(1, 1, invalidKeyValueScores, validCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, invalidKeyValueScores, validCertificateIds));
     }
 
     @Test
     void validateEmptyScoresTest() {
-        assertFalse(validator.validate(1, 1, empty, validCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, empty, validCertificateIds));
     }
 
     @Test
     void validateNullScoresTest() {
-        assertFalse(validator.validate(1, 1, null, validCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, null, validCertificateIds));
     }
 
     @Test
     void validateInvalidCertificateKeysTest() {
-        assertFalse(validator.validate(1, 1, validScores, invalidKeyCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, validScores, invalidKeyCertificateIds));
     }
 
     @Test
     void validateInvalidValueCertificatesTest() {
-        assertFalse(validator.validate(1, 1, validScores, invalidValueCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, validScores, invalidValueCertificateIds));
     }
 
     @Test
     void validateInvalidCertificatesTest() {
-        assertFalse(validator.validate(1, 1, validScores, invalidKeyValueCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, validScores, invalidKeyValueCertificateIds));
     }
 
     @Test
     void validateEmptyCertificatesTest() {
-        assertFalse(validator.validate(1, 1, validScores, empty));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, validScores, empty));
     }
 
     @Test
     void validateNullCertificatesTest() {
-        assertFalse(validator.validate(1, 1, validScores, null));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, validScores, null));
     }
 
     @Test
     void validateMismatchingSizeMapsTest() {
-        assertFalse(validator.validate(1, 1, validScores, threeCertificateIds));
+        assertFalse(validator.validate(VALID_ID, VALID_ID, validScores, threeCertificateIds));
+    }
+
+    @Test
+    void validateInvalidUserIdTest() {
+        assertFalse(validator.validate(INVALID_ID, VALID_ID, validScores, validCertificateIds));
+    }
+
+    @Test
+    void validateInvalidFacultyIdTest() {
+        assertFalse(validator.validate(VALID_ID, INVALID_ID, validScores, validCertificateIds));
     }
 }

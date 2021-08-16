@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserEntityValidatorTest {
     private static final UserEntityValidator validator = new UserEntityValidator();
+    private static final long VALID_ID = 2L;
+    private static final long INVALID_ID = -2L;
     private static final String VALID_LATIN_NAME = "John";
     private static final String VALID_CYRILLIC_NAME = "Иван";
     private static final String INVALID_NAME = "AFP&%^$_!";
@@ -18,8 +20,8 @@ class UserEntityValidatorTest {
     @Test
     void validateValidUserEntityTest() {
         User user = new User();
-        user.setUserId(2);
-        user.setRoleId(2);
+        user.setUserId(VALID_ID);
+        user.setRoleId(VALID_ID);
         user.setName(VALID_LATIN_NAME);
         user.setSurname(VALID_CYRILLIC_NAME);
         user.setEmail(VALID_EMAIL);
@@ -30,8 +32,8 @@ class UserEntityValidatorTest {
     @Test
     void validateInvalidNameTest() {
         User user = new User();
-        user.setUserId(2);
-        user.setRoleId(2);
+        user.setUserId(VALID_ID);
+        user.setRoleId(VALID_ID);
         user.setName(INVALID_NAME);
         user.setSurname(VALID_CYRILLIC_NAME);
         user.setEmail(VALID_EMAIL);
@@ -42,8 +44,8 @@ class UserEntityValidatorTest {
     @Test
     void validateInvalidSurnameTest() {
         User user = new User();
-        user.setUserId(2);
-        user.setRoleId(2);
+        user.setUserId(VALID_ID);
+        user.setRoleId(VALID_ID);
         user.setName(VALID_LATIN_NAME);
         user.setSurname(INVALID_NAME);
         user.setEmail(VALID_EMAIL);
@@ -54,8 +56,8 @@ class UserEntityValidatorTest {
     @Test
     void validateInvalidEmailTest() {
         User user = new User();
-        user.setUserId(2);
-        user.setRoleId(2);
+        user.setUserId(VALID_ID);
+        user.setRoleId(VALID_ID);
         user.setName(VALID_LATIN_NAME);
         user.setSurname(VALID_CYRILLIC_NAME);
         user.setEmail(INVALID_EMAIL);
@@ -66,8 +68,8 @@ class UserEntityValidatorTest {
     @Test
     void validateInvalidPasswordTest() {
         User user = new User();
-        user.setUserId(2);
-        user.setRoleId(2);
+        user.setUserId(VALID_ID);
+        user.setRoleId(VALID_ID);
         user.setName(VALID_LATIN_NAME);
         user.setSurname(VALID_CYRILLIC_NAME);
         user.setEmail(VALID_EMAIL);
@@ -78,8 +80,8 @@ class UserEntityValidatorTest {
     @Test
     void validateInvalidIdTest() {
         User user = new User();
-        user.setUserId(-1);
-        user.setRoleId(2);
+        user.setUserId(INVALID_ID);
+        user.setRoleId(VALID_ID);
         user.setName(VALID_LATIN_NAME);
         user.setSurname(VALID_CYRILLIC_NAME);
         user.setEmail(VALID_EMAIL);
@@ -90,8 +92,8 @@ class UserEntityValidatorTest {
     @Test
     void validateInvalidRoleIdTest() {
         User user = new User();
-        user.setUserId(2);
-        user.setRoleId(-1);
+        user.setUserId(VALID_ID);
+        user.setRoleId(INVALID_ID);
         user.setName(VALID_LATIN_NAME);
         user.setSurname(VALID_CYRILLIC_NAME);
         user.setEmail(VALID_EMAIL);
