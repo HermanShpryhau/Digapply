@@ -2,6 +2,7 @@ package by.epamtc.digapply.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Application  implements Identifiable, Serializable {
     private long applicationId;
@@ -78,7 +79,7 @@ public class Application  implements Identifiable, Serializable {
         if (facultyId != that.facultyId) return false;
         if (isApproved != that.isApproved) return false;
         if (!applyDate.equals(that.applyDate)) return false;
-        return approveDate != null ? approveDate.equals(that.approveDate) : that.approveDate == null;
+        return Objects.equals(approveDate, that.approveDate);
     }
 
     @Override
@@ -93,8 +94,8 @@ public class Application  implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("Application{")
+        return new StringBuilder(getClass().getSimpleName())
+                .append("{")
                 .append("applicationId=").append(applicationId)
                 .append(", userId=").append(userId)
                 .append(", facultyId=").append(facultyId)
