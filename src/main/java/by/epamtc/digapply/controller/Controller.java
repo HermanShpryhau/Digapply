@@ -37,13 +37,13 @@ public class Controller extends HttpServlet {
         Routing routing;
         routing = command.execute(request, response);
 
-        String page = routing.getPage();
+        String resource = routing.getResource();
         switch (routing.getRoutingType()) {
             case FORWARD:
-                request.getRequestDispatcher(page).forward(request, response);
+                request.getRequestDispatcher(resource).forward(request, response);
                 break;
             case REDIRECT:
-                response.sendRedirect(request.getContextPath() + page);
+                response.sendRedirect(request.getContextPath() + resource);
                 break;
             default:
                 request.getRequestDispatcher(PagePath.ERROR_404_PAGE).forward(request, response);

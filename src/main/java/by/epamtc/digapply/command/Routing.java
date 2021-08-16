@@ -11,15 +11,15 @@ public class Routing {
     /**
      * Path to resulting resource.
      */
-    private final String page;
+    private final String resource;
 
     /**
      * Type of routing. Either forwarding or redirection.
      */
     private final RoutingType type;
 
-    public Routing(String page, RoutingType resultType) {
-        this.page = page;
+    public Routing(String resource, RoutingType resultType) {
+        this.resource = resource;
         type = resultType;
     }
 
@@ -27,7 +27,7 @@ public class Routing {
         return type;
     }
 
-    public String getPage() {
-        return page;
+    public String getResource() {
+        return resource;
     }
 }
