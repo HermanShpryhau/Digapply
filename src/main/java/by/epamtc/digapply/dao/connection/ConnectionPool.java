@@ -81,17 +81,23 @@ public class ConnectionPool {
         return connection;
     }
 
-    public void releaseConnection(Connection connection) throws ConnectionPoolException {
-        if (connection != null) {
-            usedConnections.remove(connection);
-            try {
-                pool.put((ProxyConnection) connection);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                logger.error("Unable to release connection to data source. {}", e.getMessage());
-                throw new ConnectionPoolException("Unable to release connection to data source.", e);
-            }
+    public boolean releaseConnection(Connection connection) throws ConnectionPoolException {
+        if (connection == null) {
+            return false;
         }
+        if (!(connection instanceof ProxyConnection)) {
+            logger.error("Illegal connection type. Connection must be ProxyConnection.");
+            return false;
+        }
+        usedConnections.remove(connection);
+        try {
+            pool.put((ProxyConnection) connection);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            logger.error("Unable to release connection to data source. {}", e.getMessage());
+            throw new ConnectionPoolException("Unable to release connection to data source.", e);
+        }
+        return true;
     }
 
     public void dispose() throws ConnectionPoolException {

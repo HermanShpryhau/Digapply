@@ -19,6 +19,12 @@
 
 <div class="container">
     <h1 class="mt-5 mb-3">${faculty.facultyName}</h1>
+
+    <div class="mt-3 mb-3">
+        <p><strong><fmt:message key="faculty.places"/>:</strong> ${faculty.places}</p>
+        <p><strong><fmt:message key="faculty.apps-submitted"/>:</strong> ${requestScope.applications_count}</p>
+    </div>
+
     <p id="description"></p>
 
     <h3 class="mt-3"><fmt:message key="faculty.required-subjects"/></h3>

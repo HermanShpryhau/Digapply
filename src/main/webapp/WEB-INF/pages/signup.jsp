@@ -21,7 +21,12 @@
     <div class="row justify-content-center">
         <div class="col-sm"></div>
         <div class="col-sm-6">
-            <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-up"/></h1>
+            <h1 class="mt-5 mb-3 fw-bold"><fmt:message key="form.sign-up"/></h1>
+
+            <div id="password-mismatch-alert" class="mt-3 mb-3 alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span> <fmt:message key="form.password-match"/></span>
+            </div>
 
             <form action="${pageContext.request.contextPath}/controller?command=signup" method="post">
                 <div class="row mb-3">
@@ -48,8 +53,13 @@
                     <input type="password" class="form-control" name="password" id="password" placeholder="<fmt:message key="form.password"/>" required
                            minlength="8">
                 </div>
+                <div class="mb-3">
+                    <label for="confirm-password" class="form-label"><fmt:message key="form.confirm-password"/></label>
+                    <input type="password" class="form-control" name="confirm-password" id="confirm-password" placeholder="<fmt:message key="form.password"/>" required
+                           minlength="8">
+                </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit"><fmt:message key="form.sign-up-btn"/></button>
+                    <button id="sign-up-btn" class="btn btn-primary" type="submit"><fmt:message key="form.sign-up-btn"/></button>
                 </div>
             </form>
             <hr class="dropdown-divider">
@@ -60,7 +70,7 @@
 </div>
 
 <jsp:include page="components/footer.jsp"/>
-
+<script src="scripts/signup.js"></script>
 
 </body>
 

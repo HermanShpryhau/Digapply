@@ -1,10 +1,10 @@
 package by.epamtc.digapply.controller.filter;
 
-import by.epamtc.digapply.command.CommandFactory;
+import by.epamtc.digapply.controller.command.CommandFactory;
 import by.epamtc.digapply.entity.UserRole;
-import by.epamtc.digapply.command.SessionAttribute;
-import by.epamtc.digapply.command.CommandName;
-import by.epamtc.digapply.command.PagePath;
+import by.epamtc.digapply.controller.command.SessionAttribute;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.PagePath;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;

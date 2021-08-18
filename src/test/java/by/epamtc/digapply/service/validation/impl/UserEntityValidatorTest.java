@@ -22,10 +22,10 @@ class UserEntityValidatorTest {
         User user = new User();
         user.setUserId(VALID_ID);
         user.setRoleId(VALID_ID);
-        user.setName(VALID_LATIN_NAME);
-        user.setSurname(VALID_CYRILLIC_NAME);
-        user.setEmail(VALID_EMAIL);
-        user.setPassword(VALID_PASSWORD);
+        user.setName("Ivan");
+        user.setSurname("Ivanov");
+        user.setEmail("ivan@mail.com");
+        user.setPassword("1234567890");
         assertTrue(validator.validate(user));
     }
 

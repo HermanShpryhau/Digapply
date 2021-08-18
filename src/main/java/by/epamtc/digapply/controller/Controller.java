@@ -1,12 +1,10 @@
 package by.epamtc.digapply.controller;
 
-import by.epamtc.digapply.command.Command;
-import by.epamtc.digapply.command.Routing;
-import by.epamtc.digapply.command.CommandFactory;
-import by.epamtc.digapply.command.PagePath;
-import by.epamtc.digapply.command.RequestParameter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import by.epamtc.digapply.controller.command.Command;
+import by.epamtc.digapply.controller.command.Routing;
+import by.epamtc.digapply.controller.command.CommandFactory;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestParameter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
