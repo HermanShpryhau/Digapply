@@ -1,8 +1,11 @@
 package by.epamtc.digapply.controller.command.impl;
 
 import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.entity.dto.ApplicationDto;
+import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
@@ -31,6 +34,9 @@ public class ShowFacultyCommand implements Command {
             Faculty faculty = facultyService.retrieveFacultyById(facultyId);
             if (faculty != null) {
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
+                ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
+                List<ApplicationDto> applications = applicationService.retrieveApplicationsByFaculty(facultyId);
+                request.setAttribute(RequestAttribute.APPLICATIONS_COUNT, applications.size());
                 List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(faculty);
                 request.setAttribute(RequestAttribute.FACULTY_SUBJECTS, subjects);
             } else {
