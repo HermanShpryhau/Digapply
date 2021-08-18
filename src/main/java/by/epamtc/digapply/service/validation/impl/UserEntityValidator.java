@@ -6,9 +6,6 @@ import by.epamtc.digapply.service.validation.EntityValidator;
 public class UserEntityValidator implements EntityValidator<User> {
     @Override
     public boolean validate(User entity) {
-        if (entity.getId() < 0 || entity.getRoleId() < 1) {
-            return false;
-        }
         EntityValidator<User> userDataValidator = UserDataValidator.builder()
                 .validateNameAndSurname()
                 .validateEmail()

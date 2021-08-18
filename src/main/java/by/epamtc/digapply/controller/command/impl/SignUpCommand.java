@@ -30,6 +30,7 @@ public class SignUpCommand implements Command {
                     email.orElse(null),
                     password.orElse(null)
             );
+            logger.debug("IS REGISTERED {}", isRegistered);
         } catch (ServiceException e) {
             logger.error("Unable to register new user. {}", e.getMessage());
             return Routing.ERROR;
@@ -37,8 +38,8 @@ public class SignUpCommand implements Command {
         if (isRegistered) {
             return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } else {
-            request.setAttribute(RequestAttribute.ERROR_ATTRIBUTE, "");
-            return new Routing(PagePath.SIGNUP_PAGE, RoutingType.FORWARD);
+            request.getSession().setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.USER_EXISTS);
+            return Routing.ERROR;
         }
     }
 }
