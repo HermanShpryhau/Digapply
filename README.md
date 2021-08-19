@@ -1,7 +1,5 @@
 # Digapply - Digital Application Platform
 
-##### Herman Shpryhau
-
 The platform allows to digitally apply to faculties, submitting an application form with results. Administrators can review and approve or disapprove application; mange subjects required for faculties and faculties themselves by editing existing ones and creating new ones. The platform provides system that calculates passing scores and determines which applications are accepted, sending email upon applicaion confirmation and acceptance.
 
 ## Roles
