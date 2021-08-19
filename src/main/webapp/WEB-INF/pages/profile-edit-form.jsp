@@ -27,6 +27,12 @@
                 <fmt:message key="profile.change-password"/>
             </a>
 
+            <c:if test="${requestScope.error_key != null}">
+                <div class="alert alert-danger mt-3 mb-3" role="alert">
+                    <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
+                </div>
+            </c:if>
+
             <form action="${pageContext.request.contextPath}/controller?command=update-profile" method="post">
                 <input type="hidden" name="id" value="${requestScope.id}">
                 <div class="row mb-3">

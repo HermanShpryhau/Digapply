@@ -15,6 +15,7 @@ import java.util.Optional;
 
 public class UpdateApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+    private static final String ID_REQUEST_PARAM = "&id=";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -36,8 +37,11 @@ public class UpdateApplicationCommand implements Command {
 
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
-            applicationService.updateApplication(applicationId, scores, certificates);
-            return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
+            if (applicationService.updateApplication(applicationId, scores, certificates)) {
+                return new Routing(PagePath.APPLICATION_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
+            } else {
+                return new Routing(PagePath.APPLICATION_EDIT_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + applicationId, RoutingType.REDIRECT);
+            }
         } catch (ServiceException e) {
             logger.error("Unable to update results for application {}. {}", applicationId, e.getMessage());
             return Routing.ERROR_500;

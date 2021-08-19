@@ -45,6 +45,13 @@
             </c:when>
         </c:choose>
     </h1>
+
+    <c:if test="${requestScope.error_key != null}">
+        <div class="alert alert-danger mt-3 mb-3" role="alert">
+            <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
+        </div>
+    </c:if>
+
     <form action="${action}" method="POST">
     <input type="hidden" name="id" value="${requestScope.faculty.id}">
     <div class="row">

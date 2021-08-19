@@ -18,6 +18,12 @@
     <h1 class="mt-5 mb=3"><fmt:message key="application.new-app-head"/> ${requestScope.faculty.facultyName}</h1>
     <p class="fs-4"><fmt:message key="application.instruction"/></p>
 
+    <c:if test="${requestScope.error_key != null}">
+        <div class="alert alert-danger mt-3 mb-3" role="alert">
+            <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
+        </div>
+    </c:if>
+
     <form action="${pageContext.request.contextPath}/controller?command=submit-application" method="post">
         <input type="hidden" name="faculty-id" value="${requestScope.faculty.facultyId}">
         <c:forEach var="subject" items="${requestScope.subjects}">

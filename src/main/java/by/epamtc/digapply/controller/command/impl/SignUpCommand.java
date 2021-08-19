@@ -30,16 +30,15 @@ public class SignUpCommand implements Command {
                     email.orElse(null),
                     password.orElse(null)
             );
-            logger.debug("IS REGISTERED {}", isRegistered);
         } catch (ServiceException e) {
             logger.error("Unable to register new user. {}", e.getMessage());
-            return Routing.ERROR;
+            return Routing.ERROR_500;
         }
         if (isRegistered) {
             return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
         } else {
-            request.getSession().setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.USER_EXISTS);
-            return Routing.ERROR;
+            request.getSession().setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_USER_DATA);
+            return new Routing(PagePath.SIGNUP_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
     }
 }

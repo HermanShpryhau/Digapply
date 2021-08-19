@@ -5,9 +5,11 @@ let error_message = document.getElementById("password-mismatch-alert");
 
 signupBtn.addEventListener("click", (event) => {
     error_message.style.display = "none";
+    console.log("Event fired");
     if (password1.value !== password2.value) {
+        console.log("Password mismatch");
         event.preventDefault();
-        error_message.style.display = "flex";
+        error_message.style.display = "block";
         window.scrollTo(0, 0);
     }
 })
