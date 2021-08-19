@@ -66,7 +66,7 @@
 
         <div class="mb-3 col-md-6">
             <label for="places-count" class="form-label"><fmt:message key="faculty.places"/>*</label>
-            <input required type="number" class="form-control" id="places-count" name="places-count"
+            <input required type="number" min="1" class="form-control" id="places-count" name="places-count"
             <c:if test="${requestScope.faculty != null}">
                    value="${requestScope.faculty.places}"
             </c:if>
