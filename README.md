@@ -49,7 +49,7 @@ The platform allows to digitally apply to faculties, submitting an application f
   - Revoke applications;
   - Edit applications.
 
-## DB Diagram
+## Database Diagram
 
-[](https://raw.githubusercontent.com/HermanShpryhau/JWD-Final-Project-DB/main/Scheme.png)
+![](https://i.imgur.com/l9vNqLK.png)
 
