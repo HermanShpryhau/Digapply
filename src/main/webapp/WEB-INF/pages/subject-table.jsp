@@ -11,45 +11,47 @@
     <%@ include file="components/head-tags.jsp" %>
     <title><fmt:message key="subject.subject-management"/> | Digapply</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
     <h1 class="mt-5 mb-3">
         <fmt:message key="subject.subject-management"/>
     </h1>
-    <a href="${pageContext.request.contextPath}/controller?command=new-subject" class="btn btn-success mt-3 mb-3"><i class="bi bi-plus-lg"></i> <fmt:message key="subject.new-subject"/></a>
-    <div class="min-vh-100">
-        <div class="h-100 w-100 overflow-auto">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col"><fmt:message key="subject.name"/></th>
-                    <th scope="col"><fmt:message key="subject.edit"/></th>
-                    <th scope="col" ><fmt:message key="subject.delete"/></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${requestScope.subjects}" var="subject">
-                    <tr>
-                        <th scope="col">${subject.id}</th>
-                        <td>${subject.subjectName}</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/controller?command=edit-subject&id=${subject.id}"><fmt:message key="subject.edit"/></a>
-                        </td>
-                        <td>
-                            <a class="text-danger" href="${pageContext.request.contextPath}/controller?command=delete-subject&id=${subject.id}"><fmt:message key="subject.delete"/></a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <a href="${pageContext.request.contextPath}/controller?command=new-subject" class="btn btn-success mt-3 mb-3"><i
+            class="bi bi-plus-lg"></i> <fmt:message key="subject.new-subject"/></a>
+
+    <table id="table" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col"><fmt:message key="subject.name"/></th>
+            <th scope="col"><fmt:message key="subject.edit"/></th>
+            <th scope="col"><fmt:message key="subject.delete"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${requestScope.subjects}" var="subject">
+            <tr>
+                <th scope="col">${subject.id}</th>
+                <td>${subject.subjectName}</td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/controller?command=edit-subject&id=${subject.id}"><fmt:message
+                            key="subject.edit"/></a>
+                </td>
+                <td>
+                    <a class="text-danger"
+                       href="${pageContext.request.contextPath}/controller?command=delete-subject&id=${subject.id}"><fmt:message
+                            key="subject.delete"/></a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
 
-
 <jsp:include page="components/footer.jsp"/>
+<%@ include file="components/table-pagiantion.jsp" %>
+
 </body>
 </html>
