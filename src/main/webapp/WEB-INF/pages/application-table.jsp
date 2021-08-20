@@ -5,12 +5,14 @@
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
+<!doctype html>
+
 <html>
 <head>
     <%@ include file="components/head-tags.jsp" %>
     <title><fmt:message key="application.management"/> | Digapply</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <jsp:include page="components/header.jsp"/>
 
 <div class="container">
@@ -31,61 +33,58 @@
         </c:forEach>
     </div>
 
-    <div class="min-vh-100">
-        <div class="h-100 w-100 overflow-auto">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col"><fmt:message key="application.applicant"/></th>
-                    <th scope="col"><fmt:message key="application.faculty"/></th>
-                    <th scope="col" class="text-center"><fmt:message key="application.total-score"/></th>
-                    <th scope="col"><fmt:message key="application.submission-date"/></th>
-                    <th scope="col" class="text-center"><fmt:message key="application.is-approved"/></th>
-                    <th scope="col"><fmt:message key="application.approve-date"/></th>
-                    <th scope="col"><fmt:message key="application.review"/></th>
-                    <th scope="col"><fmt:message key="application.revoke"/></th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${requestScope.applications}" var="application">
-                    <tr>
-                        <th>${application.applicationId}</th>
-                        <td>${application.applicantName}</td>
-                        <td>${application.facultyName}</td>
-                        <td class="text-center">${application.totalScore}</td>
-                        <td>${application.applyDate.toLocaleString()}</td>
-                        <td class="text-center">
-                            <c:choose>
-                                <c:when test="${application.approved}">
-                                    <i class="bi bi-check-circle-fill text-success"></i>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="bi bi-x-circle-fill text-danger"></i>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${application.approved}">
-                                    ${application.approveDate.toLocaleString()}
-                                </c:when>
-                                <c:otherwise>
-                                    -
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td><a href="${pageContext.request.contextPath}/controller?command=edit-application&id=${application.applicationId}"><fmt:message key="application.review"/></a></td>
-                        <td><a href="${pageContext.request.contextPath}/controller?command=cancel-application&user-id=${application.applicantId}" class="text-danger"><fmt:message key="application.revoke"/></a></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <table id="table" class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col"><fmt:message key="application.applicant"/></th>
+            <th scope="col"><fmt:message key="application.faculty"/></th>
+            <th scope="col" class="text-center"><fmt:message key="application.total-score"/></th>
+            <th scope="col"><fmt:message key="application.submission-date"/></th>
+            <th scope="col" class="text-center"><fmt:message key="application.is-approved"/></th>
+            <th scope="col"><fmt:message key="application.approve-date"/></th>
+            <th scope="col"><fmt:message key="application.review"/></th>
+            <th scope="col"><fmt:message key="application.revoke"/></th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${requestScope.applications}" var="application">
+            <tr>
+                <th>${application.applicationId}</th>
+                <td>${application.applicantName}</td>
+                <td>${application.facultyName}</td>
+                <td class="text-center">${application.totalScore}</td>
+                <td>${application.applyDate.toLocaleString()}</td>
+                <td class="text-center">
+                    <c:choose>
+                        <c:when test="${application.approved}">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${application.approved}">
+                            ${application.approveDate.toLocaleString()}
+                        </c:when>
+                        <c:otherwise>
+                            -
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td><a href="${pageContext.request.contextPath}/controller?command=edit-application&id=${application.applicationId}"><fmt:message key="application.review"/></a></td>
+                <td><a href="${pageContext.request.contextPath}/controller?command=cancel-application&user-id=${application.applicantId}" class="text-danger"><fmt:message key="application.revoke"/></a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </div>
 
 <jsp:include page="components/footer.jsp"/>
+<%@ include file="components/table-pagiantion.jsp" %>
 
 </body>
 </html>

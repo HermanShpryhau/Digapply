@@ -8,6 +8,7 @@
 <fmt:bundle basename="labels"/>
 
 <header>
+    <script src="scripts/tableLang.js"></script>
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
         <div class="container">
             <a class="navbar-brand" href="${pageContext.request.contextPath}/controller?command=home">
@@ -36,12 +37,12 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <ul class=" navbar-nav me-3">
                             <li class="nav-item">
-                                <a class="nav-link <fmt:message key="header.en-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=en">
+                                <a onclick="setEnglish()" class="nav-link <fmt:message key="header.en-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=en">
                                     EN
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link <fmt:message key="header.ru-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=ru">
+                                <a onclick="setRussian()" class="nav-link <fmt:message key="header.ru-active"/>" href="${pageContext.request.contextPath}/controller?${pageContext.request.queryString}&locale=ru">
                                     RU
                                 </a>
                             </li>
