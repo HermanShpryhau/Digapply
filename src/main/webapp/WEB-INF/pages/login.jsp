@@ -21,7 +21,7 @@
             <h1 class="mt-5 fw-bold"><fmt:message key="form.sign-in"/></h1>
 
             <c:if test="${requestScope.error_key != null}">
-                <div class="alert alert-danger mt-3 mb-3" role="alert">
+                <div id="error-alert" class="alert alert-danger mt-3 mb-3" role="alert">
                     <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
                 </div>
             </c:if>
@@ -29,14 +29,13 @@
             <form action="${pageContext.request.contextPath}/controller?command=login" method="post">
                 <div class="mb-3">
                     <label for="emailInput" class="form-label"><fmt:message key="form.email-address"/>*</label>
-                    <input required name="email" type="email" class="form-control" id="emailInput"
-                           aria-describedby="emailHelp" placeholder="<fmt:message key="form.email-placeholder"/>">
+                    <input required name="email" type="email" class="form-control" id="emailInput" placeholder="<fmt:message key="form.email-placeholder"/>">
                 </div>
                 <div class="mb-3">
                     <label for="passwordInput" class="form-label"><fmt:message key="form.password"/>*</label>
                     <input required name="password" type="password" class="form-control" id="passwordInput" placeholder="<fmt:message key="form.password"/>">
                 </div>
-                <button type="submit" class="btn btn-primary"><fmt:message key="form.sign-in-btn"/></button>
+                <button id="submit-btn" type="submit" class="btn btn-primary"><fmt:message key="form.sign-in-btn"/></button>
             </form>
             <hr class="dropdown-divider">
             <p class="text-muted"><fmt:message key="form.no-account"/><a href="${pageContext.request.contextPath}/controller?command=show-sign-up"><fmt:message key="form.sign-up-btn"/></a></p>
@@ -46,5 +45,6 @@
 </div>
 
 <jsp:include page="components/footer.jsp"/>
+<script src="scripts/signin.js"></script>
 </body>
 </html>

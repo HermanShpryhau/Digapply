@@ -28,7 +28,7 @@
             </a>
 
             <c:if test="${requestScope.error_key != null}">
-                <div class="alert alert-danger mt-3 mb-3" role="alert">
+                <div id="error-alert" class="alert alert-danger mt-3 mb-3" role="alert">
                     <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
                 </div>
             </c:if>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit"><fmt:message key="profile.save-changes"/></button>
+                    <button id="submit-btn" class="btn btn-primary" type="submit"><fmt:message key="profile.save-changes"/></button>
                 </div>
             </form>
         </div>
@@ -60,8 +60,7 @@
 </div>
 
 <jsp:include page="components/footer.jsp"/>
-
-
+<script src="scripts/profile.js"></script>
 </body>
 
 </html>

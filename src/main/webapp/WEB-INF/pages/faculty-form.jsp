@@ -47,7 +47,7 @@
     </h1>
 
     <c:if test="${requestScope.error_key != null}">
-        <div class="alert alert-danger mt-3 mb-3" role="alert">
+        <div id="error-alert" class="alert alert-danger mt-3 mb-3" role="alert">
             <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
         </div>
     </c:if>
@@ -98,10 +98,10 @@
     </c:if>
     <c:choose>
         <c:when test="${requestScope.faculty != null}">
-            <input type="submit" class="btn btn-primary" value="<fmt:message key="form.save-changes-btn"/>">
+            <input id="submit-btn" type="submit" class="btn btn-primary" value="<fmt:message key="form.save-changes-btn"/>">
         </c:when>
         <c:otherwise>
-            <input type="submit" class="btn btn-primary" value="<fmt:message key="form.add-faculty-btn"/>">
+            <input id="submit-btn" type="submit" class="btn btn-primary" value="<fmt:message key="form.add-faculty-btn"/>">
         </c:otherwise>
     </c:choose>
     </form>
@@ -117,5 +117,6 @@
     });
     simplemde.value(`<c:if test="${requestScope.faculty != null}">${requestScope.faculty.facultyDescription}</c:if>`);
 </script>
+<script src="scripts/faculty.js"></script>
 </body>
 </html>

@@ -46,7 +46,7 @@
     </h1>
 
     <c:if test="${requestScope.error_key != null}">
-        <div class="alert alert-danger mt-3 mb-3" role="alert">
+        <div id="error-alert" class="alert alert-danger mt-3 mb-3" role="alert">
             <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
         </div>
     </c:if>
@@ -73,5 +73,6 @@
 </div>
 
 <jsp:include page="components/footer.jsp"/>
+<script src="scripts/subject.js"></script>
 </body>
 </html>
