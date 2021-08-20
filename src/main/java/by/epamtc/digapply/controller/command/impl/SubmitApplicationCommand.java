@@ -42,7 +42,7 @@ public class SubmitApplicationCommand implements Command {
                 return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_APPLICATION_DATA);
-                return Routing.ERROR;
+                return new Routing(PagePath.APPLICATION_FORM_PAGE_REDIRECT, RoutingType.REDIRECT);
             }
         } catch (ServiceException e) {
             logger.error("Unable to save application to DB. {}", e.getMessage());

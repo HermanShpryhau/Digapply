@@ -14,6 +14,7 @@ import java.util.Optional;
 
 public class UpdateFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+    private static final String ID_REQUEST_PARAM = "&id=";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -29,7 +30,7 @@ public class UpdateFacultyCommand implements Command {
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-            return Routing.ERROR;
+            return new Routing(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId, RoutingType.REDIRECT);
         }
 
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
@@ -43,7 +44,7 @@ public class UpdateFacultyCommand implements Command {
                 return new Routing(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId, RoutingType.REDIRECT);
             } else {
                 request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-                return Routing.ERROR;
+                return new Routing(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId, RoutingType.REDIRECT);
             }
         } catch (ServiceException e) {
             logger.error("Unable to update faculty {} data. {}", facultyId, e.getMessage());

@@ -19,7 +19,7 @@ public class AddSubjectCommand implements Command {
         Optional<String> subjectName = Optional.ofNullable(request.getParameter(RequestParameter.SUBJECT_NAME));
         if (!subjectName.isPresent()) {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
-            return Routing.ERROR;
+            return new Routing(PagePath.SUBJECT_FORM_PAGE, RoutingType.REDIRECT);
         }
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
@@ -27,7 +27,7 @@ public class AddSubjectCommand implements Command {
                 return new Routing(PagePath.SUBJECT_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
-                return Routing.ERROR;
+                return new Routing(PagePath.NEW_SUBJECT_FORM_PAGE_REDIRECT, RoutingType.REDIRECT);
             }
         } catch (ServiceException e) {
             logger.error("Unable to save subject to DB. {}", e.getMessage());

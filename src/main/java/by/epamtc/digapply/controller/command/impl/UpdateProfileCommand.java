@@ -15,6 +15,7 @@ import java.util.Optional;
 
 public class UpdateProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+    private static final String ID_REQUEST_PARAM = "&id=";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -40,7 +41,7 @@ public class UpdateProfileCommand implements Command {
                     return routeByRights(hasAdminRights);
                 } else {
                     request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
-                    return Routing.ERROR;
+                    return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + userId, RoutingType.REDIRECT);
                 }
             } catch (ServiceException e) {
                 logger.error("Unable to update user {} data. {}", userId, e.getMessage());
@@ -48,7 +49,7 @@ public class UpdateProfileCommand implements Command {
             }
         } else {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);
-            return Routing.ERROR;
+            return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
     }
 

@@ -12,7 +12,7 @@ public class ShowErrorPageCommand implements Command {
         HttpSession session = request.getSession();
         String errorKey = (String) session.getAttribute(SessionAttribute.ERROR_KEY);
         session.removeAttribute(SessionAttribute.ERROR_KEY);
-        request.setAttribute(SessionAttribute.ERROR_KEY, errorKey);
+        request.setAttribute(RequestAttribute.ERROR_KEY, errorKey);
         return new Routing(PagePath.ERROR_PAGE, RoutingType.FORWARD);
     }
 }

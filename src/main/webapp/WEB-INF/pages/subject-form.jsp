@@ -45,6 +45,12 @@
         </c:choose>
     </h1>
 
+    <c:if test="${requestScope.error_key != null}">
+        <div id="error-alert" class="alert alert-danger mt-3 mb-3" role="alert">
+            <strong><i class="bi bi-exclamation-triangle-fill"></i> <fmt:message key="${requestScope.error_key}"/></strong>
+        </div>
+    </c:if>
+
     <form action="${action}" method="post">
         <c:if test="${requestScope.subject != null}">
             <input type="hidden" name="id" value="${requestScope.subject.id}">
@@ -67,5 +73,6 @@
 </div>
 
 <jsp:include page="components/footer.jsp"/>
+<script src="scripts/subject.js"></script>
 </body>
 </html>

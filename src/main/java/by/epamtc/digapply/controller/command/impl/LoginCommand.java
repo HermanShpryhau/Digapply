@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
         String email = request.getParameter(RequestParameter.EMAIL);
         if (email == null || request.getParameter((RequestParameter.PASSWORD)) == null) {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_LOGIN_DATA);
-            return Routing.ERROR;
+            return new Routing(PagePath.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
@@ -53,7 +53,7 @@ public class LoginCommand implements Command {
             }
         } else {
             session.setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_LOGIN_DATA);
-            return Routing.ERROR;
+            return new Routing(PagePath.LOGIN_PAGE_REDIRECT, RoutingType.REDIRECT);
         }
 
         Routing routing;

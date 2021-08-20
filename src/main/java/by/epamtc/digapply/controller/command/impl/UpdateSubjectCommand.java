@@ -14,6 +14,7 @@ import java.util.Optional;
 
 public class UpdateSubjectCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+    private static final String ID_REQUEST_PARAM = "&id=";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,7 +26,7 @@ public class UpdateSubjectCommand implements Command {
         Optional<String> subjectName = Optional.ofNullable(request.getParameter(RequestParameter.SUBJECT_NAME));
         if (!subjectName.isPresent()) {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
-            return Routing.ERROR;
+            return new Routing(PagePath.EDIT_SUBJECT_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + subjectId, RoutingType.REDIRECT);
         }
         SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
@@ -33,7 +34,7 @@ public class UpdateSubjectCommand implements Command {
                 return new Routing(PagePath.SUBJECT_TABLE_PAGE_REDIRECT, RoutingType.REDIRECT);
             } else {
                 request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
-                return Routing.ERROR;
+                return new Routing(PagePath.EDIT_SUBJECT_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + subjectId, RoutingType.REDIRECT);
             }
         } catch (ServiceException e) {
             logger.error("Unable to update subject {} data. {}", subjectId, e.getMessage());

@@ -4,10 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <context-param>
-        <param-name>imagePath</param-name>
-        <param-value>WEB-INF/assets</param-value>
-    </context-param>
-    <context-param>
         <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
         <param-value>labels</param-value>
     </context-param>
@@ -57,6 +53,15 @@
     </filter-mapping>
 
     <filter>
+        <filter-name>session-validation</filter-name>
+        <filter-class>by.epamtc.digapply.controller.filter.SessionValidationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>session-validation</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>auth</filter-name>
         <filter-class>by.epamtc.digapply.controller.filter.AuthorizationFilter</filter-class>
     </filter>
@@ -80,6 +85,15 @@
     </filter>
     <filter-mapping>
         <filter-name>no-cache-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>error-attribute-filter</filter-name>
+        <filter-class>by.epamtc.digapply.controller.filter.ErrorAttributeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>error-attribute-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

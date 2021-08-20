@@ -9,6 +9,8 @@ public final class RequestAttribute {
     public static final String FACULTY = "faculty";
     public static final String FACULTY_SUBJECTS = "faculty_subjects";
     public static final String APPLICATIONS_COUNT = "applications_count";
+    public static final String APPLY_DATE = "apply_date";
+    public static final String APPROVE_DATE = "approve_date";
     public static final String SUBJECTS = "subjects";
     public static final String SUBJECT = "subject";
     public static final String PAGE = "page";

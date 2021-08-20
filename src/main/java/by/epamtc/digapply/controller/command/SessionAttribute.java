@@ -10,6 +10,7 @@ public final class SessionAttribute {
     public static final String PREVIOUS_COMMAND = "previous-command";
     public static final String LOCALE = "locale";
     public static final String ERROR_KEY = "error_key";
+    public static final String SAVED_ID = "saved-id";
 
     private SessionAttribute() {}
 }

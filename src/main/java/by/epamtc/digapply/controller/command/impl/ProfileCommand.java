@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.util.Locale;
 
 public class ProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -25,6 +27,13 @@ public class ProfileCommand implements Command {
             Application application = applicationService.retrieveApplicationByUserId((long)session.getAttribute(SessionAttribute.USER_ID));
             if (application != null) {
                 request.setAttribute(RequestAttribute.APPLICATION, application);
+                DateFormat format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale((String)session.getAttribute(SessionAttribute.LOCALE)));
+                String applyDate = format.format(application.getApplyDate());
+                request.setAttribute(RequestAttribute.APPLY_DATE, applyDate);
+                if (application.isApproved()) {
+                    String approveDate = format.format(application.getApproveDate());
+                    request.setAttribute(RequestAttribute.APPROVE_DATE, approveDate);
+                }
                 FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
                 Faculty faculty = facultyService.retrieveFacultyById(application.getFacultyId());
                 request.setAttribute(RequestAttribute.FACULTY_NAME, faculty.getFacultyName());

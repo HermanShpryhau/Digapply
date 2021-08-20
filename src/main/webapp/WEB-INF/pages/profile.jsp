@@ -3,10 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 
+
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 
 <!DOCTYPE html>
+<html>
 <head>
     <%@ include file="components/head-tags.jsp" %>
 
@@ -20,7 +22,7 @@
             <h1>${sessionScope.username}</h1>
         </div>
         <div class="col text-end">
-            <a class="btn btn-outline-dark" href="/controller?command=edit-profile&id=${sessionScope.user_id}"><i class="bi bi-pencil-square"></i></a>
+            <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/controller?command=edit-profile&id=${sessionScope.user_id}"><i class="bi bi-pencil-square"></i></a>
         </div>
     </div>
 
@@ -31,7 +33,7 @@
                 <span class="card-header">
                     <c:choose>
                         <c:when test="${requestScope.application.approved}">
-                            <i class="bi bi-check-circle"></i> <fmt:message key="profile.is-approved"/> ${requestScope.application.approveDate.toLocaleString()}.
+                            <i class="bi bi-check-circle"></i> <fmt:message key="profile.is-approved"/> ${requestScope.approve_date}.
                         </c:when>
                         <c:otherwise>
                             <i class="bi bi-hourglass-split"></i> <fmt:message key="profile.is-checked"/>
@@ -41,11 +43,11 @@
                 <div class="card-body">
                     <h5 class="card-title"><fmt:message key="profile.application-for"/> ${requestScope.faculty_name}</h5>
                     <p class="card-text">
-                        <fmt:message key="profile.submitted-on"/> ${requestScope.application.applyDate.toLocaleString()}.
+                        <fmt:message key="profile.submitted-on"/> ${requestScope.apply_date}.
                         <br/>
                         <fmt:message key="profile.total-score"/>: ${requestScope.total_score}
                     </p>
-                    <a href="/controller?command=cancel-application&user-id=${sessionScope.user_id}" class="btn btn-warning"><i class="bi bi-x-circle"></i> <fmt:message key="profile.cancel-application"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=cancel-application&user-id=${sessionScope.user_id}" class="btn btn-warning"><i class="bi bi-x-circle"></i> <fmt:message key="profile.cancel-application"/></a>
                 </div>
             </div>
         </c:when>
