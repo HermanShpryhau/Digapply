@@ -16,6 +16,7 @@ import java.util.Optional;
 public class UpdateProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";
+    private static final String SPACE = " ";
 
     @Override
     public Routing execute(HttpServletRequest request, HttpServletResponse response) {
@@ -38,6 +39,7 @@ public class UpdateProfileCommand implements Command {
         if (firstName.isPresent() && lastName.isPresent()) {
             try {
                 if (userService.updateUserData(userId, firstName.get(), lastName.get())) {
+                    session.setAttribute(SessionAttribute.USERNAME, firstName.get() + SPACE + lastName.get());
                     return routeByRights(hasAdminRights);
                 } else {
                     request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_NAME);

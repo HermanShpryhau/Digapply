@@ -22,8 +22,16 @@ public class ShowProfileEditFormCommand implements Command {
         HttpSession session = request.getSession();
         UserService userService = ServiceFactory.getInstance().getUserService();
         if (!userService.hasAdminRights((UserRole) session.getAttribute(SessionAttribute.ROLE))) {
-            request.setAttribute(RequestAttribute.ID, session.getAttribute(SessionAttribute.USER_ID));
-            return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE, RoutingType.FORWARD);
+            User user = null;
+            long sessionUserId = (long)session.getAttribute(SessionAttribute.USER_ID);
+            try {
+                user = userService.retrieveUserById(sessionUserId);
+                request.setAttribute(RequestAttribute.USER, user);
+                return new Routing(PagePath.PROFILE_EDIT_FORM_PAGE, RoutingType.FORWARD);
+            } catch (ServiceException e) {
+                logger.error("Unable to retrieve user {} data. {}", sessionUserId, e.getMessage());
+                return Routing.ERROR_500;
+            }
         }
 
         Optional<String> userIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
