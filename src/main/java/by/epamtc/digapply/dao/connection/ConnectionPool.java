@@ -20,7 +20,6 @@ public class ConnectionPool {
     private static final String DB_PASSWORD_PROP = "db.password";
     private static final String DB_DRIVER_PROP = "db.jdbc-driver";
     private static final String DB_POOL_SIZE = "db.pool-size";
-    private int poolSize;
     private BlockingQueue<ProxyConnection> pool;
     private BlockingQueue<ProxyConnection> usedConnections;
 
@@ -39,7 +38,7 @@ public class ConnectionPool {
             String dbUser = dbProperties.getProperty(DB_USER_PROP);
             String dbPassword = dbProperties.getProperty(DB_PASSWORD_PROP);
             Class.forName(dbProperties.getProperty(DB_DRIVER_PROP));
-            poolSize = parsePoolSizeProperty(dbProperties);
+            int poolSize = parsePoolSizeProperty(dbProperties);
             pool = new ArrayBlockingQueue<>(poolSize);
             usedConnections = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
