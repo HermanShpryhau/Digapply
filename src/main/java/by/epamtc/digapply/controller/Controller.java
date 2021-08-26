@@ -30,8 +30,7 @@ public class Controller extends HttpServlet {
         }
 
         Command command = CommandFactory.getInstance().getCommand(commandName);
-        Routing routing;
-        routing = command.execute(request, response);
+        Routing routing = command.execute(request, response);
 
         String resource = routing.getResource();
         switch (routing.getRoutingType()) {
