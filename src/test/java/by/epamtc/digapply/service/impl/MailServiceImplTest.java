@@ -7,6 +7,7 @@ import by.epamtc.digapply.service.ServiceException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,6 +24,7 @@ class MailServiceImplTest {
     }
 
     @Test
+    @Disabled
     void sendApplicationApprovalMessageTest() throws ServiceException {
         MailService mailService = new MailServiceImpl();
         mailService.sendApplicationApprovalMessage(33, "ru");
@@ -30,6 +32,7 @@ class MailServiceImplTest {
     }
 
     @Test
+    @Disabled
     void sendApplicationAcceptedMessageTest() throws ServiceException {
         MailService mailService = new MailServiceImpl();
         mailService.sendApplicationAcceptedMessage(33, "ru");

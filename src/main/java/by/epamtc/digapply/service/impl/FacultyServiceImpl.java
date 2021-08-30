@@ -174,6 +174,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     private String escapeHtml(String content) {
         content = HtmlEscapers.htmlEscaper().escape(content);
+        content = content.replace("`", "\\`");
         return content;
     }
 

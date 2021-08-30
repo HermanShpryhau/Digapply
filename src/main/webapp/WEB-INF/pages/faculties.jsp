@@ -54,11 +54,11 @@
                     </a>
                     <!-- Button trigger delete modal -->
                     <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#delete-modal">
+                            data-bs-target="#delete-modal-${faculty.id}">
                         <i class="bi bi-trash-fill"></i><fmt:message key="faculty.delete"/>
                     </button>
                     <!-- Delete Modal -->
-                    <div class="modal fade" id="delete-modal" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="delete-modal-${faculty.id}" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">

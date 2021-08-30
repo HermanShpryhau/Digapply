@@ -37,7 +37,7 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
         throwExceptionIfNull(subjectIds);
 
         List<ParametrizedQuery> queries = new ArrayList<>();
-        Object[] saveQueryParams = {faculty.getFacultyName(), faculty.getFacultyShortDescription(), faculty.getFacultyDescription(), faculty.getFacultyId(), faculty.isApplicationClosed()};
+        Object[] saveQueryParams = {faculty.getFacultyName(), faculty.getFacultyShortDescription(), faculty.getFacultyDescription(), faculty.getPlaces(), faculty.isApplicationClosed()};
         queries.add(new ParametrizedQuery(SAVE_FACULTY_QUERY, saveQueryParams));
         for (Long id : subjectIds) {
             Object[] addSubjectQueryParams = {faculty.getFacultyName(), id};
