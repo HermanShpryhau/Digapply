@@ -25,5 +25,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
     
-      - name: Super-Linter
-        uses: github/super-linter@v4.8.1
+      - name: Run java checkstyle
+        uses: nikitasavinov/checkstyle-action@0.4.0
+        with:
+          checkstyle_config: sun_checks.xml
+          
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.6
