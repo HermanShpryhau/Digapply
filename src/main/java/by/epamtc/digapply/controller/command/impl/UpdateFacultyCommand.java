@@ -5,6 +5,13 @@ import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,16 +19,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@DiscoverableCommand(CommandName.UPDATE_FACULTY_COMMAND)
 public class UpdateFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";
 
     @Override
-    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing result(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId == RequestParameterParser.INVALID_POSITIVE_LONG) {
-            return Routing.ERROR_404;
+            return new Redirect(PagePath.ERROR_404_PAGE_REDIRECT);
         }
 
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
@@ -30,7 +38,7 @@ public class UpdateFacultyCommand implements Command {
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-            return new Routing(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId, RoutingType.REDIRECT);
+            return new Redirect(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId);
         }
 
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
@@ -41,14 +49,14 @@ public class UpdateFacultyCommand implements Command {
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
             if (facultyService.updateFaculty(updatedFaculty)) {
-                return new Routing(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId, RoutingType.REDIRECT);
+                return new Redirect(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId);
             } else {
                 request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-                return new Routing(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId, RoutingType.REDIRECT);
+                return new Redirect(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId);
             }
         } catch (ServiceException e) {
             logger.error("Unable to update faculty {} data. {}", facultyId, e.getMessage());
-            return Routing.ERROR_500;
+            return new Redirect(PagePath.ERROR_500_PAGE_REDIRECT);
         }
     }
 

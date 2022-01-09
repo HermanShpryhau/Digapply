@@ -39,6 +39,10 @@
         <listener-class>by.epamtc.digapply.controller.listener.ConnectionPoolManager</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>by.epamtc.digapply.controller.listener.CommandDispatcherManager</listener-class>
+    </listener>
+
     <filter>
         <filter-name>encoding</filter-name>
         <filter-class>by.epamtc.digapply.controller.filter.EncodingFilter</filter-class>

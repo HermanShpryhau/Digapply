@@ -7,6 +7,13 @@ import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.SubjectService;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,11 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+@DiscoverableCommand(CommandName.SHOW_FACULTY_FORM_COMMAND)
 public class ShowFacultyFormCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing result(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId != RequestParameterParser.INVALID_POSITIVE_LONG) {
@@ -29,7 +37,7 @@ public class ShowFacultyFormCommand implements Command {
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
             } catch (ServiceException e) {
                 logger.error("Unable to retrieve faculty {} data. {}", facultyId, e.getMessage());
-                return Routing.ERROR_500;
+                return new Redirect(PagePath.ERROR_500_PAGE_REDIRECT);
             }
         }
 
@@ -37,10 +45,10 @@ public class ShowFacultyFormCommand implements Command {
         try {
             List<Subject> subjects = subjectService.retrieveAllSubjects();
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);
-            return new Routing(PagePath.FACULTY_FORM_PAGE, RoutingType.FORWARD);
+            return new Forward(PagePath.FACULTY_FORM_PAGE);
         } catch (ServiceException e) {
             logger.error("Unable to retrieve all subjects. {}", e.getMessage());
-            return Routing.ERROR_500;
+            return new Redirect(PagePath.ERROR_500_PAGE_REDIRECT);
         }
     }
 }

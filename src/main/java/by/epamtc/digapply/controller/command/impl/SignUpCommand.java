@@ -4,6 +4,13 @@ import by.epamtc.digapply.controller.command.*;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.ServiceFactory;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,11 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@DiscoverableCommand(CommandName.SIGNUP_COMMAND)
 public class SignUpCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing result(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> firstName = Optional.ofNullable(request.getParameter(RequestParameter.FIRST_NAME));
         Optional<String> lastName = Optional.ofNullable(request.getParameter(RequestParameter.LAST_NAME));
         Optional<String> email = Optional.ofNullable(request.getParameter(RequestParameter.EMAIL));
@@ -32,13 +40,13 @@ public class SignUpCommand implements Command {
             );
         } catch (ServiceException e) {
             logger.error("Unable to register new user. {}", e.getMessage());
-            return Routing.ERROR_500;
+            return new Redirect(PagePath.ERROR_500_PAGE_REDIRECT);
         }
         if (isRegistered) {
-            return new Routing(PagePath.PROFILE_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new Redirect(PagePath.PROFILE_PAGE_REDIRECT);
         } else {
             request.getSession().setAttribute(RequestAttribute.ERROR_KEY, ErrorKey.INVALID_USER_DATA);
-            return new Routing(PagePath.SIGNUP_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new Forward(PagePath.SIGNUP_PAGE_REDIRECT);
         }
     }
 }

@@ -25,9 +25,9 @@ public class MailSessionCreator {
 
     private String smtpHost;
     private String smtpPort;
-    private String userName;
-    private String userPassword;
-    private Properties sessionProperties;
+    private final String userName;
+    private final String userPassword;
+    private final Properties sessionProperties;
 
     public MailSessionCreator(Properties configProperties) throws ServiceException {
         smtpHost = configProperties.getProperty(SMPT_HOST_PROP);
