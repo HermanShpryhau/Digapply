@@ -1,10 +1,23 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.ErrorKey;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestParameter;
+import by.epamtc.digapply.controller.command.RequestParameterParser;
+import by.epamtc.digapply.controller.command.SessionAttribute;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,18 +28,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@DiscoverableCommand(CommandName.ADD_FACULTY_COMMAND)
 public class AddFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_FACULTY_ID = 0;
 
     @Override
-    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing result(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyName = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_NAME));
         Optional<String> placesString = Optional.ofNullable(request.getParameter(RequestParameter.PLACES_COUNT));
         int places = RequestParameterParser.parsePositiveInt(placesString);
         if (places == RequestParameterParser.INVALID_POSITIVE_INT) {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_PLACES_COUNT);
-            return new Routing(PagePath.FACULTY_FORM_PAGE_REDIRECT, RoutingType.REDIRECT);
+            return new Redirect(PagePath.FACULTY_FORM_PAGE_REDIRECT);
         }
         Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
         Optional<String> facultyDescription = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
@@ -38,14 +52,14 @@ public class AddFacultyCommand implements Command {
         try {
             Faculty faculty = facultyService.saveFaculty(newFaculty, subjectIds);
             if (faculty != null) {
-                return new Routing(PagePath.FACULTIES_PAGE_REDIRECT, RoutingType.REDIRECT);
+                return new Redirect(PagePath.FACULTIES_PAGE_REDIRECT);
             } else {
                 request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_FACULTY_DATA);
-                return new Routing(PagePath.FACULTY_FORM_PAGE_REDIRECT, RoutingType.REDIRECT);
+                return new Redirect(PagePath.FACULTY_FORM_PAGE_REDIRECT);
             }
         } catch (ServiceException e) {
             logger.error("Unable to save faculty. {}", e.getMessage());
-            return Routing.ERROR_500;
+            return new Redirect(PagePath.ERROR_404_PAGE_REDIRECT);
         }
     }
 

@@ -11,7 +11,7 @@ import java.util.concurrent.Executor;
 class ProxyConnection implements Connection {
     private static final Logger logger = LogManager.getLogger();
 
-    private Connection connection;
+    private final Connection connection;
 
     ProxyConnection(Connection connection) {
         this.connection = connection;

@@ -1,11 +1,11 @@
 package by.epamtc.digapply.controller.filter;
 
-import by.epamtc.digapply.controller.command.CommandFactory;
 import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.controller.command.SessionAttribute;
 import by.epamtc.digapply.controller.command.CommandName;
 import by.epamtc.digapply.controller.command.PagePath;
-import by.epamtc.digapply.service.UserService;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.container.CommandContainer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
@@ -37,10 +37,9 @@ public class AuthorizationFilter implements Filter {
         if (role == null) {
             role = UserRole.GUEST;
         }
-
+        CommandContainer container = (CommandContainer) servletRequest.getServletContext().getAttribute("commandContainer");
         String command = request.getParameter("command");
-        CommandFactory commandFactory = CommandFactory.getInstance();
-        if (!commandFactory.commandExists(command)) {
+        if (container.resolve(command).equals(new Command.Empty())) {
             response.sendRedirect(PagePath.ERROR_404_PAGE_REDIRECT);
             return;
         }

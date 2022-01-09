@@ -7,6 +7,13 @@ import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,11 +23,12 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.util.Locale;
 
+@DiscoverableCommand(CommandName.PROFILE_COMMAND)
 public class ProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing result(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
@@ -42,8 +50,8 @@ public class ProfileCommand implements Command {
             }
         } catch (ServiceException e) {
             logger.error("Unable to fetch application data. {}", e.getMessage());
-            return Routing.ERROR_500;
+            return new Redirect(PagePath.ERROR_500_PAGE_REDIRECT);
         }
-        return new Routing(PagePath.PROFILE_PAGE, RoutingType.FORWARD);
+        return new Forward(PagePath.PROFILE_PAGE);
     }
 }

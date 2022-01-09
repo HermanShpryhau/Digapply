@@ -7,12 +7,12 @@ public class ParametrizedQuery {
     /**
      * SQL-query with placeholders for parameters in {@link java.sql.PreparedStatement}.
      */
-    private String query;
+    private final String query;
 
     /**
      * Parameters to insert into query.
      */
-    private Object[] params;
+    private final Object[] params;
 
     public ParametrizedQuery(String query, Object[] params) {
         this.query = query;

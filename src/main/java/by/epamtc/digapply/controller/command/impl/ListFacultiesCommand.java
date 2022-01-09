@@ -5,6 +5,15 @@ import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+@DiscoverableCommand(CommandName.LIST_FACULTIES_COMMAND)
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long ELEMENTS_PER_PAGE = 4L;
@@ -21,7 +31,7 @@ public class ListFacultiesCommand implements Command {
     private static final String SEARCH_PARAMETER = "&search=";
 
     @Override
-    public Routing execute(HttpServletRequest request, HttpServletResponse response) {
+    public Routing result(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> page = Optional.ofNullable(request.getParameter(RequestParameter.PAGE));
         long pageNumber = DEFAULT_PAGE_NUMBER;
 
@@ -29,7 +39,7 @@ public class ListFacultiesCommand implements Command {
             try {
                 pageNumber = Integer.parseInt(page.get());
             } catch (NumberFormatException e) {
-                return Routing.ERROR_404;
+                return new Redirect(PagePath.ERROR_404_PAGE_REDIRECT);
             }
         }
 
@@ -42,27 +52,26 @@ public class ListFacultiesCommand implements Command {
                 String searchPattern = searchPatternParam.get();
                 numberOfPages = facultyService.countPagesForSearchResult(searchPattern, ELEMENTS_PER_PAGE);
                 if (pageNumber < 1 || pageNumber > numberOfPages) {
-                    return new Routing(
-                            PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER + SEARCH_PARAMETER + searchPattern,
-                            RoutingType.REDIRECT
+                    return new Redirect(
+                            PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER + SEARCH_PARAMETER + searchPattern
                     );
                 }
                 facultyList = facultyService.searchFaculties(searchPattern, pageNumber, ELEMENTS_PER_PAGE);
             } else {
                 numberOfPages = facultyService.countPages(ELEMENTS_PER_PAGE);
                 if (pageNumber < 1 || pageNumber > numberOfPages) {
-                    return new Routing(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER, RoutingType.REDIRECT);
+                    return new Redirect(PagePath.FACULTIES_PAGE_REDIRECT + FIRST_PAGE_PARAMETER);
                 }
                 facultyList = facultyService.retrieveFacultiesByPage(pageNumber, ELEMENTS_PER_PAGE);
             }
         } catch (ServiceException e) {
             logger.error("Unable to retrieve list of faculties. {}", e.getMessage());
-            return Routing.ERROR_500;
+            return new Redirect(PagePath.ERROR_500_PAGE_REDIRECT);
         }
         request.setAttribute(RequestAttribute.FACULTIES, facultyList);
         request.setAttribute(RequestAttribute.NUMBER_OF_PAGES, numberOfPages);
         request.setAttribute(RequestAttribute.PAGE, pageNumber);
 
-        return new Routing(PagePath.FACULTIES_PAGE, RoutingType.FORWARD);
+        return new Forward(PagePath.FACULTIES_PAGE);
     }
 }
