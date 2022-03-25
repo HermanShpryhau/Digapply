@@ -5,9 +5,11 @@ import by.epamtc.digapply.dao.ResultDao;
 import by.epamtc.digapply.dao.Table;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.entity.Result;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ResultDaoImpl extends AbstractDao<Result> implements ResultDao {
     private static final String SAVE_RESULT_QUERY = "INSERT INTO Results (result_id, application_id, subject_id, score, certificate_id) VALUES (0, ?, ?, ?, ?)";
     private static final String FIND_RESULT_BY_ID_QUERY = "SELECT * FROM Results WHERE result_id=?";

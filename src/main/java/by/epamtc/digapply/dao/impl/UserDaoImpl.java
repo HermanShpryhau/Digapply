@@ -6,9 +6,11 @@ import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
 import by.epamtc.digapply.entity.UserRole;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String SAVE_USER_QUERY = "INSERT INTO Users (user_id, email, password, name, surname, role_id) VALUES (0, ?, ?, ?, ?, 2)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM Users JOIN Roles R on R.role_id = Users.role_id WHERE deleted=false";

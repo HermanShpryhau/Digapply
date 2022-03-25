@@ -9,6 +9,8 @@ import by.epamtc.digapply.service.MailSessionCreator;
 import by.epamtc.digapply.service.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -23,7 +25,7 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-
+@Service
 public class MailServiceImpl implements MailService {
     private static final Logger logger = LogManager.getLogger();
     private static final String MAIL_CONFIG_PROPERTIES_PATH = "mail.properties";
@@ -34,6 +36,11 @@ public class MailServiceImpl implements MailService {
     private static final String APPROVE_MESSAGE_CONTENT = "approve.content";
     private static final String ACCEPTED_MESSAGE_SUBJECT = "accepted.subject";
     private static final String ACCEPTED_MESSAGE_CONTENT = "accepted.content";
+
+    @Autowired
+    private FacultyDao facultyDao;
+    @Autowired
+    private ApplicationDao applicationDao;
 
     @Override
     public void sendApplicationApprovalMessage(long applicationId, String locale) throws ServiceException {
@@ -95,8 +102,6 @@ public class MailServiceImpl implements MailService {
     }
 
     private String formatContentString(long applicationId, String content) throws ServiceException {
-        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             Application application = applicationDao.findById(applicationId);
             Faculty faculty = facultyDao.findById(application.getFacultyId());
@@ -109,7 +114,6 @@ public class MailServiceImpl implements MailService {
 
     private String retrieveApplicantEmail(long applicationId) throws ServiceException {
         UserDao userDao = DaoFactory.getInstance().getUserDao();
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         Application application;
         try {
             application = applicationDao.findById(applicationId);

@@ -6,6 +6,7 @@ import by.epamtc.digapply.controller.command.CommandName;
 import by.epamtc.digapply.controller.command.PagePath;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.container.CommandContainer;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;

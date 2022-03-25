@@ -7,10 +7,12 @@ import by.epamtc.digapply.dao.Table;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Result;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ApplicationDaoImpl extends AbstractDao<Application> implements ApplicationDao {
     private static final String SAVE_APPLICATION_QUERY = "INSERT INTO Applications (application_id, user_id, faculty_id, apply_date, approved, approve_date) VALUES (0, ?, ?, CURRENT_TIMESTAMP(), false, NULL)";
     private static final String SAVE_RESULT_FOR_APPLICATION_QUERY = "INSERT INTO Results (result_id, application_id, subject_id, score, certificate_id) VALUES (0, (SELECT application_id FROM Applications WHERE user_id=? AND faculty_id=?), ?, ?, ?)";
