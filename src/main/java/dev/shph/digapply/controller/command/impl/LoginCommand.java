@@ -14,6 +14,8 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +24,15 @@ import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.LOGIN_COMMAND)
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String CONTROLLER_COMMAND = "/controller?";
     private static final String DEFAULT_LOCALE_PARAM = "defaultLocale";
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -39,7 +45,6 @@ public class LoginCommand implements Command {
         }
         char[] password = request.getParameter(RequestParameter.PASSWORD).toCharArray();
 
-        UserService userService = ServiceFactory.getInstance().getUserService();
         User user;
         try {
             user = userService.login(email, String.valueOf(password));

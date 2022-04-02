@@ -15,6 +15,8 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,10 +25,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Component
 @DiscoverableCommand(CommandName.ADD_FACULTY_COMMAND)
 public class AddFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_FACULTY_ID = 0;
+
+    @Autowired
+    private FacultyService facultyService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -45,7 +51,6 @@ public class AddFacultyCommand implements Command {
         List<Long> subjectIds = buildSubjectIdsList(request);
         Faculty newFaculty = buildFaculty(facultyName, places, shortDescription, facultyDescription);
 
-        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
             Faculty faculty = facultyService.saveFaculty(newFaculty, subjectIds);
             if (faculty != null) {

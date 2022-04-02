@@ -16,6 +16,8 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +25,19 @@ import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.util.Locale;
 
+@Component
 @DiscoverableCommand(CommandName.PROFILE_COMMAND)
 public class ProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
+    @Autowired
+    private ApplicationService applicationService;
+    @Autowired
+    private FacultyService facultyService;
+
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             Application application =
                     applicationService.retrieveApplicationByUserId((long) session.getAttribute(SessionAttribute.USER_ID));
@@ -44,7 +51,6 @@ public class ProfileCommand implements Command {
                     String approveDate = format.format(application.getApproveDate());
                     request.setAttribute(RequestAttribute.APPROVE_DATE, approveDate);
                 }
-                FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
                 Faculty faculty = facultyService.retrieveFacultyById(application.getFacultyId());
                 request.setAttribute(RequestAttribute.FACULTY_NAME, faculty.getFacultyName());
                 int totalScore = applicationService.calculateTotalScore(application.getId());

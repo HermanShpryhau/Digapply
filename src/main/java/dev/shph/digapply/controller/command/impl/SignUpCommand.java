@@ -14,14 +14,20 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.SIGNUP_COMMAND)
 public class SignUpCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -30,7 +36,6 @@ public class SignUpCommand implements Command {
         Optional<String> email = Optional.ofNullable(request.getParameter(RequestParameter.EMAIL));
         Optional<String> password = Optional.ofNullable(request.getParameter(RequestParameter.PASSWORD));
 
-        UserService userService = ServiceFactory.getInstance().getUserService();
         boolean isRegistered;
         try {
             isRegistered = userService.register(

@@ -18,15 +18,23 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.CLOSE_APPLICATION_COMMAND)
 public class CloseApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private FacultyService facultyService;
+    @Autowired
+    private MailService mailService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -36,7 +44,6 @@ public class CloseApplicationCommand implements Command {
             return new Redirect(PagePath.ERROR_404_PAGE_REDIRECT);
         }
 
-        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
             List<ApplicationDto> acceptedApplications = facultyService.closeApplication(facultyId);
             if (acceptedApplications == null) {
@@ -54,7 +61,6 @@ public class CloseApplicationCommand implements Command {
     }
 
     void sendAcceptanceEmails(List<ApplicationDto> applications, String locale) throws ServiceException {
-        MailService mailService = ServiceFactory.getInstance().getMailService();
         for (ApplicationDto application : applications) {
             mailService.sendApplicationAcceptedMessage(application.getApplicationId(), locale);
         }

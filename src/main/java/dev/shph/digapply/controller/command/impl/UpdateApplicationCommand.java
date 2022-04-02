@@ -12,6 +12,8 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.UPDATE_APPLICATION_COMMAND)
 public class UpdateApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";
+
+    @Autowired
+    private ApplicationService applicationService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -42,7 +48,6 @@ public class UpdateApplicationCommand implements Command {
                 .filter(e -> e.getKey().startsWith(RequestParameter.CERTIFICATE_ID_PREFIX))
                 .forEach(e -> certificates.put(e.getKey(), e.getValue()[0]));
 
-        ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             if (applicationService.updateApplication(applicationId, scores, certificates)) {
                 return new Redirect(PagePath.APPLICATION_TABLE_PAGE_REDIRECT);

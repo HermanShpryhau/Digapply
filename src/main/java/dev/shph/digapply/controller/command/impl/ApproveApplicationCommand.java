@@ -15,14 +15,22 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.APPROVE_APPLICATION_COMMAND)
 public class ApproveApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private ApplicationService applicationService;
+    @Autowired
+    private MailService mailService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -31,10 +39,8 @@ public class ApproveApplicationCommand implements Command {
         if (applicationId == RequestParameterParser.INVALID_POSITIVE_LONG) {
             return new Forward(PagePath.ERROR_404_PAGE);
         }
-        ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
             if (applicationService.approveApplication(applicationId)) {
-                MailService mailService = ServiceFactory.getInstance().getMailService();
                 String sessionLocale = (String) request.getSession().getAttribute(SessionAttribute.LOCALE);
                 mailService.sendApplicationApprovalMessage(applicationId, sessionLocale);
                 return new Redirect(PagePath.APPLICATION_TABLE_PAGE_REDIRECT);

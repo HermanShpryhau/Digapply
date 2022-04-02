@@ -14,12 +14,15 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.LIST_FACULTIES_COMMAND)
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
@@ -27,6 +30,9 @@ public class ListFacultiesCommand implements Command {
     private static final long DEFAULT_PAGE_NUMBER = 1L;
     private static final String FIRST_PAGE_PARAMETER = "&page=1";
     private static final String SEARCH_PARAMETER = "&search=";
+
+    @Autowired
+    private FacultyService facultyService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -41,7 +47,6 @@ public class ListFacultiesCommand implements Command {
             }
         }
 
-        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         List<Faculty> facultyList;
         long numberOfPages;
         try {

@@ -17,22 +17,29 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.SHOW_FACULTY_FORM_COMMAND)
 public class ShowFacultyFormCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private FacultyService facultyService;
+    @Autowired
+    private SubjectService subjectService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> facultyIdString = Optional.ofNullable(request.getParameter(RequestParameter.ID));
         long facultyId = RequestParameterParser.parsePositiveLong(facultyIdString);
         if (facultyId != RequestParameterParser.INVALID_POSITIVE_LONG) {
-            FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
             try {
                 Faculty faculty = facultyService.retrieveFacultyById(facultyId);
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
@@ -42,7 +49,6 @@ public class ShowFacultyFormCommand implements Command {
             }
         }
 
-        SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
             List<Subject> subjects = subjectService.retrieveAllSubjects();
             request.setAttribute(RequestAttribute.SUBJECTS, subjects);

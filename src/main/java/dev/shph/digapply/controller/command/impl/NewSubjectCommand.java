@@ -6,10 +6,12 @@ import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.routing.Forward;
 import dev.shph.commandeur.routing.Routing;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 @DiscoverableCommand(CommandName.NEW_SUBJECT_COMMAND)
 public class NewSubjectCommand implements Command {
     @Override

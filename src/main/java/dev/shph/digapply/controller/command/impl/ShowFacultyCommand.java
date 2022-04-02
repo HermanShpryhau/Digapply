@@ -18,15 +18,23 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.SHOW_FACULTY_COMMAND)
 public class ShowFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private FacultyService facultyService;
+    @Autowired
+    private ApplicationService applicationService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -37,12 +45,10 @@ public class ShowFacultyCommand implements Command {
             return new Redirect(PagePath.ERROR_404_PAGE_REDIRECT);
         }
 
-        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
             Faculty faculty = facultyService.retrieveFacultyById(facultyId);
             if (faculty != null) {
                 request.setAttribute(RequestAttribute.FACULTY, faculty);
-                ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
                 List<ApplicationDto> applications = applicationService.retrieveApplicationsByFaculty(facultyId);
                 request.setAttribute(RequestAttribute.APPLICATIONS_COUNT, applications.size());
                 List<Subject> subjects = facultyService.retrieveSubjectsForFaculty(faculty);

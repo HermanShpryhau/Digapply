@@ -7,11 +7,13 @@ import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@Component
 @DiscoverableCommand(CommandName.LOGOUT_COMMAND)
 public class LogoutCommand implements Command {
     @Override

@@ -15,15 +15,21 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.UPDATE_SUBJECT_COMMAND)
 public class UpdateSubjectCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";
+
+    @Autowired
+    private SubjectService subjectService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -37,7 +43,6 @@ public class UpdateSubjectCommand implements Command {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_SUBJECT_DATA);
             return new Redirect(PagePath.EDIT_SUBJECT_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + subjectId);
         }
-        SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
             if (subjectService.updateSubject(new Subject(subjectId, subjectName.get()))) {
                 return new Redirect(PagePath.SUBJECT_TABLE_PAGE_REDIRECT);

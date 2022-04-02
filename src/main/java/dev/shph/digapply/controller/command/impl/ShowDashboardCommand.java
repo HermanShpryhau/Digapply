@@ -6,10 +6,12 @@ import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.routing.Forward;
 import dev.shph.commandeur.routing.Routing;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 @DiscoverableCommand(CommandName.SHOW_DASHBOARD_COMMAND)
 public class ShowDashboardCommand implements Command {
     @Override

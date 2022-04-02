@@ -15,15 +15,21 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.UPDATE_FACULTY_COMMAND)
 public class UpdateFacultyCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";
+
+    @Autowired
+    private FacultyService facultyService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +56,6 @@ public class UpdateFacultyCommand implements Command {
         Faculty updatedFaculty = buildFacultyEntity(facultyId, facultyName, places, shortDescription,
                 facultyDescription);
 
-        FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
             if (facultyService.updateFaculty(updatedFaculty)) {
                 return new Redirect(PagePath.FACULTY_DETAIL_PAGE_REDIRECT + facultyId);

@@ -13,18 +13,23 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@Component
 @DiscoverableCommand(CommandName.SHOW_USERS_TABLE_COMMAND)
 public class ShowUsersTableCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
-        UserService userService = ServiceFactory.getInstance().getUserService();
         try {
             List<UserDto> users = userService.retrieveAllUsersAsDto();
             request.setAttribute(RequestAttribute.USERS, users);

@@ -15,14 +15,20 @@ import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
+@Component
 @DiscoverableCommand(CommandName.EDIT_SUBJECT_COMMAND)
 public class EditSubjectCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private SubjectService subjectService;
 
     @Override
     public Routing result(HttpServletRequest request, HttpServletResponse response) {
@@ -31,7 +37,6 @@ public class EditSubjectCommand implements Command {
         if (subjectId == RequestParameterParser.INVALID_POSITIVE_LONG) {
             return new Redirect(PagePath.ERROR_404_PAGE_REDIRECT);
         }
-        SubjectService subjectService = ServiceFactory.getInstance().getSubjectService();
         try {
             Subject subject = subjectService.retrieveSubjectById(subjectId);
             request.setAttribute(RequestAttribute.SUBJECT, subject);
