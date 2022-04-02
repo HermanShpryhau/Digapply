@@ -1,6 +1,5 @@
 package dev.shph.digapply.service.impl;
 
-import dev.shph.digapply.dao.DaoFactory;
 import dev.shph.digapply.dao.DaoException;
 import dev.shph.digapply.dao.ApplicationDao;
 import dev.shph.digapply.dao.FacultyDao;
@@ -9,16 +8,16 @@ import dev.shph.digapply.entity.Application;
 import dev.shph.digapply.entity.Result;
 import dev.shph.digapply.entity.dto.ApplicationDto;
 import dev.shph.digapply.entity.dto.ResultDto;
-import dev.shph.digapply.service.*;
 import dev.shph.digapply.service.ApplicationService;
 import dev.shph.digapply.service.ServiceException;
-import dev.shph.digapply.service.ServiceFactory;
 import dev.shph.digapply.service.UserService;
 import dev.shph.digapply.service.validation.ApplicationFormDataValidator;
 import dev.shph.digapply.service.validation.ValidatorFactory;
 import dev.shph.digapply.service.ResultService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -26,10 +25,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ApplicationServiceImpl implements ApplicationService {
     private static final Logger logger = LogManager.getLogger();
     private static final String SCORE_PREFIX = "sid-";
     private static final String CERTIFICATE_ID_PREFIX = "cid-";
+
+    @Autowired
+    private ApplicationDao applicationDao;
+    @Autowired
+    private FacultyDao facultyDao;
+    @Autowired
+    private ResultDao resultDao;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ResultService resultService;
 
     @Override
     public List<ApplicationDto> convertToDto(List<Application> applications) throws ServiceException {
@@ -42,7 +53,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean hasApplication(long userId) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             return applicationDao.findByUserId(userId) != null;
         } catch (DaoException e) {
@@ -53,7 +63,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application retrieveApplicationByUserId(long userId) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             return applicationDao.findByUserId(userId);
         } catch (DaoException e) {
@@ -65,7 +74,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException {
         List<ApplicationDto> dtos = new ArrayList<>();
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             List<Application> applications = applicationDao.findByFacultyId(facultyId);
             for (Application application : applications) {
@@ -80,7 +88,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             List<Application> acceptedApplications = applicationDao.findAcceptedByFacultyId(facultyId);
             return convertToDto(acceptedApplications);
@@ -94,7 +101,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> retrieveAllApplicationsDto() throws ServiceException {
         List<ApplicationDto> dtos = new ArrayList<>();
 
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             List<Application> applications = applicationDao.findAll();
             for (Application application : applications) {
@@ -110,7 +116,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public ApplicationDto retrieveApplicationDtoById(long id) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             Application application = applicationDao.findById(id);
             return buildApplicationDto(application);
@@ -136,12 +141,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private String getApplicantNameById(long userId) throws ServiceException {
-        UserService userService = ServiceFactory.getInstance().getUserService();
         return userService.getFullNameById(userId);
     }
 
     private String getFacultyNameById(long facultyId) throws ServiceException {
-        FacultyDao facultyDao = DaoFactory.getInstance().getFacultyDao();
         try {
             return facultyDao.findById(facultyId).getFacultyName();
         } catch (DaoException e) {
@@ -151,7 +154,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private List<ResultDto> getResultsForApplication(long applicationId) throws ServiceException {
-        ResultService resultService = ServiceFactory.getInstance().getResultService();
         return resultService.retrieveResultsForApplication(applicationId);
     }
 
@@ -161,7 +163,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public int calculateTotalScore(long applicationId) throws ServiceException {
-        ResultDao resultDao = DaoFactory.getInstance().getResultDao();
         try {
             List<Result> results = resultDao.findByApplicationId(applicationId);
             int total = 0;
@@ -177,7 +178,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean cancelApplication(long userId) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             Application application = applicationDao.findByUserId(userId);
             if (application == null) {
@@ -193,7 +193,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public boolean approveApplication(long applicationId) throws ServiceException {
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             Application application = applicationDao.findById(applicationId);
             if (application == null) {
@@ -218,7 +217,6 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         List<Result> results = buildResultsList(scores, certificateIds);
         Application application = buildApplication(userId, facultyId);
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             applicationDao.save(application, results);
         } catch (DaoException e) {
@@ -237,7 +235,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         List<Result> results = buildResultsList(scores, certificateIds);
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             applicationDao.update(applicationId, results);
             return true;

@@ -1,7 +1,6 @@
 package dev.shph.digapply.service.impl;
 
 import dev.shph.digapply.dao.DaoException;
-import dev.shph.digapply.dao.DaoFactory;
 import dev.shph.digapply.dao.SubjectDao;
 import dev.shph.digapply.entity.Subject;
 import dev.shph.digapply.service.ServiceException;
@@ -10,17 +9,22 @@ import dev.shph.digapply.service.validation.SubjectFormDataValidator;
 import dev.shph.digapply.service.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SubjectServiceImpl implements SubjectService {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_SUBJECT_ID = 0;
     private static final long MINIMAL_AFFECTED_ROWS = 1L;
 
+    @Autowired
+    private SubjectDao subjectDao;
+
     @Override
     public List<Subject> retrieveAllSubjects() throws ServiceException {
-        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             return subjectDao.findAll();
         } catch (DaoException e) {
@@ -31,7 +35,6 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Subject retrieveSubjectById(long id) throws ServiceException {
-        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             return subjectDao.findById(id);
         } catch (DaoException e) {
@@ -47,7 +50,6 @@ public class SubjectServiceImpl implements SubjectService {
             return false;
         }
 
-        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             Subject subject = new Subject(NEW_SUBJECT_ID, subjectName);
             subjectDao.save(subject);
@@ -65,7 +67,6 @@ public class SubjectServiceImpl implements SubjectService {
             return false;
         }
 
-        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             subjectDao.update(subject);
             return true;
@@ -77,7 +78,6 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public boolean removeSubject(long id) throws ServiceException {
-        SubjectDao subjectDao = DaoFactory.getInstance().getSubjectDao();
         try {
             long affectedRows = subjectDao.removeById(id);
             return affectedRows >= MINIMAL_AFFECTED_ROWS;

@@ -5,7 +5,6 @@ import dev.shph.digapply.controller.command.SessionAttribute;
 import dev.shph.digapply.entity.User;
 import dev.shph.digapply.entity.UserRole;
 import dev.shph.digapply.service.ServiceException;
-import dev.shph.digapply.service.ServiceFactory;
 import dev.shph.digapply.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

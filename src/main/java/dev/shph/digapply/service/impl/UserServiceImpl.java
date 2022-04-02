@@ -1,6 +1,5 @@
 package dev.shph.digapply.service.impl;
 
-import dev.shph.digapply.dao.*;
 import dev.shph.digapply.entity.Application;
 import dev.shph.digapply.entity.UserRole;
 import dev.shph.digapply.entity.User;
@@ -12,18 +11,25 @@ import dev.shph.digapply.service.validation.impl.UserDataValidator;
 import dev.shph.digapply.service.validation.ValidatorFactory;
 import dev.shph.digapply.dao.ApplicationDao;
 import dev.shph.digapply.dao.DaoException;
-import dev.shph.digapply.dao.DaoFactory;
 import dev.shph.digapply.dao.UserDao;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger();
     private static final int MINIMAL_AFFECTED_ROWS = 1;
+
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private ApplicationDao applicationDao;
 
     @Override
     public User login(String email, String password) throws ServiceException {
@@ -46,7 +52,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private User retrieveUserByEmail(String email) throws DaoException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
         return userDao.findByEmail(email);
     }
 
@@ -63,7 +68,6 @@ public class UserServiceImpl implements UserService {
     public boolean register(String firstName, String lastName, String email, String password) throws ServiceException {
         User user = buildUser(firstName, lastName, email, password);
         if (isUserEntityValid(user)) {
-            UserDao userDao = DaoFactory.getInstance().getUserDao();
             try {
                 userDao.save(user);
             } catch (DaoException e) {
@@ -93,7 +97,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getFullNameById(long userId) throws ServiceException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
             User user = userDao.findById(userId);
             if (user == null) {
@@ -112,7 +115,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> retrieveAllUsersAsDto() throws ServiceException {
         List<UserDto> dtos = new ArrayList<>();
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
             List<User> users = userDao.findAll();
             for (User user : users) {
@@ -139,7 +141,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User retrieveUserById(long id) throws ServiceException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
             return userDao.findById(id);
         } catch (DaoException e) {
@@ -156,7 +157,6 @@ public class UserServiceImpl implements UserService {
         user.setSurname(lastName);
         EntityValidator<User> userDataValidator = UserDataValidator.builder().validateNameAndSurname().build();
         if (userDataValidator.validate(user)) {
-            UserDao userDao = DaoFactory.getInstance().getUserDao();
             try {
                 long affectedRows = userDao.update(user);
                 return affectedRows >= MINIMAL_AFFECTED_ROWS;
@@ -174,7 +174,6 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setPassword(password);
         if (userDataValidator.validate(user)) {
-            UserDao userDao = DaoFactory.getInstance().getUserDao();
             try {
                 long affectedRows = userDao.updatePassword(userId, DigestUtils.sha256Hex(password));
                 return affectedRows >= MINIMAL_AFFECTED_ROWS;
@@ -188,7 +187,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean giveAdminRights(long userId) throws ServiceException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
             return userDao.updateUserRole(userId, UserRole.ADMIN) >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
@@ -199,7 +197,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean revokeAdminRights(long userId) throws ServiceException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
         try {
             return userDao.updateUserRole(userId, UserRole.USER) >= MINIMAL_AFFECTED_ROWS;
         } catch (DaoException e) {
@@ -210,8 +207,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(long id) throws ServiceException {
-        UserDao userDao = DaoFactory.getInstance().getUserDao();
-        ApplicationDao applicationDao = DaoFactory.getInstance().getApplicationDao();
         try {
             Application application = applicationDao.findByUserId(id);
             if (application != null) {

@@ -36,7 +36,7 @@ public interface Dao<T extends Identifiable> {
      * @param count Number of elements per page.
      * @return List of entities for given page.
      */
-    List<T> findAllOnPage(long page, long count) throws DaoException, SQLException;
+    List<T> findAllOnPage(long page, long count) throws DaoException;
 
     /**
      * Counts rows in table.

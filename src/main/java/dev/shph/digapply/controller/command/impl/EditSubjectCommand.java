@@ -7,7 +7,6 @@ import dev.shph.digapply.controller.command.RequestParameter;
 import dev.shph.digapply.controller.command.RequestParameterParser;
 import dev.shph.digapply.entity.Subject;
 import dev.shph.digapply.service.ServiceException;
-import dev.shph.digapply.service.ServiceFactory;
 import dev.shph.digapply.service.SubjectService;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
