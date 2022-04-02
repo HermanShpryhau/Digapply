@@ -1,6 +1,6 @@
 package by.epamtc.digapply.service.validation.impl;
 
-import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.model.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

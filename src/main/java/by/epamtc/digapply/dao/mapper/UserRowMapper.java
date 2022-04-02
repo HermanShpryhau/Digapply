@@ -1,7 +1,7 @@
 package by.epamtc.digapply.dao.mapper;
 
-import by.epamtc.digapply.entity.UserRole;
-import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.model.UserRole;
+import by.epamtc.digapply.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package by.epamtc.digapply.service;
 
-import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.model.Subject;
 
 import java.util.List;
 

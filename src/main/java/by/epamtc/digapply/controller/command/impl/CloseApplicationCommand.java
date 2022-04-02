@@ -7,7 +7,7 @@ import by.epamtc.digapply.controller.command.RequestAttribute;
 import by.epamtc.digapply.controller.command.RequestParameter;
 import by.epamtc.digapply.controller.command.RequestParameterParser;
 import by.epamtc.digapply.controller.command.SessionAttribute;
-import by.epamtc.digapply.entity.dto.ApplicationDto;
+import by.epamtc.digapply.model.dto.ApplicationDto;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.MailService;
 import by.epamtc.digapply.service.ServiceException;

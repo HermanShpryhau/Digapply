@@ -1,6 +1,6 @@
 package by.epamtc.digapply.dao;
 
-import by.epamtc.digapply.entity.Identifiable;
+import by.epamtc.digapply.model.DataBean;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Base DAO interface.
  * @param <T>
  */
-public interface Dao<T extends Identifiable> {
+public interface Dao<T extends DataBean> {
 
     /**
      * Saves entity to DB table.

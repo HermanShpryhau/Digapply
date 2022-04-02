@@ -1,7 +1,7 @@
 package by.epamtc.digapply.controller.command.impl;
 
 import by.epamtc.digapply.controller.command.*;
-import by.epamtc.digapply.entity.dto.ApplicationDto;
+import by.epamtc.digapply.model.dto.ApplicationDto;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;

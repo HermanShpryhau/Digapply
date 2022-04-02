@@ -3,18 +3,20 @@ package by.epamtc.digapply.service.impl;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.dao.SubjectDao;
-import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.model.Subject;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.SubjectService;
 import by.epamtc.digapply.service.validation.SubjectFormDataValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class SubjectServiceImpl implements SubjectService {
     private static final Logger logger = LogManager.getLogger();
     private static final long NEW_SUBJECT_ID = 0;

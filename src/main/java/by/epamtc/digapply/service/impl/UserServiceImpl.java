@@ -1,10 +1,10 @@
 package by.epamtc.digapply.service.impl;
 
 import by.epamtc.digapply.dao.*;
-import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.UserRole;
-import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.entity.dto.UserDto;
+import by.epamtc.digapply.model.Application;
+import by.epamtc.digapply.model.UserRole;
+import by.epamtc.digapply.model.User;
+import by.epamtc.digapply.model.dto.UserDto;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.validation.EntityValidator;
@@ -13,10 +13,12 @@ import by.epamtc.digapply.service.validation.ValidatorFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger();
     private static final int MINIMAL_AFFECTED_ROWS = 1;

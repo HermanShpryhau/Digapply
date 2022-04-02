@@ -1,0 +1,11 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/digapply-db
+    username: jwd-user
+    password: Jwd0192837465!
+    type: com.zaxxer.hikari.HikariDataSource

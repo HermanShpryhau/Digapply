@@ -1,4 +1,4 @@
-package by.epamtc.digapply.entity.dto;
+package by.epamtc.digapply.model.dto;
 
 import java.io.Serializable;
 

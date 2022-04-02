@@ -1,8 +1,8 @@
 package by.epamtc.digapply.service;
 
-import by.epamtc.digapply.entity.User;
-import by.epamtc.digapply.entity.UserRole;
-import by.epamtc.digapply.entity.dto.UserDto;
+import by.epamtc.digapply.model.User;
+import by.epamtc.digapply.model.UserRole;
+import by.epamtc.digapply.model.dto.UserDto;
 
 import java.util.List;
 

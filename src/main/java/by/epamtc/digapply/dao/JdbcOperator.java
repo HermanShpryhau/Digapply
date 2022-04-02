@@ -2,7 +2,7 @@ package by.epamtc.digapply.dao;
 
 import by.epamtc.digapply.dao.connection.ConnectionPool;
 import by.epamtc.digapply.dao.connection.ConnectionPoolException;
-import by.epamtc.digapply.entity.Identifiable;
+import by.epamtc.digapply.model.DataBean;
 import by.epamtc.digapply.dao.mapper.RowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +15,7 @@ import java.util.List;
  * Executes JDBC operations for DAOs of entity.
  * @param <T> DAO entity's type.
  */
-public class JdbcOperator<T extends Identifiable> {
+public class JdbcOperator<T extends DataBean> {
     private static final Logger logger = LogManager.getLogger();
     public static final long NO_ID = -1L;
 

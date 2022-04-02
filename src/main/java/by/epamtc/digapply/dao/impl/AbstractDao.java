@@ -3,7 +3,7 @@ package by.epamtc.digapply.dao.impl;
 import by.epamtc.digapply.dao.Dao;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.JdbcOperator;
-import by.epamtc.digapply.entity.Identifiable;
+import by.epamtc.digapply.model.DataBean;
 import by.epamtc.digapply.dao.mapper.RowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ import java.util.List;
  * Implements methods of {@link Dao} interface that are same for all DAOs.
  * @param <T> Type of DAO's entity.
  */
-public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
+public abstract class AbstractDao<T extends DataBean> implements Dao<T> {
     private static final Logger logger = LogManager.getLogger();
     private static final String SELECT_ALL_QUERY = "SELECT * FROM ";
     private final String selectAllOnPageQuery;

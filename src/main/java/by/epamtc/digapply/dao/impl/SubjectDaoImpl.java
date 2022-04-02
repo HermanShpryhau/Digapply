@@ -3,7 +3,7 @@ package by.epamtc.digapply.dao.impl;
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.SubjectDao;
 import by.epamtc.digapply.dao.Table;
-import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.model.Subject;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import org.springframework.stereotype.Repository;
 

@@ -2,10 +2,10 @@ package by.epamtc.digapply.dao.impl;
 
 import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.UserDao;
-import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.model.User;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
 import by.epamtc.digapply.dao.Table;
-import by.epamtc.digapply.entity.UserRole;
+import by.epamtc.digapply.model.UserRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package by.epamtc.digapply.service;
 
-import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.Faculty;
-import by.epamtc.digapply.entity.Subject;
-import by.epamtc.digapply.entity.dto.ApplicationDto;
+
+import by.epamtc.digapply.model.dto.ApplicationDto;
+import by.epamtc.digapply.model.Faculty;
+import by.epamtc.digapply.model.Subject;
 
 import java.util.List;
 
@@ -15,64 +15,50 @@ public interface FacultyService {
      * @param subjectIds List of required subject IDs.
      * @return Saved faculty.
      */
-    Faculty saveFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException;
+    Faculty saveFaculty(Faculty faculty, List<Long> subjectIds);
 
     /**
      * Retrieves best faculties.
      * @return List of best faculties.
      */
-    List<Faculty> retrieveBestFaculties() throws ServiceException;
+    List<Faculty> retrieveBestFaculties();
 
     /**
      * Retrieves faculties for page.
      * @param page Number of page.
-     * @param elementsPerPage Number of elements per page.
+     * @param size Number of elements per page.
      * @return List of faculties for page.
      */
-    List<Faculty> retrieveFacultiesByPage(long page, long elementsPerPage) throws ServiceException;
+    List<Faculty> retrieveFacultiesByPage(int page, int size);
 
     /**
      * Counts pages need to display all faculties.
      * @param elementsPerPage Number of elements per page.
      * @return Number of pages needed to display all faculties.
      */
-    long countPages(long elementsPerPage) throws ServiceException;
+    long countPages(long elementsPerPage);
 
     /**
      * Retrieves all faculties.
      * @return List of all faculties in data source.
      */
-    List<Faculty> retrieveAllFaculties() throws ServiceException;
+    List<Faculty> retrieveAllFaculties();
 
     /**
      * Retrieves faculty by ID.
      * @param id ID of faculty
      * @return Faculty object with given ID.
      */
-    Faculty retrieveFacultyById(long id) throws ServiceException;
-
-    /**
-     * Retrieves list of subjects required to apply for faculty.
-     * @param faculty Faculty entity.
-     * @return List of required subjects.
-     */
-    List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException;
-
-    /**
-     * Retrieves list of subjects required to apply for faculty by ID.
-     * @param facultyId Faculty ID.
-     * @return List of required subjects.
-     */
-    List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException;
+    Faculty retrieveFacultyById(long id);
 
     /**
      * Searches for faculties with given pattern in name.
      * @param pattern Search pattern.
      * @param page Page number.
-     * @param elementsPerPage Number of elements on page.
+     * @param size Number of elements on page.
      * @return List of faculties matching search criteria.
      */
-    List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException;
+    List<Faculty> searchFaculties(String pattern, int page, int size);
 
     /**
      * Counts number of pages needed to display all search results.
@@ -80,7 +66,7 @@ public interface FacultyService {
      * @param elementsPerPage Number of elements on page.
      * @return Number of pages needed to display search results.
      */
-    long countPagesForSearchResult(String pattern, long elementsPerPage) throws ServiceException;
+    long countPagesForSearchResult(String pattern, long elementsPerPage);
 
     /**
      * Updates Faculty entity representation in data source.
@@ -89,13 +75,12 @@ public interface FacultyService {
      */
     boolean updateFaculty(Faculty faculty) throws ServiceException;
 
-    List<ApplicationDto> closeApplication(long facultyId) throws ServiceException;
+    List<ApplicationDto> closeApplication(long facultyId);
 
     /**
      * Deletes given faulty from data source
      * @param facultyId ID of faculty to delete
      * @return {@code true} if faculty was successfully deleted, {@code false} otherwise.
      */
-    boolean removeFacultyById(long facultyId) throws ServiceException;
-
+    boolean removeFacultyById(long facultyId);
 }

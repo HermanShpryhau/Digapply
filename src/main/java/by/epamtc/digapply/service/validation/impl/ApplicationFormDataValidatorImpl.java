@@ -1,11 +1,13 @@
 package by.epamtc.digapply.service.validation.impl;
 
 import by.epamtc.digapply.service.validation.ApplicationFormDataValidator;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class ApplicationFormDataValidatorImpl implements ApplicationFormDataValidator {
     private static final String CERTIFICATE_ID_REGEX = "^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$";
     private static final String CERTIFICATE_ID_KEY_REGEX = "^cid-(\\d+)$";

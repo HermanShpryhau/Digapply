@@ -1,9 +1,9 @@
-package by.epamtc.digapply.entity;
+package by.epamtc.digapply.model;
 
 /**
  * Entity with ID interface.
  */
-public interface Identifiable {
+public interface DataBean {
 
     /**
      * Gets unique ID of entity.

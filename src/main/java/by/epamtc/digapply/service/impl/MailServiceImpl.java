@@ -1,9 +1,9 @@
 package by.epamtc.digapply.service.impl;
 
 import by.epamtc.digapply.dao.*;
-import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.Faculty;
-import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.model.Application;
+import by.epamtc.digapply.model.Faculty;
+import by.epamtc.digapply.model.User;
 import by.epamtc.digapply.service.MailService;
 import by.epamtc.digapply.service.MailSessionCreator;
 import by.epamtc.digapply.service.ServiceException;

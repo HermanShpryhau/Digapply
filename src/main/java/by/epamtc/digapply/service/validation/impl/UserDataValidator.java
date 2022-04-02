@@ -1,12 +1,14 @@
 package by.epamtc.digapply.service.validation.impl;
 
-import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.model.User;
 import by.epamtc.digapply.service.validation.EntityValidator;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class UserDataValidator implements EntityValidator<User> {
     private static final long MINIMAL_ID_VALUE = 0;
     private static final String NAME_REGEX = "^([А-Я][а-яё]+|[A-Z][a-z]+)$";

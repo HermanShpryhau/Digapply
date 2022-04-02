@@ -1,8 +1,10 @@
 package by.epamtc.digapply.entity;
 
+import by.epamtc.digapply.model.DataBean;
+
 import java.io.Serializable;
 
-public class User implements Identifiable, Serializable {
+public class User implements DataBean, Serializable {
     private long userId;
     private String email;
     private String password;

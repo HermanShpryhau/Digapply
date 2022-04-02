@@ -1,165 +1,104 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.dao.*;
-import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.dto.ApplicationDto;
-import by.epamtc.digapply.entity.Faculty;
-import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.model.Application;
+import by.epamtc.digapply.model.dto.ApplicationDto;
+import by.epamtc.digapply.model.Faculty;
+import by.epamtc.digapply.model.Subject;
+import by.epamtc.digapply.repository.ApplicationRepository;
+import by.epamtc.digapply.repository.FacultyRepository;
+import by.epamtc.digapply.repository.SubjectRepository;
 import by.epamtc.digapply.service.ApplicationService;
-import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.FacultyService;
-import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.validation.EntityValidator;
-import by.epamtc.digapply.service.validation.ValidatorFactory;
 import com.google.common.html.HtmlEscapers;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class FacultyServiceImpl implements FacultyService {
-    private static final Logger logger = LogManager.getLogger();
-    private static final int BEST_FACULTIES_COUNT = 3;
-    private static final long MINIMAL_ROWS_AFFECTED = 1L;
-
     @Autowired
-    private FacultyDao facultyDao;
+    private FacultyRepository facultyRepository;
     @Autowired
-    private SubjectDao subjectDao;
+    private SubjectRepository subjectRepository;
     @Autowired
-    private ApplicationDao applicationDao;
+    private ApplicationRepository applicationRepository;
+    @Autowired
+    private ApplicationService applicationService;
+    @Autowired
+    private EntityValidator<Faculty> facultyEntityValidator;
 
     @Override
-    public Faculty saveFaculty(Faculty faculty, List<Long> subjectIds) throws ServiceException {
+    public Faculty saveFaculty(Faculty faculty, List<Long> subjectIds) {
         if (!isFacultyEntityValid(faculty)) {
             return null;
         }
-
-        try {
-            sanitizeDescription(faculty);
-            facultyDao.save(faculty, subjectIds);
-            return faculty;
-        } catch (DaoException e) {
-            logger.error("Unable to save new faculty. {}", e.getMessage());
-            throw new ServiceException("Unable to save new faculty.", e);
-        }
+        sanitizeDescription(faculty);
+        Set<Subject> subjects = new HashSet<>();
+        subjectIds.forEach(id -> subjectRepository.findById(id).ifPresent(subjects::add));
+        return facultyRepository.save(faculty);
     }
 
     @Override
-    public List<Faculty> retrieveBestFaculties() throws ServiceException {
-        try {
-            return facultyDao.findBestFaculties(BEST_FACULTIES_COUNT);
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve best faculties. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve best faculties.", e);
-        }
+    public List<Faculty> retrieveBestFaculties() {
+        return facultyRepository.findBestFaculties();
     }
 
     @Override
-    public List<Faculty> retrieveFacultiesByPage(long page, long elementsPerPage) throws ServiceException {
-        try {
-            return facultyDao.findAllOnPage(page, elementsPerPage);
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve faculties by page. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve faculties by page.", e);
-        }
+    public List<Faculty> retrieveFacultiesByPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("facultyName").ascending());
+        return facultyRepository.findAll(pageable).getContent();
     }
 
     @Override
-    public long countPages(long elementsPerPage) throws ServiceException {
-        try {
-            long rowsCount = facultyDao.getRowsCount();
-            long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
-            return (rowsCount / elementsPerPage) + leftover;
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve rows count. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve rows count.", e);
-        }
+    public long countPages(long elementsPerPage) {
+        long rowsCount = facultyRepository.count();
+        long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
+        return (rowsCount / elementsPerPage) + leftover;
     }
 
     @Override
-    public Faculty retrieveFacultyById(long id) throws ServiceException {
-        try {
-            return facultyDao.findById(id);
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve faculty by ID. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve faculty by ID.", e);
-        }
+    public Faculty retrieveFacultyById(long id) {
+        return facultyRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<Faculty> retrieveAllFaculties() throws ServiceException {
-        try {
-            return facultyDao.findAll();
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve all faculties. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve all faculties.", e);
-        }
+    public List<Faculty> retrieveAllFaculties() {
+        return facultyRepository.findAll();
     }
 
     @Override
-    public List<Faculty> searchFaculties(String pattern, long page, long elementsPerPage) throws ServiceException {
-        try {
-            return facultyDao.findByPattern(pattern, page, elementsPerPage);
-        } catch (DaoException e){
-            logger.error("Unable to search faculties by pattern in name. {}", e.getMessage());
-            throw new ServiceException("Unable to search faculties by pattern in name.", e);
-        }
+    public List<Faculty> searchFaculties(String pattern, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("facultyName").ascending());
+        return facultyRepository.findByFacultyNameLike(pattern, pageable).getContent();
     }
 
     @Override
-    public long countPagesForSearchResult(String pattern, long elementsPerPage) throws ServiceException {
-        try {
-            long rowsCount = facultyDao.getRowsCountForSearch(pattern);
-            long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
-            return (rowsCount / elementsPerPage) + leftover;
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve count of rows that satisfy search pattern. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve count of rows that satisfy search pattern.", e);
-        }
+    public long countPagesForSearchResult(String pattern, long elementsPerPage) {
+        long rowsCount = facultyRepository.findByFacultyNameLike(pattern, Pageable.unpaged()).getTotalElements();
+        long leftover = rowsCount % elementsPerPage == 0 ? 0 : 1;
+        return (rowsCount / elementsPerPage) + leftover;
     }
 
     @Override
-    public List<Subject> retrieveSubjectsForFaculty(Faculty faculty) throws ServiceException {
-        try {
-            return subjectDao.findSubjectsByFaculty(faculty.getId());
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve subjects by faculty id. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve subjects by faculty id.", e);
-        }
-    }
-
-    @Override
-    public List<Subject> retrieveSubjectsForFaculty(long facultyId) throws ServiceException {
-        try {
-            return subjectDao.findSubjectsByFaculty(facultyId);
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve subjects by faculty id. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve subjects by faculty id.", e);
-        }
-    }
-
-    @Override
-    public boolean updateFaculty(Faculty faculty) throws ServiceException {
+    public boolean updateFaculty(Faculty faculty) {
         if (isFacultyEntityValid(faculty)) {
-            try {
-                sanitizeDescription(faculty);
-                facultyDao.update(faculty);
-                return true;
-            } catch (DaoException e) {
-                logger.error("Unable to update faculty. {}", e.getMessage());
-                throw new ServiceException("Unable to update faculty.", e);
-            }
-        } else {
-            return false;
+            facultyRepository.save(faculty);
+            return true;
         }
+        return false;
     }
 
     private void sanitizeDescription(Faculty faculty) {
@@ -178,60 +117,55 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
-    public List<ApplicationDto> closeApplication(long facultyId) throws ServiceException {
-        Faculty faculty;
-        try {
-            faculty = facultyDao.findById(facultyId);
-            if (faculty == null) {
-                return null;
-            }
-            faculty.setApplicationClosed(true);
-            long rowsAffected = facultyDao.update(faculty);
-            if (rowsAffected < MINIMAL_ROWS_AFFECTED) {
-                return null;
-            }
-        } catch (DaoException e) {
-            logger.error("Unable to fetch faculty by id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch faculty by id.", e);
-        }
-
-        try {
-            List<Application> facultyApplications = applicationDao.findByFacultyId(facultyId);
-            ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
-            Map<Application, Integer> scores = new HashMap<>();
-            for (Application application : facultyApplications) {
-                scores.put(application, applicationService.calculateTotalScore(application.getId()));
-            }
-            List<Application> acceptedApplications =
-                    scores.entrySet().stream()
-                            .filter(entry -> entry.getKey().isApproved())
-                            .sorted(Map.Entry.<Application, Integer>comparingByValue().reversed())
-                            .sorted(Comparator.comparing(e -> e.getKey().getApplyDate()))
-                            .limit(faculty.getPlaces())
-                            .map(Map.Entry::getKey)
-                            .collect(Collectors.toList());
-
-            applicationDao.acceptApplications(acceptedApplications);
+    @Transactional
+    public List<ApplicationDto> closeApplication(long facultyId) {
+        Optional<Faculty> facultyOptional = facultyRepository.findById(facultyId);
+        if (facultyOptional.isPresent()) {
+            Faculty faculty = facultyOptional.get();
+            faculty.setIsApplicationClosed(true);
+            facultyRepository.save(faculty);
+            List<Application> acceptedApplications = acceptApplications(faculty);
             return applicationService.convertToDto(acceptedApplications);
-        } catch (DaoException e) {
-            logger.error("Unable to accept applications. {}", e.getMessage());
-            throw new ServiceException("Unable to accept applications.", e);
         }
+        return null;
+    }
+
+    private Map<Application, Integer> buildApplicationScoresMap(List<Application> applications) {
+        Map<Application, Integer> scores = new HashMap<>();
+        for (Application application: applications) {
+            scores.put(application, applicationService.calculateTotalScore(application));
+        }
+        return scores;
+    }
+
+    private List<Application> acceptApplications(Faculty faculty) {
+        List<Application> applications = applicationRepository.findByFaculty(faculty);
+        Map<Application, Integer> scores = buildApplicationScoresMap(applications);
+
+        return scores.entrySet().stream()
+                        .filter(entry -> entry.getKey().getApproved())
+                        .sorted(Map.Entry.<Application, Integer>comparingByValue().reversed())
+                        .sorted(Comparator.comparing(e -> e.getKey().getApplyDate()))
+                        .limit(faculty.getPlaces())
+                        .map(Map.Entry::getKey)
+                        .map(application -> {
+                            application.setAccepted(true);
+                            return applicationRepository.save(application);
+                        })
+                        .collect(Collectors.toList());
     }
 
     @Override
-    public boolean removeFacultyById(long facultyId) throws ServiceException {
-        try {
-            facultyDao.removeById(facultyId);
+    public boolean removeFacultyById(long facultyId) {
+        Optional<Faculty> faculty = facultyRepository.findById(facultyId);
+        if (faculty.isPresent()) {
+            facultyRepository.delete(faculty.get());
             return true;
-        } catch (DaoException e) {
-            logger.error("Unable to remove faculty by id. {}", e.getMessage());
-            throw new ServiceException("Unable to remove faculty by id.", e);
         }
+        return false;
     }
 
     private boolean isFacultyEntityValid(Faculty faculty) {
-        EntityValidator<Faculty> facultyEntityValidator = ValidatorFactory.getInstance().getFacultyEntityValidator();
         return facultyEntityValidator.validate(faculty);
     }
 }

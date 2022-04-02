@@ -1,10 +1,12 @@
 package by.epamtc.digapply.service.validation.impl;
 
 import by.epamtc.digapply.service.validation.SubjectFormDataValidator;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class SubjectFormDataValidatorImpl implements SubjectFormDataValidator {
     private static final String SUBJECT_NAME_REGEX = "^[A-Za-zА-Яа-яёЁ0-9 '.]+$";
 

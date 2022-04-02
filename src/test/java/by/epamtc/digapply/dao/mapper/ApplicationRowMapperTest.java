@@ -1,6 +1,6 @@
 package by.epamtc.digapply.dao.mapper;
 
-import by.epamtc.digapply.entity.Application;
+import by.epamtc.digapply.model.Application;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

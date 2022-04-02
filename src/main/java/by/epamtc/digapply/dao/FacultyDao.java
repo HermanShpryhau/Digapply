@@ -1,6 +1,6 @@
 package by.epamtc.digapply.dao;
 
-import by.epamtc.digapply.entity.Faculty;
+import by.epamtc.digapply.model.Faculty;
 
 import java.util.List;
 

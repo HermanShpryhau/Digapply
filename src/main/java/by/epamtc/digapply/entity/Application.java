@@ -1,10 +1,12 @@
 package by.epamtc.digapply.entity;
 
+import by.epamtc.digapply.model.DataBean;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class Application  implements Identifiable, Serializable {
+public class Application  implements DataBean, Serializable {
     private long applicationId;
     private long userId;
     private long facultyId;

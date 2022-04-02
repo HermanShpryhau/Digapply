@@ -1,7 +1,7 @@
 package by.epamtc.digapply.service.validation;
 
-import by.epamtc.digapply.entity.Faculty;
-import by.epamtc.digapply.entity.User;
+import by.epamtc.digapply.model.Faculty;
+import by.epamtc.digapply.model.User;
 import by.epamtc.digapply.service.validation.impl.ApplicationFormDataValidatorImpl;
 import by.epamtc.digapply.service.validation.impl.FacultyEntityValidator;
 import by.epamtc.digapply.service.validation.impl.SubjectFormDataValidatorImpl;

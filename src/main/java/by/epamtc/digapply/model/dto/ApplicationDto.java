@@ -1,8 +1,11 @@
-package by.epamtc.digapply.entity.dto;
+package by.epamtc.digapply.model.dto;
+
+import by.epamtc.digapply.model.Result;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 public class ApplicationDto implements Serializable {
     private long applicationId;
@@ -53,7 +56,7 @@ public class ApplicationDto implements Serializable {
         return results;
     }
 
-    public void setResults(List<ResultDto> results) {
+    public void setResults(Set<Result> results) {
         this.results = results;
     }
 

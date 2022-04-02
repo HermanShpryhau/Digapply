@@ -1,8 +1,10 @@
 package by.epamtc.digapply.entity;
 
+import by.epamtc.digapply.model.DataBean;
+
 import java.io.Serializable;
 
-public class Result implements Identifiable, Serializable {
+public class Result implements DataBean, Serializable {
     private long resultId;
     private long applicationId;
     private long subjectId;

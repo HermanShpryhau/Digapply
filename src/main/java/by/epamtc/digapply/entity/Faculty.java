@@ -1,8 +1,10 @@
 package by.epamtc.digapply.entity;
 
+import by.epamtc.digapply.model.DataBean;
+
 import java.io.Serializable;
 
-public class Faculty implements Identifiable, Serializable {
+public class Faculty implements DataBean, Serializable {
     private long facultyId;
     private String facultyName;
     private String facultyShortDescription;

@@ -4,7 +4,7 @@ import by.epamtc.digapply.dao.DaoException;
 import by.epamtc.digapply.dao.ResultDao;
 import by.epamtc.digapply.dao.Table;
 import by.epamtc.digapply.dao.mapper.RowMapperFactory;
-import by.epamtc.digapply.entity.Result;
+import by.epamtc.digapply.model.Result;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

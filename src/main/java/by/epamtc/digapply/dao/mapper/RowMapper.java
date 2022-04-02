@@ -1,6 +1,6 @@
 package by.epamtc.digapply.dao.mapper;
 
-import by.epamtc.digapply.entity.Identifiable;
+import by.epamtc.digapply.model.DataBean;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * @param <T> Type of mapped entity
  */
 @FunctionalInterface
-public interface RowMapper<T extends Identifiable> {
+public interface RowMapper<T extends DataBean> {
 
     /**
      * Maps {@link ResultSet} row to entity.

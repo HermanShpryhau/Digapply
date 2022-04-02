@@ -1,14 +1,18 @@
 package by.epamtc.digapply.service.impl;
 
-import by.epamtc.digapply.dao.DaoFactory;
 import by.epamtc.digapply.dao.DaoException;
-import by.epamtc.digapply.dao.ApplicationDao;
-import by.epamtc.digapply.dao.FacultyDao;
-import by.epamtc.digapply.dao.ResultDao;
-import by.epamtc.digapply.entity.Application;
-import by.epamtc.digapply.entity.Result;
-import by.epamtc.digapply.entity.dto.ApplicationDto;
-import by.epamtc.digapply.entity.dto.ResultDto;
+import by.epamtc.digapply.model.dto.ApplicationDto;
+import by.epamtc.digapply.model.dto.ResultDto;
+import by.epamtc.digapply.model.Application;
+import by.epamtc.digapply.model.Faculty;
+import by.epamtc.digapply.model.Result;
+import by.epamtc.digapply.model.Subject;
+import by.epamtc.digapply.model.User;
+import by.epamtc.digapply.repository.ApplicationRepository;
+import by.epamtc.digapply.repository.FacultyRepository;
+import by.epamtc.digapply.repository.ResultRepository;
+import by.epamtc.digapply.repository.SubjectRepository;
+import by.epamtc.digapply.repository.UserRepository;
 import by.epamtc.digapply.service.*;
 import by.epamtc.digapply.service.validation.ApplicationFormDataValidator;
 import by.epamtc.digapply.service.validation.ValidatorFactory;
@@ -17,28 +21,33 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
-    private static final Logger logger = LogManager.getLogger();
     private static final String SCORE_PREFIX = "sid-";
     private static final String CERTIFICATE_ID_PREFIX = "cid-";
 
     @Autowired
-    private ApplicationDao applicationDao;
+    private ApplicationRepository applicationRepository;
     @Autowired
-    private ResultDao resultDao;
+    private ResultRepository resultRepository;
     @Autowired
-    private FacultyDao facultyDao;
+    private FacultyRepository facultyRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     @Override
-    public List<ApplicationDto> convertToDto(List<Application> applications) throws ServiceException {
+    public List<ApplicationDto> convertToDto(List<Application> applications) {
         List<ApplicationDto> dtos = new ArrayList<>();
         for (Application application : applications) {
             dtos.add(buildApplicationDto(application));
@@ -47,111 +56,86 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public boolean hasApplication(long userId) throws ServiceException {
-        try {
-            return applicationDao.findByUserId(userId) != null;
-        } catch (DaoException e) {
-            logger.error("Unable to fetch application by user id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch application by user id.", e);
-        }
+    public boolean hasApplication(long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return user.filter(value -> applicationRepository.findByUser(value).isPresent()).isPresent();
     }
 
     @Override
-    public Application retrieveApplicationByUserId(long userId) throws ServiceException {
-        try {
-            return applicationDao.findByUserId(userId);
-        } catch (DaoException e) {
-            logger.error("Unable to fetch application by user id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch application by user id.", e);
-        }
+    public Application retrieveApplicationByUserId(long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return user.flatMap(value -> applicationRepository.findByUser(value)).orElse(null);
     }
 
     @Override
-    public List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) throws ServiceException {
+    public List<ApplicationDto> retrieveApplicationsByFaculty(long facultyId) {
         List<ApplicationDto> dtos = new ArrayList<>();
-        try {
-            List<Application> applications = applicationDao.findByFacultyId(facultyId);
+        Optional<Faculty> faculty = facultyRepository.findById(facultyId);
+        if (faculty.isPresent()) {
+            List<Application> applications = applicationRepository.findByFaculty(faculty.get());
             for (Application application : applications) {
                 dtos.add(buildApplicationDto(application));
             }
-            return dtos;
-        } catch (DaoException e) {
-            logger.error("Unable to fetch applications by faculty id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch applications by faculty id.", e);
         }
-    }
-
-    @Override
-    public List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) throws ServiceException {
-        try {
-            List<Application> acceptedApplications = applicationDao.findAcceptedByFacultyId(facultyId);
-            return convertToDto(acceptedApplications);
-        } catch (DaoException e) {
-            logger.error("Unable to fetch accepted applications for faculty. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch accepted applications for faculty.", e);
-        }
-    }
-
-    @Override
-    public List<ApplicationDto> retrieveAllApplicationsDto() throws ServiceException {
-        List<ApplicationDto> dtos = new ArrayList<>();
-
-        try {
-            List<Application> applications = applicationDao.findAll();
-            for (Application application : applications) {
-                dtos.add(buildApplicationDto(application));
-            }
-        } catch (DaoException e) {
-            logger.error("Unable to retrieve all applications. {}", e.getMessage());
-            throw new ServiceException("Unable to retrieve all applications.", e);
-        }
-
         return dtos;
     }
 
     @Override
-    public ApplicationDto retrieveApplicationDtoById(long id) throws ServiceException {
-        try {
-            Application application = applicationDao.findById(id);
-            return buildApplicationDto(application);
-        } catch (DaoException e) {
-            logger.error("Unable to fetch application by id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch application by id.", e);
+    public List<ApplicationDto> retrieveAcceptedApplicationsByFaculty(long facultyId) {
+        List<ApplicationDto> dtos = new ArrayList<>();
+        Optional<Faculty> faculty = facultyRepository.findById(facultyId);
+        if (faculty.isPresent()) {
+            List<Application> applications = applicationRepository.findByFaculty(faculty.get());
+            dtos = applications.stream()
+                    .filter(Application::getAccepted)
+                    .map(this::buildApplicationDto)
+                    .collect(Collectors.toList());
         }
+        return dtos;
     }
 
-    private ApplicationDto buildApplicationDto(Application application) throws ServiceException {
+    @Override
+    public List<ApplicationDto> retrieveAllApplicationsDto() {
+        return applicationRepository.findAll().stream()
+                .map(this::buildApplicationDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ApplicationDto retrieveApplicationDtoById(long id) {
+        Application application = applicationRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return buildApplicationDto(application);
+    }
+
+    private ApplicationDto buildApplicationDto(Application application) {
         ApplicationDto dto = new ApplicationDto();
         dto.setApplicationId(application.getId());
-        dto.setApplicantId(application.getUserId());
-        dto.setApplicantName(getApplicantNameById(application.getUserId()));
-        dto.setFacultyName(getFacultyNameById(application.getFacultyId()));
+        dto.setApplicantId(application.getUser().getId());
+        dto.setApplicantName(application.getUser().getName());
+        dto.setFacultyName(application.getFaculty().getFacultyName());
         List<ResultDto> results = getResultsForApplication(application.getId());
-        dto.setResults(results);
+        dto.setResults(application.getResults());
         dto.setTotalScore(calculateTotalScoreFromDto(results));
         dto.setApplyDate(application.getApplyDate());
-        dto.setApproved(application.isApproved());
+        dto.setApproved(application.getApproved());
         dto.setApproveDate(application.getApproveDate());
         return dto;
     }
 
-    private String getApplicantNameById(long userId) throws ServiceException {
-        UserService userService = ServiceFactory.getInstance().getUserService();
-        return userService.getFullNameById(userId);
+    private List<ResultDto> getResultsForApplication(long applicationId) {
+        Application application = applicationRepository.findById(applicationId).orElseThrow(NoSuchElementException::new);
+        return application.getResults().stream().map(this::buildResultDto).collect(Collectors.toList());
     }
 
-    private String getFacultyNameById(long facultyId) throws ServiceException {
-        try {
-            return facultyDao.findById(facultyId).getFacultyName();
-        } catch (DaoException e) {
-            logger.error("Unable to fetch faculty by id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch faculty by id.", e);
-        }
-    }
-
-    private List<ResultDto> getResultsForApplication(long applicationId) throws ServiceException {
-        ResultService resultService = ServiceFactory.getInstance().getResultService();
-        return resultService.retrieveResultsForApplication(applicationId);
+    private ResultDto buildResultDto(Result result) {
+        ResultDto dto = new ResultDto();
+        dto.setResultId(result.getId());
+        dto.setApplicationId(dto.getApplicationId());
+        dto.setSubjectId(result.getSubject().getId());
+        dto.setSubjectName(result.getSubject().getSubjectName());
+        dto.setScore(result.getScore());
+        dto.setCertificateId(result.getCertificateId());
+        return dto;
     }
 
     private int calculateTotalScoreFromDto(List<ResultDto> results) {
@@ -159,96 +143,86 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public int calculateTotalScore(long applicationId) throws ServiceException {
-        try {
-            List<Result> results = resultDao.findByApplicationId(applicationId);
-            int total = 0;
-            for (Result result : results) {
-                total += result.getScore();
-            }
-            return total;
-        } catch (DaoException e) {
-            logger.error("Unable to fetch results for application id. {}", e.getMessage());
-            throw new ServiceException("Unable to fetch results for application id.", e);
-        }
+    public int calculateTotalScore(Application application) {
+        return application.getResults().stream().map(Result::getScore).reduce(0, Integer::sum);
     }
 
     @Override
-    public boolean cancelApplication(long userId) throws ServiceException {
-        try {
-            Application application = applicationDao.findByUserId(userId);
-            if (application == null) {
-                return false;
+    public boolean cancelApplication(long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            Optional<Application> application = applicationRepository.findByUser(user.get());
+            if (application.isPresent()) {
+                applicationRepository.delete(application.get());
+                return true;
             }
-            applicationDao.remove(application);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean approveApplication(long applicationId) {
+        Optional<Application> application = applicationRepository.findById(applicationId);
+        if (application.isPresent()) {
+            application.get().setApproved(true);
+            applicationRepository.save(application.get());
             return true;
-        } catch (DaoException e) {
-            logger.error("Unable to remove application from DB. {}", e.getMessage());
-            throw new ServiceException("Unable to remove application from DB.", e);
         }
+        return false;
     }
 
     @Override
-    public boolean approveApplication(long applicationId) throws ServiceException {
-        try {
-            Application application = applicationDao.findById(applicationId);
-            if (application == null) {
-                return false;
-            }
-            application.setApproved(true);
-            application.setApproveDate(new Timestamp(System.currentTimeMillis()));
-            applicationDao.update(application);
-            return true;
-        } catch (DaoException e) {
-            logger.error("Unable to approve application. {}", e.getMessage());
-            throw new ServiceException("Unable to approve application.", e);
-        }
-    }
-
-    @Override
-    public boolean saveApplication(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
+    public boolean saveApplication(long userId, long facultyId, Map<String, String> scores, Map<String, String> certificateIds) {
         ApplicationFormDataValidator validator = ValidatorFactory.getInstance().getApplicationFormDataValidator();
         if (!validator.validate(userId, facultyId, scores, certificateIds)) {
             return false;
         }
 
         List<Result> results = buildResultsList(scores, certificateIds);
-        Application application = buildApplication(userId, facultyId);
-        try {
-            applicationDao.save(application, results);
-        } catch (DaoException e) {
-            logger.error("Unable to save application to data source {}", e.getMessage());
-            throw new ServiceException("Unable to save application to data source", e);
+        Optional<Faculty> faculty = facultyRepository.findById(facultyId);
+        Optional<User> user = userRepository.findById(userId);
+        if (faculty.isPresent() && user.isPresent()) {
+            Application application = Application.builder()
+                    .user(user.get())
+                    .faculty(faculty.get())
+                    .results(new HashSet<>(results))
+                    .build();
+            applicationRepository.save(application);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     @Override
-    public boolean updateApplication(long applicationId, Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
+    public boolean updateApplication(long applicationId, Map<String, String> scores, Map<String, String> certificateIds) {
         ApplicationFormDataValidator validator = ValidatorFactory.getInstance().getApplicationFormDataValidator();
         if (!validator.validateScoreMaps(scores, certificateIds)) {
             return false;
         }
 
         List<Result> results = buildResultsList(scores, certificateIds);
-        try {
-            applicationDao.update(applicationId, results);
+        Optional<Application> application = applicationRepository.findById(applicationId);
+        if (application.isPresent()) {
+            application.get().setResults(new HashSet<>(results));
+            applicationRepository.save(application.get());
             return true;
-        } catch (DaoException e) {
-            logger.error("Unable to update application results. {}", e.getMessage());
-            throw new ServiceException("Unable to update application results.", e);
         }
+        return false;
     }
 
     private Application buildApplication(long userId, long facultyId) {
-        Application application = new Application();
-        application.setUserId(userId);
-        application.setFacultyId(facultyId);
-        return application;
+        User user = userRepository.findById(userId)
+                .orElseThrow(NoSuchElementException::new);
+        Faculty faculty = facultyRepository.findById(facultyId)
+                .orElseThrow(NoSuchElementException::new);
+        return Application.builder()
+                .user(user)
+                .faculty(faculty)
+                .build();
     }
 
-    private List<Result> buildResultsList(Map<String, String> scores, Map<String, String> certificateIds) throws ServiceException {
+    private List<Result> buildResultsList(Map<String, String> scores, Map<String, String> certificateIds) {
         Map<Long, String> scoresBySubject = buildIdBasedMap(scores, SCORE_PREFIX);
         Map<Long, String> certificateIdsBySubject = buildIdBasedMap(certificateIds, CERTIFICATE_ID_PREFIX);
         List<Result> resultList = new ArrayList<>();
@@ -258,13 +232,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                 resultList.clear();
                 break;
             }
-            int scoreValue;
-            try {
-                scoreValue = Integer.parseInt(score.getValue());
-            } catch (NumberFormatException e) {
-                logger.error("Invalid score value. {}", e.getMessage());
-                throw new ServiceException("Invalid score value.", e);
-            }
+            int scoreValue = Integer.parseInt(score.getValue());
             Result result = buildResult(score.getKey(), scoreValue, certificateId);
             resultList.add(result);
         }
@@ -272,24 +240,21 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private Result buildResult(long subjectId, int score, String certificateId) {
-        Result result = new Result();
-        result.setSubjectId(subjectId);
-        result.setScore(score);
-        result.setCertificateId(certificateId);
-        return result;
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(NoSuchElementException::new);
+        return Result.builder()
+                .subject(subject)
+                .score(score)
+                .certificateId(certificateId)
+                .build();
     }
 
-    private Map<Long, String> buildIdBasedMap(Map<String, String> map, String keyPrefix) throws ServiceException {
+    private Map<Long, String> buildIdBasedMap(Map<String, String> map, String keyPrefix) {
         Map<String, String> mapWithoutPrefixes = removePrefixFromKeys(map, keyPrefix);
         Map<Long, String> result = new HashMap<>();
         for (Map.Entry<String, String> entry : mapWithoutPrefixes.entrySet()) {
-            try {
-                long id = Long.parseLong(entry.getKey());
-                result.put(id, entry.getValue());
-            } catch (NumberFormatException e) {
-                logger.error("Invalid id string. {}", e.getMessage());
-                throw new ServiceException("Invalid id string.", e);
-            }
+            long id = Long.parseLong(entry.getKey());
+            result.put(id, entry.getValue());
         }
         return result;
     }

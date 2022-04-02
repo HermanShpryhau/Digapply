@@ -1,6 +1,6 @@
 package by.epamtc.digapply.dao.mapper;
 
-import by.epamtc.digapply.entity.Subject;
+import by.epamtc.digapply.model.Subject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

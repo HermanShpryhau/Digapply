@@ -1,7 +1,7 @@
 package by.epamtc.digapply.dao.mapper;
 
 import by.epamtc.digapply.dao.DaoFactory;
-import by.epamtc.digapply.entity.*;
+import by.epamtc.digapply.model.*;
 
 public class RowMapperFactory {
     private final RowMapper<User> userRowMapper = new UserRowMapper();
