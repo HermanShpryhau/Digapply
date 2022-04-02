@@ -1,17 +1,20 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestAttribute;
+import by.epamtc.digapply.controller.command.RequestParameter;
+import by.epamtc.digapply.controller.command.RequestParameterParser;
+import by.epamtc.digapply.controller.command.SessionAttribute;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.entity.UserRole;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.UserService;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.Command;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.routing.Forward;
 import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
-import dev.shph.commandeur.Command;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +34,7 @@ public class ShowProfileEditFormCommand implements Command {
         UserService userService = ServiceFactory.getInstance().getUserService();
         if (!userService.hasAdminRights((UserRole) session.getAttribute(SessionAttribute.ROLE))) {
             User user = null;
-            long sessionUserId = (long)session.getAttribute(SessionAttribute.USER_ID);
+            long sessionUserId = (long) session.getAttribute(SessionAttribute.USER_ID);
             try {
                 user = userService.retrieveUserById(sessionUserId);
                 request.setAttribute(RequestAttribute.USER, user);

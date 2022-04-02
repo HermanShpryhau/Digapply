@@ -1,16 +1,16 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestAttribute;
+import by.epamtc.digapply.controller.command.RequestParameter;
+import by.epamtc.digapply.controller.command.RequestParameterParser;
 import by.epamtc.digapply.entity.Subject;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import by.epamtc.digapply.service.SubjectService;
+import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.routing.Forward;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
-import dev.shph.commandeur.Command;
 import dev.shph.commandeur.routing.Forward;
 import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;

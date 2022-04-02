@@ -1,16 +1,18 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.ErrorKey;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestParameter;
+import by.epamtc.digapply.controller.command.RequestParameterParser;
+import by.epamtc.digapply.controller.command.SessionAttribute;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
+import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.routing.Forward;
 import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
-import dev.shph.commandeur.Command;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,10 +43,13 @@ public class UpdateFacultyCommand implements Command {
             return new Redirect(PagePath.FACULTY_FORM_PAGE_REDIRECT + ID_REQUEST_PARAM + facultyId);
         }
 
-        Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
-        Optional<String> facultyDescription = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
+        Optional<String> shortDescription =
+                Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
+        Optional<String> facultyDescription =
+                Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
 
-        Faculty updatedFaculty = buildFacultyEntity(facultyId, facultyName, places, shortDescription, facultyDescription);
+        Faculty updatedFaculty = buildFacultyEntity(facultyId, facultyName, places, shortDescription,
+                facultyDescription);
 
         FacultyService facultyService = ServiceFactory.getInstance().getFacultyService();
         try {
@@ -60,7 +65,8 @@ public class UpdateFacultyCommand implements Command {
         }
     }
 
-    private Faculty buildFacultyEntity(long facultyId, Optional<String> facultyName, int places, Optional<String> shortDescription, Optional<String> facultyDescription) {
+    private Faculty buildFacultyEntity(long facultyId, Optional<String> facultyName, int places,
+                                       Optional<String> shortDescription, Optional<String> facultyDescription) {
         Faculty updatedFaculty = new Faculty();
         updatedFaculty.setFacultyId(facultyId);
         updatedFaculty.setFacultyName(facultyName.orElse(null));

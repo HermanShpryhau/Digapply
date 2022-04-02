@@ -12,10 +12,6 @@ import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.routing.Forward;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
 import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
@@ -42,8 +38,10 @@ public class AddFacultyCommand implements Command {
             request.getSession().setAttribute(SessionAttribute.ERROR_KEY, ErrorKey.INVALID_PLACES_COUNT);
             return new Redirect(PagePath.FACULTY_FORM_PAGE_REDIRECT);
         }
-        Optional<String> shortDescription = Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
-        Optional<String> facultyDescription = Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
+        Optional<String> shortDescription =
+                Optional.ofNullable(request.getParameter(RequestParameter.SHORT_FACULTY_DESCRIPTION));
+        Optional<String> facultyDescription =
+                Optional.ofNullable(request.getParameter(RequestParameter.FACULTY_DESCRIPTION));
 
         List<Long> subjectIds = buildSubjectIdsList(request);
         Faculty newFaculty = buildFaculty(facultyName, places, shortDescription, facultyDescription);
@@ -70,7 +68,8 @@ public class AddFacultyCommand implements Command {
                 .collect(Collectors.toList());
     }
 
-    private Faculty buildFaculty(Optional<String> facultyName, int places, Optional<String> shortDescription, Optional<String> facultyDescription) {
+    private Faculty buildFaculty(Optional<String> facultyName, int places, Optional<String> shortDescription,
+                                 Optional<String> facultyDescription) {
         Faculty newFaculty = new Faculty();
         newFaculty.setFacultyId(NEW_FACULTY_ID);
         newFaculty.setFacultyName(facultyName.orElse(null));

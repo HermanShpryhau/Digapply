@@ -1,18 +1,19 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestAttribute;
+import by.epamtc.digapply.controller.command.SessionAttribute;
 import by.epamtc.digapply.entity.Application;
 import by.epamtc.digapply.entity.Faculty;
 import by.epamtc.digapply.service.ApplicationService;
 import by.epamtc.digapply.service.FacultyService;
 import by.epamtc.digapply.service.ServiceException;
 import by.epamtc.digapply.service.ServiceFactory;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.Command;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.routing.Forward;
 import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
-import dev.shph.commandeur.Command;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,10 +33,12 @@ public class ProfileCommand implements Command {
         HttpSession session = request.getSession();
         ApplicationService applicationService = ServiceFactory.getInstance().getApplicationService();
         try {
-            Application application = applicationService.retrieveApplicationByUserId((long)session.getAttribute(SessionAttribute.USER_ID));
+            Application application =
+                    applicationService.retrieveApplicationByUserId((long) session.getAttribute(SessionAttribute.USER_ID));
             if (application != null) {
                 request.setAttribute(RequestAttribute.APPLICATION, application);
-                DateFormat format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale((String)session.getAttribute(SessionAttribute.LOCALE)));
+                DateFormat format = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT,
+                        new Locale((String) session.getAttribute(SessionAttribute.LOCALE)));
                 String applyDate = format.format(application.getApplyDate());
                 request.setAttribute(RequestAttribute.APPLY_DATE, applyDate);
                 if (application.isApproved()) {

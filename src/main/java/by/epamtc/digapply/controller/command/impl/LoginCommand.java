@@ -1,16 +1,16 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.ErrorKey;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.RequestParameter;
+import by.epamtc.digapply.controller.command.SessionAttribute;
 import by.epamtc.digapply.entity.User;
 import by.epamtc.digapply.service.ServiceException;
-import by.epamtc.digapply.service.UserService;
 import by.epamtc.digapply.service.ServiceFactory;
+import by.epamtc.digapply.service.UserService;
+import dev.shph.commandeur.Command;
 import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.routing.Forward;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
-import dev.shph.commandeur.Command;
 import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
@@ -66,7 +66,8 @@ public class LoginCommand implements Command {
         }
 
         Routing routing;
-        Optional<String> previousCommand = Optional.ofNullable((String) session.getAttribute(SessionAttribute.PREVIOUS_COMMAND));
+        Optional<String> previousCommand =
+                Optional.ofNullable((String) session.getAttribute(SessionAttribute.PREVIOUS_COMMAND));
         if (previousCommand.isPresent()) {
             routing = new Redirect(CONTROLLER_COMMAND + previousCommand.get());
             session.removeAttribute(SessionAttribute.PREVIOUS_COMMAND);

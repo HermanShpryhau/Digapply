@@ -1,9 +1,10 @@
 package by.epamtc.digapply.controller.command.impl;
 
-import by.epamtc.digapply.controller.command.*;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
+import by.epamtc.digapply.controller.command.CommandName;
+import by.epamtc.digapply.controller.command.PagePath;
+import by.epamtc.digapply.controller.command.SessionAttribute;
 import dev.shph.commandeur.Command;
-import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.annotation.DiscoverableCommand;
 import dev.shph.commandeur.routing.Redirect;
 import dev.shph.commandeur.routing.Routing;
 
