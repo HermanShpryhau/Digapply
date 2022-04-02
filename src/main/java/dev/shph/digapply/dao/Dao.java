@@ -2,6 +2,7 @@ package dev.shph.digapply.dao;
 
 import dev.shph.digapply.entity.Identifiable;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public interface Dao<T extends Identifiable> {
      * @param count Number of elements per page.
      * @return List of entities for given page.
      */
-    List<T> findAllOnPage(long page, long count) throws DaoException;
+    List<T> findAllOnPage(long page, long count) throws DaoException, SQLException;
 
     /**
      * Counts rows in table.

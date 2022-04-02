@@ -1,19 +1,28 @@
 package dev.shph.digapply.dao.impl;
 
-import dev.shph.digapply.dao.*;
+import dev.shph.digapply.configuration.PersistenceConfiguration;
+import dev.shph.digapply.dao.PreparedStatementParameterSetter;
+import dev.shph.digapply.dao.mapper.Column;
 import dev.shph.digapply.entity.Faculty;
-import dev.shph.digapply.dao.mapper.RowMapperFactory;
 import dev.shph.digapply.dao.DaoException;
 import dev.shph.digapply.dao.FacultyDao;
 import dev.shph.digapply.dao.ParametrizedQuery;
 import dev.shph.digapply.dao.Table;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Repository
 public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     private static final String SAVE_FACULTY_QUERY = "INSERT INTO Faculties (faculty_id, faculty_name, faculty_short_description, faculty_description, places, is_application_closed) VALUES (0, ?, ?, ?, ?, ?)";
-    private static final String ADD_SUBJECT_TO_FACULTY_QUERY = "INSERT INTO Faculties_has_Subjects (faculties_faculty_id, subjects_subject_id) VALUES ((SELECT faculty_id FROM Faculties WHERE faculty_name=?), ?)";
+    private static final String ADD_SUBJECT_TO_FACULTY_QUERY = "INSERT INTO Faculties_has_Subjects VALUES (?, ?)";
     private static final String FIND_FACULTY_BY_ID_QUERY = "SELECT * FROM Faculties WHERE faculty_id=?";
     private static final String UPDATE_FACULTY_QUERY = "UPDATE Faculties SET faculty_name=?, faculty_short_description=?, faculty_description=?, places=?, is_application_closed=? WHERE faculty_id=?";
     private static final String DELETE_FACULTY_QUERY = "DELETE FROM Faculties WHERE faculty_id=?";
@@ -26,8 +35,16 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
             "ORDER BY count DESC\n" +
             "LIMIT ?";
 
+    @Autowired
+    @Qualifier(PersistenceConfiguration.FACULTY_INSERT)
+    private SimpleJdbcInsert jdbcInsert;
+
+    @Autowired
+    @Qualifier(PersistenceConfiguration.SUBJECT_INSERT)
+    private SimpleJdbcInsert subjectJdbcInsert;
+
     public FacultyDaoImpl() {
-        super(RowMapperFactory.getInstance().getFacultyRowMapper(), Table.FACULTY_TABLE);
+        super(Table.FACULTY_TABLE);
     }
 
     @Override
@@ -36,43 +53,55 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
     }
 
     @Override
+    @Transactional
     public long save(Faculty faculty, List<Long> subjectIds) throws DaoException {
         throwExceptionIfNull(faculty);
         throwExceptionIfNull(subjectIds);
 
-        List<ParametrizedQuery> queries = new ArrayList<>();
-        Object[] saveQueryParams = {faculty.getFacultyName(), faculty.getFacultyShortDescription(), faculty.getFacultyDescription(), faculty.getPlaces(), faculty.isApplicationClosed()};
-        queries.add(new ParametrizedQuery(SAVE_FACULTY_QUERY, saveQueryParams));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(Column.FACULTY_NAME, faculty.getFacultyName());
+        parameters.put(Column.FACULTY_SHORT_DESCRIPTION, faculty.getFacultyShortDescription());
+        parameters.put(Column.FACULTY_DESCRIPTION, faculty.getFacultyDescription());
+        parameters.put(Column.FACULTY_PLACES, faculty.getPlaces());
+        parameters.put(Column.IS_APPLICATION_CLOSED, faculty.isApplicationClosed());
+        long facultyId = (long) jdbcInsert.executeAndReturnKey(parameters);
         for (Long id : subjectIds) {
-            Object[] addSubjectQueryParams = {faculty.getFacultyName(), id};
-            queries.add(new ParametrizedQuery(ADD_SUBJECT_TO_FACULTY_QUERY, addSubjectQueryParams));
+            PreparedStatementParameterSetter parameterSetter =
+                    new PreparedStatementParameterSetter(new Object[]{facultyId, id});
+            jdbcTemplate.update(ADD_SUBJECT_TO_FACULTY_QUERY, parameterSetter::setValues);
         }
-
-        return jdbcOperator.executeTransactionalUpdate(queries);
+        return subjectIds.size();
     }
 
     @Override
     public Faculty findById(long id) throws DaoException {
-        return jdbcOperator.executeSingleEntityQuery(FIND_FACULTY_BY_ID_QUERY, id);
+        PreparedStatementParameterSetter parameterSetter =
+                new PreparedStatementParameterSetter(new Object[]{id});
+        return jdbcTemplate.query(FIND_FACULTY_BY_ID_QUERY, parameterSetter::setValues, mapper).stream()
+                .findFirst().orElse(null);
     }
 
     @Override
-    public List<Faculty> findByPattern(String pattern, long page, long elementsPerPage) throws DaoException {
+    public List<Faculty> findByPattern(String pattern, long page, long elementsPerPage) {
         long startIndex = (page - 1) * elementsPerPage;
         pattern = "%" + pattern + "%";
-        return jdbcOperator.executeQuery(FIND_BY_PATTERN_IN_NAME_QUERY, pattern, startIndex, elementsPerPage);
+        PreparedStatementParameterSetter parameterSetter =
+                new PreparedStatementParameterSetter(new Object[]{pattern, startIndex, elementsPerPage});
+        return jdbcTemplate.query(FIND_BY_PATTERN_IN_NAME_QUERY, parameterSetter::setValues, mapper);
     }
 
     @Override
-    public long getRowsCountForSearch(String pattern) throws DaoException {
+    public long getRowsCountForSearch(String pattern) {
         pattern = "%" + pattern + "%";
-        return jdbcOperator.executeQuery(FIND_ALL_BY_PATTERN_IN_NAME_QUERY, pattern).size();
+        PreparedStatementParameterSetter parameterSetter =
+                new PreparedStatementParameterSetter(new Object[]{pattern});
+        return jdbcTemplate.query(FIND_ALL_BY_PATTERN_IN_NAME_QUERY, parameterSetter::setValues, mapper).size();
     }
 
     @Override
     public long update(Faculty entity) throws DaoException {
         throwExceptionIfNull(entity);
-        jdbcOperator.executeUpdate(
+        jdbcTemplate.update(
                 UPDATE_FACULTY_QUERY,
                 entity.getFacultyName(),
                 entity.getFacultyShortDescription(),
@@ -86,12 +115,14 @@ public class FacultyDaoImpl extends AbstractDao<Faculty> implements FacultyDao {
 
     @Override
     public long removeById(long id) throws DaoException {
-        jdbcOperator.executeUpdate(DELETE_FACULTY_QUERY, id);
+        jdbcTemplate.update(DELETE_FACULTY_QUERY, id);
         return id;
     }
 
     @Override
-    public List<Faculty> findBestFaculties(int count) throws DaoException {
-        return jdbcOperator.executeQuery(FIND_BEST_FACULTIES_QUERY, count);
+    public List<Faculty> findBestFaculties(int count) {
+        PreparedStatementParameterSetter parameterSetter =
+                new PreparedStatementParameterSetter(new Object[]{count});
+        return jdbcTemplate.query(FIND_BEST_FACULTIES_QUERY, parameterSetter::setValues, mapper);
     }
 }

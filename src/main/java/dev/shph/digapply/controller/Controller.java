@@ -5,6 +5,7 @@ import dev.shph.digapply.controller.command.RequestParameter;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.container.CommandContainer;
 import dev.shph.commandeur.routing.Routing;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,15 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Controller extends HttpServlet {
+    @Autowired
     private CommandContainer commandContainer;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        commandContainer = (CommandContainer) getServletContext().getAttribute("commandContainer");
-        if (commandContainer == null) {
-            throw new RuntimeException("Command container was not initialized");
-        }
     }
 
     @Override

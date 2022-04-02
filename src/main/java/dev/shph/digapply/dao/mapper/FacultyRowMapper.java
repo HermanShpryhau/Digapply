@@ -1,13 +1,16 @@
 package dev.shph.digapply.dao.mapper;
 
 import dev.shph.digapply.entity.Faculty;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class FacultyRowMapper implements RowMapper<Faculty> {
     @Override
-    public Faculty map(ResultSet resultSet) throws SQLException {
+    public Faculty mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Faculty faculty = new Faculty();
         faculty.setFacultyId(resultSet.getLong(Column.FACULTY_ID));
         faculty.setFacultyName(resultSet.getString(Column.FACULTY_NAME));

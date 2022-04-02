@@ -2,12 +2,18 @@ package dev.shph.digapply.dao.impl;
 
 import dev.shph.digapply.dao.Dao;
 import dev.shph.digapply.dao.DaoException;
-import dev.shph.digapply.dao.JdbcOperator;
+import dev.shph.digapply.dao.PreparedStatementParameterSetter;
 import dev.shph.digapply.entity.Identifiable;
-import dev.shph.digapply.dao.mapper.RowMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 
+import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -19,13 +25,16 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private static final String SELECT_ALL_QUERY = "SELECT * FROM ";
     private final String selectAllOnPageQuery;
 
-    protected final RowMapper<T> mapper;
-    protected final JdbcOperator<T> jdbcOperator;
+    @Autowired
+    protected RowMapper<T> mapper;
+    @Autowired
+    protected JdbcTemplate jdbcTemplate;
+    @Autowired
+    protected DataSource dataSource;
+
     private final String tableName;
 
-    protected AbstractDao(RowMapper<T> mapper, String tableName) {
-        this.mapper = mapper;
-        jdbcOperator = new JdbcOperator<>(this.mapper);
+    protected AbstractDao(String tableName) {
         this.tableName = tableName;
         selectAllOnPageQuery = "SELECT * FROM " + tableName + " LIMIT ?, ?";
     }
@@ -33,13 +42,15 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     @Override
     public List<T> findAll() throws DaoException {
         String query = SELECT_ALL_QUERY + tableName;
-        return jdbcOperator.executeQuery(query);
+        return jdbcTemplate.query(query, mapper);
     }
 
     @Override
-    public List<T> findAllOnPage(long page, long count) throws DaoException {
+    public List<T> findAllOnPage(long page, long count) {
         long startIndex = (page - 1) * count;
-        return jdbcOperator.executeQuery(selectAllOnPageQuery, startIndex, count);
+        PreparedStatementParameterSetter parameterSetter
+                = new PreparedStatementParameterSetter(new Object[]{startIndex, count});
+        return jdbcTemplate.query(selectAllOnPageQuery, parameterSetter::setValues, mapper);
     }
 
     @Override
