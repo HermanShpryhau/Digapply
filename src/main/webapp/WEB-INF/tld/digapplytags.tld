@@ -11,7 +11,7 @@
 
     <tag>
         <name>copyright</name>
-        <tag-class>by.epamtc.digapply.tag.CopyrightTag</tag-class>
+        <tag-class>dev.shph.digapply.tag.CopyrightTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>date</name>
