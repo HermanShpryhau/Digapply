@@ -12,7 +12,6 @@ import dev.shph.digapply.dao.FacultyDao;
 import dev.shph.digapply.dao.UserDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -130,7 +129,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    private void sendMessage(MimeMessage message, String subject, String content, String recipientEmail) throws ServiceException {
+    private void sendMessage(MimeMessage message, String subject, String content, String recipientEmail) {
         try {
             message.setSubject(subject, SUBJECT_ENCODING);
             message.setContent(content, MESSAGE_CONTENT_TYPE);
@@ -138,7 +137,6 @@ public class MailServiceImpl implements MailService {
             Transport.send(message);
         } catch (MessagingException e) {
             logger.error("Unable to send message. {}", e.getMessage());
-            throw new ServiceException("Unable to send message.", e);
         }
     }
 }
