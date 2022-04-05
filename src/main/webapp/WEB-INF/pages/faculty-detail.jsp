@@ -6,7 +6,7 @@
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
 <fmt:bundle basename="labels"/>
 
-<jsp:useBean id="faculty" scope="request" type="by.epamtc.digapply.entity.Faculty"/>
+<jsp:useBean id="faculty" scope="request" type="dev.shph.digapply.entity.Faculty"/>
 <!doctype html>
 
 <html>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
-<%@ page import="by.epamtc.digapply.entity.UserRole" %>
+<%@ page import="dev.shph.digapply.entity.UserRole" %>
 
 
 <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
