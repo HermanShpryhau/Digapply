@@ -6,6 +6,7 @@ import dev.shph.digapply.controller.command.CommandName;
 import dev.shph.digapply.controller.command.PagePath;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.container.CommandContainer;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.Filter;
@@ -28,7 +29,9 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
-        commandContainer = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext()).getBean(CommandContainer.class);
+        WebApplicationContext webApplicationContext =
+                WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
+        commandContainer = webApplicationContext.getBean(CommandContainer.class);
         initCommands();
     }
 

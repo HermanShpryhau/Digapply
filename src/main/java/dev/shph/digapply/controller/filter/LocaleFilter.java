@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public class LocaleFilter implements Filter {
     private static final String DEFAULT_LOCALE_PARAM = "defaultLocale";
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
