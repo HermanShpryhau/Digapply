@@ -1,5 +1,8 @@
 package dev.shph.digapply.controller.command.impl;
 
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
 import dev.shph.digapply.controller.command.CommandName;
 import dev.shph.digapply.controller.command.ErrorKey;
 import dev.shph.digapply.controller.command.PagePath;
@@ -9,10 +12,6 @@ import dev.shph.digapply.controller.command.SessionAttribute;
 import dev.shph.digapply.entity.UserRole;
 import dev.shph.digapply.service.ServiceException;
 import dev.shph.digapply.service.UserService;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-@Component
-@DiscoverableCommand(CommandName.UPDATE_PROFILE_COMMAND)
+@Component(CommandName.UPDATE_PROFILE_COMMAND)
 public class UpdateProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";

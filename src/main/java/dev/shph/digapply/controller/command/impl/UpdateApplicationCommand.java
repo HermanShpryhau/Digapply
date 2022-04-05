@@ -1,15 +1,14 @@
 package dev.shph.digapply.controller.command.impl;
 
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
 import dev.shph.digapply.controller.command.CommandName;
 import dev.shph.digapply.controller.command.PagePath;
 import dev.shph.digapply.controller.command.RequestParameter;
 import dev.shph.digapply.controller.command.RequestParameterParser;
 import dev.shph.digapply.service.ApplicationService;
 import dev.shph.digapply.service.ServiceException;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Component
-@DiscoverableCommand(CommandName.UPDATE_APPLICATION_COMMAND)
+@Component(CommandName.UPDATE_APPLICATION_COMMAND)
 public class UpdateApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String ID_REQUEST_PARAM = "&id=";

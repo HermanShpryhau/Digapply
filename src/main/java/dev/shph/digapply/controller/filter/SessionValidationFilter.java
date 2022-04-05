@@ -8,6 +8,8 @@ import dev.shph.digapply.service.ServiceException;
 import dev.shph.digapply.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Component
 public class SessionValidationFilter implements Filter {
     private static final Logger logger = LogManager.getLogger();
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -28,7 +34,6 @@ public class SessionValidationFilter implements Filter {
         if (username != null) {
             long userId = (long) session.getAttribute(SessionAttribute.USER_ID);
             UserRole role = (UserRole) session.getAttribute(SessionAttribute.ROLE);
-            UserService userService = ServiceFactory.getInstance().getUserService();
             try {
                 User user = userService.retrieveUserById(userId);
                 if (user == null || role != user.getRole()) {

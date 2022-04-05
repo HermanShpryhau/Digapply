@@ -6,6 +6,7 @@ import dev.shph.digapply.controller.command.CommandName;
 import dev.shph.digapply.controller.command.PagePath;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.container.CommandContainer;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
@@ -22,9 +23,12 @@ import java.util.*;
 public class AuthorizationFilter implements Filter {
     private final Map<UserRole, List<String>> authorizedCommands = new EnumMap<>(UserRole.class);
 
+    private CommandContainer commandContainer;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
+        commandContainer = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext()).getBean(CommandContainer.class);
         initCommands();
     }
 
@@ -37,9 +41,8 @@ public class AuthorizationFilter implements Filter {
         if (role == null) {
             role = UserRole.GUEST;
         }
-        CommandContainer container = (CommandContainer) servletRequest.getServletContext().getAttribute("commandContainer");
         String command = request.getParameter("command");
-        if (container.resolve(command).equals(new Command.Empty())) {
+        if (commandContainer.resolve(command).equals(new Command.Empty())) {
             response.sendRedirect(PagePath.ERROR_404_PAGE_REDIRECT);
             return;
         }

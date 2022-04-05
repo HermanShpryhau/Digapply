@@ -2,14 +2,11 @@ package dev.shph.digapply.configuration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.pool.HikariPool;
 import dev.shph.digapply.dao.Table;
 import dev.shph.digapply.dao.mapper.Column;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -20,7 +17,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:db.properties")
 public class PersistenceConfiguration {
 
     public static final String APPLICATION_INSERT = "applicationInsert";
@@ -30,17 +26,13 @@ public class PersistenceConfiguration {
     public static final String USER_INSERT = "userInsert";
 
     @Bean
-    public DataSource dataSource(@Value("db.user") String username,
-                                 @Value("db.password") String password,
-                                 @Value("db.url") String url,
-                                 @Value("db.jdbc-drive") String driver,
-                                 @Value("db.pool-size") Integer poolSize) {
+    public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-        config.setDriverClassName(driver);
-        config.setJdbcUrl(url);
-        config.setUsername(username);
-        config.setPassword(password);
-        config.setMaximumPoolSize(poolSize);
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/digapply-db");
+        config.setUsername("jwd-user");
+        config.setPassword("25242322232425");
+        config.setMaximumPoolSize(5);
         config.setConnectionTestQuery("SELECT 1");
         config.setPoolName("springHikariCP");
         config.addDataSourceProperty("dataSource.cachePrepStmts", "true");

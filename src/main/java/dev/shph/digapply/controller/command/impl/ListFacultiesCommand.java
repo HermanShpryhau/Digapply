@@ -1,5 +1,9 @@
 package dev.shph.digapply.controller.command.impl;
 
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
 import dev.shph.digapply.controller.command.CommandName;
 import dev.shph.digapply.controller.command.PagePath;
 import dev.shph.digapply.controller.command.RequestAttribute;
@@ -7,11 +11,6 @@ import dev.shph.digapply.controller.command.RequestParameter;
 import dev.shph.digapply.entity.Faculty;
 import dev.shph.digapply.service.FacultyService;
 import dev.shph.digapply.service.ServiceException;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.routing.Forward;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-@DiscoverableCommand(CommandName.LIST_FACULTIES_COMMAND)
+@Component(CommandName.LIST_FACULTIES_COMMAND)
 public class ListFacultiesCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final long ELEMENTS_PER_PAGE = 4L;

@@ -34,14 +34,6 @@
         <servlet-name>controller</servlet-name>
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
-    
-    <listener>
-        <listener-class>dev.shph.digapply.controller.listener.ConnectionPoolManager</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>dev.shph.digapply.controller.listener.CommandDispatcherManager</listener-class>
-    </listener>
 
     <filter>
         <filter-name>encoding</filter-name>

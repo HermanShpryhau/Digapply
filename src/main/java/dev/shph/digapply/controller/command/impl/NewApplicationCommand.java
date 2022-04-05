@@ -1,5 +1,9 @@
 package dev.shph.digapply.controller.command.impl;
 
+import dev.shph.commandeur.Command;
+import dev.shph.commandeur.routing.Forward;
+import dev.shph.commandeur.routing.Redirect;
+import dev.shph.commandeur.routing.Routing;
 import dev.shph.digapply.controller.command.CommandName;
 import dev.shph.digapply.controller.command.ErrorKey;
 import dev.shph.digapply.controller.command.PagePath;
@@ -12,11 +16,6 @@ import dev.shph.digapply.entity.Subject;
 import dev.shph.digapply.service.ApplicationService;
 import dev.shph.digapply.service.FacultyService;
 import dev.shph.digapply.service.ServiceException;
-import dev.shph.commandeur.Command;
-import dev.shph.commandeur.annotation.DiscoverableCommand;
-import dev.shph.commandeur.routing.Forward;
-import dev.shph.commandeur.routing.Redirect;
-import dev.shph.commandeur.routing.Routing;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
-@Component
-@DiscoverableCommand(CommandName.NEW_APPLICATION_COMMAND)
+@Component(CommandName.NEW_APPLICATION_COMMAND)
 public class NewApplicationCommand implements Command {
     private static final Logger logger = LogManager.getLogger();
 

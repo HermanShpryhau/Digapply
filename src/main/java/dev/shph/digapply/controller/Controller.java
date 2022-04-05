@@ -5,8 +5,10 @@ import dev.shph.digapply.controller.command.RequestParameter;
 import dev.shph.commandeur.Command;
 import dev.shph.commandeur.container.CommandContainer;
 import dev.shph.commandeur.routing.Routing;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class Controller extends HttpServlet {
-    @Autowired
     private CommandContainer commandContainer;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        WebApplicationContext webApplicationContext =
+                WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
+        commandContainer = webApplicationContext.getBean(CommandContainer.class);
     }
 
     @Override
